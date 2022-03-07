@@ -19,12 +19,10 @@ using namespace std;
  */
 struct CTimeStamp{
     int year, month, day, hour, min, sec;
+    time_t julianTime;
 
     CTimeStamp(int year, int month, int day, int hour, int min, int sec)
-            : year{year}, month{month}, day{day}, hour{hour}, min{min}, sec{sec}{}
-
-
-    unsigned long int toUnixTimestamp() const{
+            : year{year}, month{month}, day{day}, hour{hour}, min{min}, sec{sec}{
         tm time = {};
         time.tm_sec = sec;
         time.tm_min = min;
@@ -32,13 +30,11 @@ struct CTimeStamp{
         time.tm_mday = day;
         time.tm_mon = month - 1;
         time.tm_year = year - 1900;
-        unsigned long int m_time = mktime(&time);
-        return m_time;
+        julianTime = mktime(&time);
     }
 
     bool isBetween(const CTimeStamp & from, const CTimeStamp & until) const{
-        unsigned long int compared = toUnixTimestamp();
-        if (compared >= from.toUnixTimestamp() && compared <= until.toUnixTimestamp())
+        if (julianTime >= from.julianTime && julianTime <= until.julianTime)
             return true;
         return false;
     }
