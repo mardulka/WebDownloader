@@ -235,6 +235,9 @@ bool decode(ofstream & outFile, decTree & tree, binFile & content){
                 char decChar;
                 if (!tree.decode(decChar, content)) return false;
                 outFile.put(decChar);
+                if(outFile.fail()){
+                    return false;
+                }
             }
             break;
 
@@ -243,6 +246,9 @@ bool decode(ofstream & outFile, decTree & tree, binFile & content){
                 char decChar;
                 if (!tree.decode(decChar, content)) return false;
                 outFile.put(decChar);
+                if(outFile.fail()){
+                    return false;
+                }
             }
         }
     }
