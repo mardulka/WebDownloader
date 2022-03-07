@@ -7,8 +7,5 @@
       <file path="$PROJECT_DIR$/practice" />
       <file path="$PROJECT_DIR$/semestral" />
     </sourceRoots>
-    <excludeRoots>
-      <file path="$PROJECT_DIR$/practice/03/tests" />
-    </excludeRoots>
   </component>
 </project>

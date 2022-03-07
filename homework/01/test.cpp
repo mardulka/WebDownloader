@@ -50,6 +50,7 @@ class binFile{
     vector<cbitset> content;
     size_t currentByte = 0;
     int currentBit = 0;
+    bool end = false;
 
 public:
     binFile(){}
@@ -84,16 +85,20 @@ public:
     }
 
     bool nextBit(){
-        if (last()) return false;
-        ++currentBit;
-        currentBit %= 8;
-        if (currentBit == 0) ++currentByte;
+        if (!last()){
+            ++currentBit;
+            currentBit %= 8;
+            if (currentBit == 0) ++currentByte;
+        } else{
+            end = true;
+        }
         return true;
     }
 
     bool readBit(bool & bit){
+        if (end) return false;
         bit = curBit();
-        if (!nextBit()) return false;
+        nextBit();
         return true;
     }
 
@@ -139,7 +144,6 @@ class decTree{
         char symbol;
         celem * link_0;
         celem * link_1;
-        bool filled = false;
 
         celem(celem * link_0 = nullptr, celem * link_1 = nullptr) : link_0{link_0}, link_1{link_1}{}
 
@@ -150,12 +154,6 @@ class decTree{
             if (link_0 == nullptr && link_1 == nullptr)
                 return true;
             return false;
-        }
-
-        bool isFilled() const{return filled;}
-
-        void addChild(celem * child, bool position){
-            position? link_1 = child : link_0 = child;
         }
 
     };
