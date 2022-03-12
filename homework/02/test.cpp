@@ -17,12 +17,6 @@
 using namespace std;
 #endif /* __PROGTEST__ */
 
-/**
- * Predeclaration for the links between
- */
-class CCompRecord;
-
-class CInvoiceRecord;
 
 /**
  * Class for storing company record
@@ -70,17 +64,15 @@ public:
      *
      * @return Reference to constant strings of these atributes
      */
-    const string & getTaxID() const{
-        return m_taxID;
-    }
+    string  getTaxID() const{return m_taxID;}
 
-    const string & getName() const{return m_name;}
+    string getName() const{return m_name;}
 
-    const string & getAddr() const{return m_addr;}
+    string getAddr() const{return m_addr;}
 
-    const string & getNameLower() const{return m_name_lower;}
+    string getNameLower() const{return m_name_lower;}
 
-    const string & getAddrLower() const{return m_addr_lower;}
+    string getAddrLower() const{return m_addr_lower;}
 
     /**
      * Comparing method for sorting Companies by name and adress (aka NameID)
@@ -100,9 +92,7 @@ public:
      * @param comp Reference to second Company which is on the right side of the comarision.
      * @return True if company from parameter is bigger, false otherwise
      */
-    bool comByID(const CCompRecord & comp) const{
-        return m_taxID < comp.getTaxID()? true : false;
-    }
+    bool comByID(const CCompRecord & comp) const{return m_taxID < comp.getTaxID();}
 
     /**
      * Getter to get company invoices summary.
@@ -144,7 +134,7 @@ public:
      * @param inv Comparing invoice which is on the ride side of the compare.
      * @return true if the given invoice is bigger, false otherwise.
      */
-    bool compare(const CInvoiceRecord & inv) const{return amount < inv.getAmount()? true : false;}
+    bool compare(const CInvoiceRecord & inv) const{return amount < inv.getAmount();}
 };
 
 /**
@@ -394,13 +384,19 @@ bool CVATRegister::newCompany(const string & name, const string & addr, const st
     if (findCompany(taxID, company) || findCompany(name, addr, company)) return false;
 
     company = make_shared<CCompRecord>(name, addr, taxID);
-    CompAlphaStorage.push_back(company);
-    CompIDStorage.push_back(company);
 
-    sort(CompAlphaStorage.begin(), CompAlphaStorage.end(),
-         [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){return c1->comByName(*c2);});
-    sort(CompIDStorage.begin(), CompIDStorage.end(),
-         [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){return c1->comByID(*c2);});
+    //search position and place here
+    auto item = lower_bound(CompIDStorage.begin(), CompIDStorage.end(), company,
+                            [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
+                                return c1->comByID(*c2);;
+                            });
+    CompIDStorage.insert(item, company);
+
+    item = lower_bound(CompAlphaStorage.begin(), CompAlphaStorage.end(), company,
+                       [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
+                           return c1->comByName(*c2);
+                       });
+    CompAlphaStorage.insert(item, company);
 
     return true;
 }
@@ -413,14 +409,12 @@ bool CVATRegister::deleteCompany(const shared_ptr<CCompRecord> & company){
     CompIDStorage.erase(item);
 
     item = lower_bound(CompAlphaStorage.begin(), CompAlphaStorage.end(), company,
-                            [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
-                                return c1->comByName(*c2);
-                            });
+                       [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
+                           return c1->comByName(*c2);
+                       });
 
     CompAlphaStorage.erase(item);
-
     return true;
-
 }
 
 bool CVATRegister::cancelCompany(const string & name, const string & addr){
