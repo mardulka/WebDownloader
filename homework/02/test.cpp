@@ -30,11 +30,12 @@ class CInvoiceRecord;
 class CCompRecord{
     /**
      * Company and address identifier.
-     * NameID identified is consist of concatenate name+address and conwerted to lowercase. It helping prevent doing this each time when the comparing is needed.
+     * Variants *_lower identifiers are converted to lowercase. It helping prevent doing this each time when the comparing is needed.
      */
     string m_name;
     string m_addr;
-    string m_nameID;
+    string m_name_lower;
+    string m_addr_lower;
 
     /**
      * Company tax ID - external identifier
@@ -42,7 +43,8 @@ class CCompRecord{
     string m_taxID;
 
     /**
-     * Simple storing sum of invoices. It could be changed into array of pointers to invoices (and accordingly calculate the result) in future if this won't be longer suitable.
+     * Simple storing sum of invoices because it is all needed from this relation between company and its invoices.
+     * It could be changed into array of pointers to invoices (and accordingly calculate the result) in future if this won't be longer suitable.
      */
     unsigned sumInvoices;
 
@@ -56,8 +58,10 @@ public:
      */
     CCompRecord(const string & name, const string & addr, const string & tax_id, unsigned int sum_invoices = 0)
             : m_name(name), m_addr(addr), m_taxID(tax_id), sumInvoices(sum_invoices){
-        m_nameID = m_name + m_addr;
-        transform(m_nameID.begin(), m_nameID.end(), m_nameID.begin(), ::tolower);
+        m_name_lower = name;
+        m_addr_lower = addr;
+        transform(m_name_lower.begin(), m_name_lower.end(), m_name_lower.begin(), ::tolower);
+        transform(m_addr_lower.begin(), m_addr_lower.end(), m_addr_lower.begin(), ::tolower);
     }
 
     /**
@@ -66,11 +70,6 @@ public:
      *
      * @return Reference to constant strings of these atributes
      */
-
-    const string & getNameID() const{
-        return m_nameID;
-    }
-
     const string & getTaxID() const{
         return m_taxID;
     }
@@ -79,13 +78,21 @@ public:
 
     const string & getAddr() const{return m_addr;}
 
+    const string & getNameLower() const{return m_name_lower;}
+
+    const string & getAddrLower() const{return m_addr_lower;}
+
     /**
      * Comparing method for sorting Companies by name and adress (aka NameID)
      * @param comp Reference to second Company which is on the right side of the comarision.
      * @return True if company from parameter is bigger, false otherwise
      */
     bool comByName(const CCompRecord & comp) const{
-        return m_nameID < comp.getNameID()? true : false;
+        if (m_name_lower < comp.getNameLower())
+            return true;
+        if(m_name_lower == comp.getNameLower() && m_addr_lower < comp.getAddrLower())
+            return true;
+        return false;
     }
 
     /**
@@ -227,6 +234,15 @@ public:
     unsigned int medianInvoice() const;
 private:
     /**
+     * Method for checking company data before input.
+     * @param name Company name
+     * @param addr Company address
+     * @param taxID Company taxID identifier
+     * @return true if data passed, false if there is some error
+     */
+    bool compValid(const string & name, const string & addr, const string & taxID) const;
+
+    /**
      * Method searching company from storage identified by its name and address.
      * @param name Company name
      * @param addr Company address
@@ -279,14 +295,24 @@ private:
     mutable size_t company_order = 0;
 };
 
+bool CVATRegister::compValid(const string & name, const string & addr, const string & taxID) const{
+    //check empty data
+    if (name.empty() || addr.empty() || taxID.empty()) return false;
+    return true;
+}
+
 auto CVATRegister::findCompany(const string & name, const string & addr) const{
     auto query = make_shared<CCompRecord>(name, addr, " "s);
     auto item = lower_bound(CompAlphaStorage.begin(), CompAlphaStorage.end(), query,
                             [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
-                                return c1->getNameID() < c2->getNameID();
+                                if (c1->getNameLower() < c2->getNameLower())
+                                    return true;
+                                if(c1->getNameLower() == c2->getNameLower() && c1->getAddrLower() < c2->getAddrLower())
+                                    return true;
+                                return false;;
                             });
 
-    if (item == CompAlphaStorage.end() || (*item)->getNameID() != query->getNameID())
+    if (item == CompAlphaStorage.end() || (*item)->getNameLower() != query->getNameLower() || (*item)->getAddrLower() != query->getAddrLower())
         item = CompAlphaStorage.end();
     return item;
 }
@@ -353,6 +379,9 @@ bool CVATRegister::audit(const string & taxID, unsigned int & sumIncome) const{
 }
 
 bool CVATRegister::newCompany(const string & name, const string & addr, const string & taxID){
+    //check valid input
+    if (!compValid(name, addr, taxID)) return false;
+
     //check if company exists
     if (findCompany(taxID) != CompIDStorage.end() ||
         findCompany(name, addr) != CompAlphaStorage.end())
@@ -496,6 +525,31 @@ int main(void){
     assert (b2.newCompany("ACME", "Kolejni", "abcdef"));
     assert (b2.cancelCompany("ACME", "Kolejni"));
     assert (!b2.cancelCompany("ACME", "Kolejni"));
+
+    CVATRegister b3;
+    assert (b3.newCompany("ACME", "Kolejni", "abcdef"));
+    assert (!b3.newCompany("aCME", "Kolejni", "123456"));
+    assert (b3.newCompany("aCME", "Strahov", "123456"));
+    assert (b3.newCompany("aCME  fsdf", "Strahov  fdsf", "123456789"));
+    assert (!b3.newCompany("aCmE", "Most", "123456"));
+    assert (b3.newCompany("aCmE", "Most", "sdf35g4dsfgdfgdfg*df/gdfgdf"));
+    assert (b3.newCompany("aCme", "As", "sdf35g4dsfgdfgdfg"));
+    assert (b3.cancelCompany("acme", "most"));
+    assert (b3.newCompany(
+            "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+            "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH", "Tnbhyatnledcca"));
+    assert (b3.newCompany(
+            "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+            "HHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH", "Tnbhyatnledcc"));
+
+
+    CVATRegister b4;
+    assert(b4.newCompany("abCs", "Praha", "123456"));
+    assert(!b4.cancelCompany("12345"));
+    assert(!b4.cancelCompany("", ""));
+    assert(b4.newCompany("abc", "def", "abcdef1"));
+    assert(b4.newCompany("ab", "cdef", "abcdef2"));
+
 
     return EXIT_SUCCESS;
 }
