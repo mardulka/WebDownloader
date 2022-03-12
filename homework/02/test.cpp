@@ -90,7 +90,7 @@ public:
     bool comByName(const CCompRecord & comp) const{
         if (m_name_lower < comp.getNameLower())
             return true;
-        if(m_name_lower == comp.getNameLower() && m_addr_lower < comp.getAddrLower())
+        if (m_name_lower == comp.getNameLower() && m_addr_lower < comp.getAddrLower())
             return true;
         return false;
     }
@@ -163,6 +163,13 @@ public:
      * @return true if company was created and stored, false if company with same Name+Adress or taxId is already listed.
      */
     bool newCompany(const string & name, const string & addr, const string & taxID);
+
+    /**
+     * Methot providing raw delete of given company from list
+     * @param company shared ptr to deleting company
+     * @return true if ok, false if error
+     */
+    bool deleteCompany(const shared_ptr<CCompRecord> & company);
 
     /**
      * Method deleting company from storage identified by its name and address.
@@ -248,14 +255,14 @@ private:
      * @param addr Company address
      * @return Iterator in vector storage
      */
-    auto findCompany(const string & name, const string & addr) const;
+    bool findCompany(const string & name, const string & addr, shared_ptr<CCompRecord> & company) const;
 
     /**
      * Method searching company from storage identified by its taxID..
      * @param taxID Company taxID identifier
      * @return Iterator in vector storage
      */
-    auto findCompany(const string & taxID) const;
+    bool findCompany(const string & taxID, shared_ptr<CCompRecord> & company) const;
 
     /**
      * Method searching company by its taxID and adding amount to its sum.
@@ -296,50 +303,50 @@ private:
 };
 
 bool CVATRegister::compValid(const string & name, const string & addr, const string & taxID) const{
-    //check empty data
     if (name.empty() || addr.empty() || taxID.empty()) return false;
     return true;
 }
 
-auto CVATRegister::findCompany(const string & name, const string & addr) const{
-    auto query = make_shared<CCompRecord>(name, addr, " "s);
-    auto item = lower_bound(CompAlphaStorage.begin(), CompAlphaStorage.end(), query,
-                            [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
-                                if (c1->getNameLower() < c2->getNameLower())
-                                    return true;
-                                if(c1->getNameLower() == c2->getNameLower() && c1->getAddrLower() < c2->getAddrLower())
-                                    return true;
-                                return false;;
-                            });
-
-    if (item == CompAlphaStorage.end() || (*item)->getNameLower() != query->getNameLower() || (*item)->getAddrLower() != query->getAddrLower())
-        item = CompAlphaStorage.end();
-    return item;
-}
-
-auto CVATRegister::findCompany(const string & taxID) const{
+bool CVATRegister::findCompany(const string & taxID, shared_ptr<CCompRecord> & company) const{
     auto query = make_shared<CCompRecord>(""s, " "s, taxID);
     auto item = lower_bound(CompIDStorage.begin(), CompIDStorage.end(), query,
                             [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
-                                return c1->getTaxID() < c2->getTaxID();
+                                return c1->comByID(*c2);;
                             });
 
+
     if (item == CompIDStorage.end() || (*item)->getTaxID() != taxID)
-        item = CompIDStorage.end();
-    return item;
+        return false;
+    company = (*item);
+    return true;
+}
+
+bool CVATRegister::findCompany(const string & name, const string & addr, shared_ptr<CCompRecord> & company) const{
+    auto query = make_shared<CCompRecord>(name, addr, " "s);
+    auto item = lower_bound(CompAlphaStorage.begin(), CompAlphaStorage.end(), query,
+                            [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
+                                return c1->comByName(*c2);
+                            });
+
+
+    if (item == CompAlphaStorage.end() || (*item)->getNameLower() != query->getNameLower() ||
+        (*item)->getAddrLower() != query->getAddrLower())
+        return false;
+    company = (*item);
+    return true;
 }
 
 bool CVATRegister::addInvValue(const string & taxID, unsigned amount){
-    auto iter = findCompany(taxID);
-    if (iter == CompIDStorage.end()) return false;
-    (*iter)->invUpdate(amount);
+    shared_ptr<CCompRecord> company;
+    if (!findCompany(taxID, company)) return false;
+    company->invUpdate(amount);
     return true;
 }
 
 bool CVATRegister::addInvValue(const string & name, const string & addr, unsigned amount){
-    auto iter = findCompany(name, addr);
-    if (iter == CompAlphaStorage.end()) return false;
-    (*iter)->invUpdate(amount);
+    shared_ptr<CCompRecord> company;
+    if (!findCompany(name, addr, company)) return false;
+    company->invUpdate(amount);
     return true;
 }
 
@@ -365,16 +372,16 @@ unsigned int CVATRegister::medianInvoice() const{
 }
 
 bool CVATRegister::audit(const string & name, const string & addr, unsigned int & sumIncome) const{
-    auto iter = findCompany(name, addr);
-    if (iter == CompAlphaStorage.end()) return false;
-    sumIncome = (*iter)->invCount();
+    shared_ptr<CCompRecord> company;
+    if (!findCompany(name, addr, company)) return false;
+    sumIncome = company->invCount();
     return true;
 }
 
 bool CVATRegister::audit(const string & taxID, unsigned int & sumIncome) const{
-    auto iter = findCompany(taxID);
-    if (iter == CompIDStorage.end()) return false;
-    sumIncome = (*iter)->invCount();
+    shared_ptr<CCompRecord> company;
+    if (!findCompany(taxID, company)) return false;
+    sumIncome = company->invCount();
     return true;
 }
 
@@ -382,12 +389,11 @@ bool CVATRegister::newCompany(const string & name, const string & addr, const st
     //check valid input
     if (!compValid(name, addr, taxID)) return false;
 
+    shared_ptr<CCompRecord> company;
     //check if company exists
-    if (findCompany(taxID) != CompIDStorage.end() ||
-        findCompany(name, addr) != CompAlphaStorage.end())
-        return false;
+    if (findCompany(taxID, company) || findCompany(name, addr, company)) return false;
 
-    auto company = make_shared<CCompRecord>(name, addr, taxID);
+    company = make_shared<CCompRecord>(name, addr, taxID);
     CompAlphaStorage.push_back(company);
     CompIDStorage.push_back(company);
 
@@ -399,34 +405,37 @@ bool CVATRegister::newCompany(const string & name, const string & addr, const st
     return true;
 }
 
+bool CVATRegister::deleteCompany(const shared_ptr<CCompRecord> & company){
+    auto item = lower_bound(CompIDStorage.begin(), CompIDStorage.end(), company,
+                            [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
+                                return c1->comByID(*c2);;
+                            });
+    CompIDStorage.erase(item);
+
+    item = lower_bound(CompAlphaStorage.begin(), CompAlphaStorage.end(), company,
+                            [](const shared_ptr<CCompRecord> & c1, const shared_ptr<CCompRecord> & c2){
+                                return c1->comByName(*c2);
+                            });
+
+    CompAlphaStorage.erase(item);
+
+    return true;
+
+}
+
 bool CVATRegister::cancelCompany(const string & name, const string & addr){
-    auto iter = findCompany(name, addr);
-    if (iter == CompAlphaStorage.end()) return false;
+    shared_ptr<CCompRecord> company;
+    if (!findCompany(name, addr, company)) return false;
 
-    string taxID = (*iter)->getTaxID();
-    CompAlphaStorage.erase(iter);
-
-    iter = findCompany(taxID);
-    if (iter == CompIDStorage.end()) return false;
-
-    CompIDStorage.erase(iter);
-
+    deleteCompany(company);
     return true;
 }
 
 bool CVATRegister::cancelCompany(const string & taxID){
-    auto iter = findCompany(taxID);
-    if (iter == CompIDStorage.end()) return false;
+    shared_ptr<CCompRecord> company;
+    if (!findCompany(taxID, company)) return false;
 
-    string name = (*iter)->getName();
-    string addr = (*iter)->getAddr();
-    CompIDStorage.erase(iter);
-
-    iter = findCompany(name, addr);
-    if (iter == CompAlphaStorage.end()) return false;
-
-    CompAlphaStorage.erase(iter);
-
+    deleteCompany(company);
     return true;
 }
 
