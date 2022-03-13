@@ -4,11 +4,11 @@
 
 ### Practice 03
 
-- Prepared
+- DONE P=0,1b
 
 ### Practice 04
 
-- Not started
+- DONE P=0,15b
 
 ### Practice 05
 
@@ -34,11 +34,11 @@
 
 ### Homework 01
 
-- Not started
+- DONE P=4,12b
 
 ### Homework 02
 
-- Not started
+- DONE P=5,5b
 
 ### Homework 03
 
