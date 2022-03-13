@@ -284,7 +284,7 @@ private:
     /**
      * Vector field for storing invoices. They are sorted each time the median is called (less probability of calling).
      */
-    mutable vector<unique_ptr<CInvoiceRecord>> InvoiceStorage;
+    vector<unique_ptr<CInvoiceRecord>> InvoiceStorage;
 
     /**
      * Index of the current company. It is used to read "current company" from list.
@@ -340,24 +340,34 @@ bool CVATRegister::addInvValue(const string & name, const string & addr, unsigne
     return true;
 }
 
+
 bool CVATRegister::invoice(const string & taxID, unsigned amount){
     if (!addInvValue(taxID, amount)) return false;
-    InvoiceStorage.emplace_back(make_unique<CInvoiceRecord>(amount));
+    auto invoice = make_unique<CInvoiceRecord>(amount);
+    auto item = lower_bound(InvoiceStorage.begin(), InvoiceStorage.end(), invoice,
+                            [](const unique_ptr<CInvoiceRecord> & i1, const unique_ptr<CInvoiceRecord> & i2){
+                                return i1->getAmount() < i2->getAmount();
+                            });
+
+    InvoiceStorage.insert(item, move(invoice));
     return true;
 }
 
 bool CVATRegister::invoice(const string & name, const string & addr, unsigned amount){
     if (!addInvValue(name, addr, amount)) return false;
-    InvoiceStorage.emplace_back(make_unique<CInvoiceRecord>(amount));
+
+    auto invoice = make_unique<CInvoiceRecord>(amount);
+    auto item = lower_bound(InvoiceStorage.begin(), InvoiceStorage.end(), invoice,
+                            [](const unique_ptr<CInvoiceRecord> & i1, const unique_ptr<CInvoiceRecord> & i2){
+                                return i1->getAmount() < i2->getAmount();
+                            });
+
+    InvoiceStorage.insert(item, move(invoice));
     return true;
 }
 
 unsigned int CVATRegister::medianInvoice() const{
     if (InvoiceStorage.empty()) return 0;
-
-    sort(InvoiceStorage.begin(), InvoiceStorage.end(),
-         [](const unique_ptr<CInvoiceRecord> & i1, const unique_ptr<CInvoiceRecord> & i2){return i1->compare(*i2);});
-
     return InvoiceStorage[InvoiceStorage.size() / 2]->getAmount();
 }
 
