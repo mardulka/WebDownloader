@@ -108,7 +108,7 @@ bool CDate::isValidDate(int year, int mon, int day){
         if (step) ++checkmon;
         if (day > checkmon) return false;
     }
-    if (mon !=2 && day > m_mon_days[mon - 1])
+    if (mon != 2 && day > m_mon_days[mon - 1])
         return false;
 
     return true;
@@ -135,18 +135,22 @@ void CDate::countToDate(){
     int year = 2000;
     int mon = 1;
 
-    while (count > year_days){
-        count -= year_days;
-        if (isStepYear(year)) --count;
-        ++year;
-    }
     while (true){
-        if (count <= m_mon_days[mon - 1])
-            break;
-        count -= m_mon_days[mon - 1];
+        int days = year_days;
+        if (isStepYear(year)) ++days;
+        if (count <= days) break;
+        ++year;
+        count -= days;
+    }
+
+    while (true){
+        int days = m_mon_days[mon - 1];
         if (isStepYear(year) && mon == 2)
-            --count;
+            ++days;
+        if (count <= days)
+            break;
         ++mon;
+        count -= days;
     }
 
     m_year = year;
@@ -355,6 +359,17 @@ int main(void){
     oss.str("");
     oss << d;
     assert (oss.str() == "2000-02-29");
+
+
+    //-----------------------------------------------------------------------------
+    // progtest errors check
+    //-----------------------------------------------------------------------------
+
+    CDate zz(2004, 03, 1);
+    zz = --zz;
+    oss.str("");
+    oss << zz;
+    assert (oss.str() == "2004-02-29");
 
     //-----------------------------------------------------------------------------
     // bonus test examples
