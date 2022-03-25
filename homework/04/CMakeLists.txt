@@ -1,3 +1,1 @@
-add_executable(HW03 test.cpp)
-
-add_subdirectory(Catch_test)
+add_executable(HW04 test.cpp)

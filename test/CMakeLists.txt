@@ -1,0 +1,2 @@
+add_subdirectory(test_DU03)
+add_subdirectory(test_DU04)

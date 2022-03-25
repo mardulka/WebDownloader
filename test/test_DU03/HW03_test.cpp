@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #define __PROGTEST__
 
-#include "../../../test/catch.hpp"
+#include "../catch.hpp"
 
 // include proper heading ----------------------------------------------------------------------------------------------
 #include <cstdio>
@@ -18,7 +18,7 @@ using namespace std;
 // ---------------------------------------------------------------------------------------------------------------------
 
 //Include tested file
-#include "../test.cpp"
+#include "../../homework/03/test.cpp"
 
 
 TEST_CASE("Basic tests"){
