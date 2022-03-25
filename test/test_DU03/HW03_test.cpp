@@ -1,7 +1,7 @@
 #define CATCH_CONFIG_MAIN
 #define __PROGTEST__
 
-#include "catch.hpp"
+#include "../../../test/catch.hpp"
 
 // include proper heading ----------------------------------------------------------------------------------------------
 #include <cstdio>
