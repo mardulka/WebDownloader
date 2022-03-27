@@ -14,19 +14,77 @@ using namespace std;
  * Vector class
  */
 class CVector{
+    /**
+     * Struct holding underlying array.
+     */
     struct CVecData;
+
     CVecData * m_vec_data;
+
+private:
+    /**
+     * Link given array as underlying array and increase its sharing count.
+     * @param data Array which should be linked as underlying array.
+     */
     void attach(CVecData * data);
+
+    /**
+     * Unlink underlying array and decrease its underlying count.
+     * If no count left (this was only link) then destroy whole array.
+     */
     void detach();
 public:
+
+    /**
+     * Explicit constructor creating own underlying array of given size for this object
+     * @param size Size of new array.
+     */
     explicit CVector(uint32_t size);
+
+    /**
+     * Copy constructor linking underlying array from given CVector object.
+     * @param vector Given CVector object for copying from.
+     */
     CVector(const CVector & vector);
+
+    /**
+     * Destructor detach underlying array before destruct this object.
+     */
     ~CVector();
 
+    /**
+     * Getting size of underlying array.
+     * @return Size of array
+     */
     [[nodiscard]] uint32_t size() const;
+
+    /**
+     * Operator for access to one element of underlying array.
+     * When accessing shared array, new copy of underlying is provided to ensure proper modifications behaviour.
+     * @param pos position of element
+     * @return Reference to requested element.
+     */
     uint8_t & operator [](uint32_t pos);
+
+    /**
+     * Operator for access to one element of underlying array. Const - modifications unable.
+     * @param pos position of element
+     * @return Copy of requested element.
+     */
     uint8_t operator [](uint32_t pos) const;
+
+    /**
+     * Drops own array and link shared array of given vector.
+     * @param vector Vector from which underlying array should be linked.
+     * @return Reference to itself.
+     */
     CVector & operator =(const CVector & vector);
+
+    /**
+     * Change size of underlying array by calling its own method.
+     * Before that check if array is shared and make new copy of it when is shared.
+     * @param capacity New capacity of array.
+     */
     void resize(uint32_t capacity);
 
 };
@@ -37,9 +95,29 @@ struct CVector::CVecData{
     uint32_t m_capacity;
     uint32_t m_count;
 
+    /**
+     * Explicit constructor creating array of given size and set default count of sharing to 1.
+     * @param size Size of new array.
+     */
     explicit CVecData(uint32_t size);
+
+    /**
+     * Copy constructor creates own copy of given array.
+     * @param data Array which data should be copied.
+     */
     explicit CVecData(const CVecData * data);
+
+    /**
+     * Destructor deletes array before destructs object.
+     */
     ~CVecData();
+
+    /**
+     * Resizes array making its new copy.
+     * If allocated space is sufficient, only increases size attribute.
+     * @param capacity New array capacity.
+     * @return true if resize was successful, false otherwise
+     */
     bool resize(uint32_t capacity);
 
 };
@@ -149,19 +227,54 @@ bool CVector::CVecData::resize(uint32_t capacity){
 // ---------------------------------------------------------------------------------------------------------------------
 
 /**
- * Class CHistory
+ * Class CHistory storing history in double linked list.
  */
 class CHistory{
+    /**
+     * Element storing one history state and is linked in double linked list.
+     */
     struct CElement;
+
     CElement * head;
     CElement * tail;
     int size;
 public:
+    /**
+     * Constructs empty history ready for storing.
+     */
     CHistory();
+
+    /**
+     * Copy constructor copying whole history from given CHistory object
+     * @param history CHistory object which history should be copied.
+     */
     CHistory(const CHistory & history);
+
+    /**
+     * Operator = copying whole history from given CHistory object
+     * @param history CHistory object which history should be copied.
+     * @return Reference to itself.
+     */
     CHistory & operator =(const CHistory & history);
+
+    /**
+     * Destructor clears whole history before destructs object.
+     */
     ~CHistory();
+
+    /**
+     * Retracting newest element from history.
+     * @param retract Reference to CVector where the history should be copied.
+     * @param position Reference to position in CVector where it should be copied version from history.
+     * @return True if history was successfully retract into given objects and data, false otherwise.
+     */
     bool pop(CVector & retract, uint32_t & position);
+
+    /**
+     * Storing current state to history.
+     * @param store CVector which should be copied into history.
+     * @param pos Position in CVector which should be stored.
+     */
     void push(const CVector & store, uint32_t pos);
 };
 
@@ -171,14 +284,20 @@ struct CHistory::CElement{
     CElement * next;
     CElement * prev;
 
+    /**
+     * Constructor of new history element. Only way of construct it is provide data to storing in history.
+     * @param hcontent Content which should be stored in history.
+     * @param hposition Position in content.
+     * @param next pointer to next History element = older history element
+     * @param prev pointer to prev History element = newer history element
+     */
     explicit CElement(const CVector & hcontent, uint32_t hposition, CElement * next = nullptr, CElement * prev = nullptr)
-    : hcontent{hcontent}, hposition{hposition}, next{next}, prev{prev}{}
+            : hcontent{hcontent}, hposition{hposition}, next{next}, prev{prev}{}
 };
 
 CHistory::CHistory(){
     size = 0;
     tail = head = nullptr;
-
 }
 
 CHistory::CHistory(const CHistory & history){
@@ -238,22 +357,80 @@ void CHistory::push(const CVector & store, uint32_t pos){
 }
 
 /**
- * CFile class
+ * CFile class simulates behaviour of binary file with requested undo and copying functions.
  */
 class CFile{
 public:
+    /**
+     * Constructor creates empty CFile
+     */
     CFile();
+
+    /**
+     * Copy constructor creating copy of given file. All history is copied too.
+     * @param file CFile which should be copied.
+     */
     CFile(const CFile & file);
+
+    /**
+     * Operator creating copy of given file. All history is copied too.
+     * @param file CFile which should be copied.
+     * @return Reference to itself
+     */
     CFile & operator =(const CFile & file);
+
+    /**
+     * Default destructor
+     */
     ~CFile() = default;
 
+    /**
+     * Moves position in file on given offset.
+     * @param offset Offset from beginning.
+     * @return True if position was set successfully, false if given offset is out of file.
+     */
     bool seek(uint32_t offset);
+
+    /**
+     * Reads given number of bytes from current position in file and store it in given array.
+     * If file ends before requested number of bytes was read, ends here and return this read number.
+     * @param dst Array where the read bytes should be stored.
+     * @param bytes Number of bytes to read.
+     * @return Actual number of bytes read.
+     */
     uint32_t read(uint8_t * dst, uint32_t bytes);
+
+    /**
+     * Writes given number of bytes from given array and store it in file from current position.
+     * If file is smaller then needed, is enlarged to ensure all bytes could be written.
+     * @param src Array where the bytes for writing are stored.
+     * @param bytes Number of bytes to write.
+     * @return Actual number of bytes written.
+     */
     uint32_t write(const uint8_t * src, uint32_t bytes);
+
+    /**
+     * Cuts file from current position ahead.
+     */
     void truncate();
+
+    /**
+     * Checks file size.
+     * @return File size.
+     */
     uint32_t fileSize() const;
+
+    /**
+     * Stores current state of file into file history.
+     */
     void addVersion();
+
+    /**
+     * Retract latest state from history and overwrites current state by it.
+     * @return
+     */
     bool undoVersion();
+
 private:
     mutable uint32_t position;
     CVector content;
