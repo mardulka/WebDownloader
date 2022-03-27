@@ -187,7 +187,7 @@ void CVector::resize(uint32_t capacity){
 // CVector::CVecData methods -------------------------------------------------------------------------------------------
 
 CVector::CVecData::CVecData(uint32_t size) : m_size{0}, m_capacity{size}{
-    m_data = new uint8_t[m_size];
+    m_data = new uint8_t[m_capacity];
     m_count = 1;
 }
 
@@ -479,7 +479,7 @@ uint32_t CFile::read(uint8_t * dst, uint32_t bytes){
 
 uint32_t CFile::write(const uint8_t * src, uint32_t bytes){
     uint32_t i = 0;
-    if (content.size() <= position + bytes)
+    if (content.size() <= (position + bytes))
         content.resize(position + bytes);
     for (; i < bytes ; ++i, ++position){
         content[position] = src[i];
