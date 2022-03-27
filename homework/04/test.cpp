@@ -108,7 +108,7 @@ void CVector::resize(uint32_t capacity){
 
 // CVector::CVecData methods -------------------------------------------------------------------------------------------
 
-CVector::CVecData::CVecData(uint32_t size) : m_size{size}, m_capacity{size}{
+CVector::CVecData::CVecData(uint32_t size) : m_size{0}, m_capacity{size}{
     m_data = new uint8_t[m_size];
     m_count = 1;
 }
@@ -161,16 +161,18 @@ public:
     CHistory(const CHistory & history);
     CHistory & operator =(const CHistory & history);
     ~CHistory();
-    bool pop(CVector & retract);
-    void push(const CVector & store);
+    bool pop(CVector & retract, uint32_t & position);
+    void push(const CVector & store, uint32_t pos);
 };
 
 struct CHistory::CElement{
     CVector hcontent;
+    uint32_t hposition;
     CElement * next;
     CElement * prev;
 
-    explicit CElement(const CVector & hcontent, CElement * next = nullptr, CElement * prev = nullptr) : hcontent(hcontent), next(next), prev{prev}{}
+    explicit CElement(const CVector & hcontent, uint32_t hposition, CElement * next = nullptr, CElement * prev = nullptr)
+    : hcontent{hcontent}, hposition{hposition}, next{next}, prev{prev}{}
 };
 
 CHistory::CHistory(){
@@ -184,7 +186,7 @@ CHistory::CHistory(const CHistory & history){
     size = history.size;
     auto elem = history.tail;
     while (elem){
-        push(elem->hcontent);
+        push(elem->hcontent, elem->hposition);
         ++size;
         elem = elem->prev;
     }
@@ -194,14 +196,12 @@ CHistory::CHistory(const CHistory & history){
 CHistory & CHistory::operator =(const CHistory & history){
     if (this == &history) return *this;
 
-    auto newhist = CHistory();
     auto elem = history.tail;
     while (elem){
-        newhist.push(elem->hcontent);
+        push(elem->hcontent, elem->hposition);
         ++size;
         elem = elem->prev;
     }
-    size = history.size;
     return *this;
 
 }
@@ -214,9 +214,10 @@ CHistory::~CHistory(){
     }
 }
 
-bool CHistory::pop(CVector & retract){
+bool CHistory::pop(CVector & retract, uint32_t & position){
     if (!head) return false;
     retract = head->hcontent;
+    position = head->hposition;
     auto temp = head;
     head = head->next;
     temp->next = nullptr;
@@ -228,8 +229,8 @@ bool CHistory::pop(CVector & retract){
     return true;
 }
 
-void CHistory::push(const CVector & store){
-    auto element = new CElement(store, head);
+void CHistory::push(const CVector & store, uint32_t pos){
+    auto element = new CElement(store, pos, head);
     if (head) head->prev = element;
     head = element;
     if (!tail) tail = element;
@@ -244,8 +245,7 @@ public:
     CFile();
     CFile(const CFile & file);
     CFile & operator =(const CFile & file);
-
-    ~CFile(){/* TODO delete history*/}
+    ~CFile() = default;
 
     bool seek(uint32_t offset);
     uint32_t read(uint8_t * dst, uint32_t bytes);
@@ -263,18 +263,17 @@ private:
 
 CFile::CFile() : content{10}{
     position = 0;
-    //TODO create empty history
 }
 
 CFile::CFile(const CFile & file) : position{file.position}, content{file.content}{
-    // TODO copy history
+    history = file.history;
 
 }
 
 CFile & CFile::operator =(const CFile & file){
     if (this == &file) return *this;
     content = file.content;
-    // TODO copy history
+    history = file.history;
     return *this;
 }
 
@@ -290,13 +289,13 @@ uint32_t CFile::fileSize() const{
 }
 
 void CFile::truncate(){
-    content.resize(position + 1);
+    content.resize(position);
 }
 
 uint32_t CFile::read(uint8_t * dst, uint32_t bytes){
     uint32_t i = 0;
     for (; i < bytes && position < content.size() ; ++i, ++position){
-        dst[position] = content[position];
+        dst[i] = content[position];
     }
     return i;
 }
@@ -306,18 +305,18 @@ uint32_t CFile::write(const uint8_t * src, uint32_t bytes){
     if (content.size() <= position + bytes)
         content.resize(position + bytes);
     for (; i < bytes ; ++i, ++position){
-        content[position] = src[position];
+        content[position] = src[i];
     }
 
     return i;
 }
 
 void CFile::addVersion(){
-    history.push(content);
+    history.push(content, position);
 }
 
 bool CFile::undoVersion(){
-    if (!history.pop(content)) return false;
+    if (!history.pop(content, position)) return false;
     return true;
 
 }
