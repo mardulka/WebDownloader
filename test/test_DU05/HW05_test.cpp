@@ -164,13 +164,6 @@ TEST_CASE("Default predefined tests." "[PREDEFINED]"){
 }
 
 TEST_CASE("Additional tests." "[ADDITIONAL]"){
-    CSupermarket sm;
-    sm.store("bread", CDate(2016, 4, 30), 100)
-            .store("butter", CDate(2016, 5, 10), 10)
-            .store("beer", CDate(2016, 8, 10), 50)
-            .store("bread", CDate(2016, 4, 25), 100)
-            .store("okey", CDate(2016, 7, 18), 5);
-
 
 }
 
