@@ -152,7 +152,7 @@ private:
      * @param queue Reference to section for this ware.
      * @param ware Ware which has to be stored. Expected shared pointer.
      */
-    void addStock(deque<shared_ptr<CWare>> section, shared_ptr<CWare> ware);
+    void addStock(deque<shared_ptr<CWare>> & section, shared_ptr<CWare> ware);
 
     /**
      * Adds new ware category into stock. Creates new section and call common method for storing ware into this section.
@@ -219,7 +219,7 @@ list<pair<string, int> > CSupermarket::expired(CDate date) const{
         moldWare.emplace_back(record.first, count);
     }
 
-    moldWare.sort([](pair<string, int> & left, pair<string, int> & right){return left.second < right.second;});
+    moldWare.sort([](pair<string, int> & left, pair<string, int> & right){return left.second > right.second;});
     return moldWare;
 }
 
@@ -231,25 +231,24 @@ optional<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>> CSupermarket
     return it->second;
 }
 
-void CSupermarket::addStock(deque<shared_ptr<CWare>> section, shared_ptr<CWare> ware){
-    if (section.empty()){
-        section.push_back(ware);
-        return;
-    }
+void CSupermarket::addStock(deque<shared_ptr<CWare>> & section, shared_ptr<CWare> ware){
     //iterate through deque, if
     auto iter = section.begin();
     for (auto & record: section){
 
         if (record->expDate == ware->expDate){
             record->cnt += ware->cnt;
-            break;
+            return;
         }
         if (record->expDate > ware->expDate){
             section.emplace(iter, ware);
-            break;
+            return;
         }
         ++iter;
     }
+
+    //if empty
+    section.push_back(ware);
 
 }
 
