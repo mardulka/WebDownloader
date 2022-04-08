@@ -141,24 +141,31 @@ private:
     map<string, deque<shared_ptr<CWare>>> m_stock;
 
     /**
-     * Finds ware section in stock. If
+     * Finds ware section in stock.
      * @param name Name of ware section which is wanted.
-     * @return Optional value of Reference to ware section. Reference to end of stock if is not present.
+     * @return Optional value of Reference to ware section.
      */
-    optional<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>> findWareSection(string name);
+    optional<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>> findWareSection(const string & name);
+
+    /**
+     * Finds ware section in stock. One mistake in letters is allowed, but name length must be same.
+     * @param name Name of ware section which is wanted.
+     * @return Optional value of Reference to ware section.
+     */
+    optional<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>> findWareSectionWithMistake(const string & name);
 
     /**
      * Adds new supply amount into stock.
      * @param queue Reference to section for this ware.
      * @param ware Ware which has to be stored. Expected shared pointer.
      */
-    void addStock(deque<shared_ptr<CWare>> & section, shared_ptr<CWare> ware);
+    void addStock(deque<shared_ptr<CWare>> & section, const shared_ptr<CWare> & ware);
 
     /**
      * Adds new ware category into stock. Creates new section and call common method for storing ware into this section.
      * @param ware Ware which has to be stored.
      */
-    void registerNewWare(shared_ptr<CWare> ware);
+    void registerNewWare(const shared_ptr<CWare> & ware);
 
     /**
      * Removes specific count of ware from defined stock section.
@@ -211,7 +218,7 @@ void CSupermarket::sell(list<pair<string, int>> & shoppingList){
     // find all and check if exists
     list<optional<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>>> invoice;
     for (const auto & record: shoppingList){
-        invoice.emplace_back(findWareSection(record.first));
+        invoice.emplace_back(findWareSectionWithMistake(record.first));
     }
 
     //modify counts ind storage and list
@@ -252,7 +259,7 @@ list<pair<string, int> > CSupermarket::expired(CDate date) const{
     return moldWare;
 }
 
-optional<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>> CSupermarket::findWareSection(string name){
+optional<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>> CSupermarket::findWareSection(const string & name){
     auto it = m_stock.find(name);
     if (it == m_stock.end()){
         return nullopt;
@@ -260,7 +267,45 @@ optional<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>> CSupermarket
     return it->second;
 }
 
-void CSupermarket::addStock(deque<shared_ptr<CWare>> & section, shared_ptr<CWare> ware){
+optional<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>> CSupermarket::findWareSectionWithMistake(const string & name){
+    auto wareSection = findWareSection(name);
+    //if exact match has value, return result
+    if (wareSection.has_value())
+        return wareSection;
+
+    // Go through store and compare with all sections. First is compared length, then possible combinations.
+    // Matched results are stored into list.
+    list<reference_wrapper<deque<shared_ptr<CSupermarket::CWare>>>> matchList;
+    for (auto & store_section: m_stock){
+        auto sname = store_section.first;
+        if (sname.length() != name.length())
+            continue;
+        bool similar = false;
+        for (size_t i = 0 ; i < name.length() ; ++i){
+            if (similar) break;
+            similar = true;
+            for (size_t j = 0 ; j < name.length() ; ++j){
+                if (i == j) continue;
+                if (sname[j] != name[j]){
+                    similar = false;
+                    break;
+                }
+            }
+        }
+        if (similar){
+            matchList.emplace_back(store_section.second);
+        }
+    }
+
+    // If list has one record, is returned as result.
+    if (matchList.size() == 1)
+        return matchList.front();
+
+    //not found, return nullopt
+    return nullopt;
+}
+
+void CSupermarket::addStock(deque<shared_ptr<CWare>> & section, const shared_ptr<CWare> & ware){
     //iterate through deque, if
     auto iter = section.begin();
     for (auto & record: section){
@@ -281,7 +326,7 @@ void CSupermarket::addStock(deque<shared_ptr<CWare>> & section, shared_ptr<CWare
 
 }
 
-void CSupermarket::registerNewWare(shared_ptr<CWare> ware){
+void CSupermarket::registerNewWare(const shared_ptr<CWare> & ware){
     // create shelf with label into store directly
     const auto[it, success] = m_stock.emplace(ware->name, deque<shared_ptr<CWare>>());
     // add ware into new shelf
