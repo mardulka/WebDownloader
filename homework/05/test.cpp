@@ -41,7 +41,7 @@ public:
 };
 
 bool CDate::operator ==(const CDate & date) const{
-    if (year == date.year && month == date.month && day == date.month)
+    if (year == date.year && month == date.month && day == date.day)
         return true;
     return false;
 }
@@ -240,11 +240,12 @@ list<pair<string, int> > CSupermarket::expired(CDate date) const{
     for (const auto & record: m_stock){
         int count = 0;
         for (const auto & ware: record.second){
-            if (ware->expDate > date)
+            if (ware->expDate >= date)
                 break;
             count += ware->cnt;
         }
-        moldWare.emplace_back(record.first, count);
+        if (count > 0)
+            moldWare.emplace_back(record.first, count);
     }
 
     moldWare.sort([](pair<string, int> & left, pair<string, int> & right){return left.second > right.second;});
