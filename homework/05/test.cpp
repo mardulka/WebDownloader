@@ -214,18 +214,24 @@ void CSupermarket::sell(list<pair<string, int>> & shoppingList){
         invoice.emplace_back(findWareSection(record.first));
     }
 
-    //modify counts ind storage and list (or delete records in list)
-    auto sl_it = shoppingList.begin();
-    auto in_it = invoice.begin();
-    for (; sl_it != shoppingList.end() ; ++sl_it, ++in_it){
-        if (!in_it->has_value())
+    //modify counts ind storage and list
+    auto shopList_it = shoppingList.begin();
+    auto invoice_it = invoice.begin();
+    for (; shopList_it != shoppingList.end() ; ++shopList_it, ++invoice_it){
+        if (!invoice_it->has_value())
             continue;
-        int released = releaseStock(in_it->value(), sl_it->second);
-        if (released == sl_it->second){
-            shoppingList.erase(sl_it);
-        }
-        sl_it->second -= released;
+        int released = releaseStock(invoice_it->value(), shopList_it->second);
+        shopList_it->second -= released;
     }
+
+    //delete items from list if they was all released (cnt = 0)
+    for (auto it = shoppingList.begin() ; it != shoppingList.end() ;){
+        if (it->second == 0)
+            it = shoppingList.erase(it);
+        else
+            ++it;
+    }
+
 
 }
 
@@ -285,23 +291,25 @@ void CSupermarket::registerNewWare(shared_ptr<CWare> ware){
 int CSupermarket::releaseStock(deque<shared_ptr<CWare>> & section, int count){
     int released = 0;
     string name = section.front()->name;
-    while (count && !section.empty()){
+    while (count > 0 && !section.empty()){
         //access to oldest (first in front)
         auto shelf = section.front();
         //check if shelf has more pieces than requested -> if so, no problem, only decrease count
         if (shelf->cnt > count){
             shelf->cnt -= count;
-            return released += count;
-        }
-        if (shelf->cnt == count){
+            released += count;
+            break;
+        } else if (shelf->cnt == count){
+            //exactly same number as requireq -> take all and clean shelf
             released += shelf->cnt;
             section.pop_front();
-            return released;
+            break;
+        } else{
+            //not enough in this shelf, clean this shelf (pop) and decrease requested count, then go to next by the loop
+            count -= shelf->cnt;
+            released += shelf->cnt;
+            section.pop_front();
         }
-        //not enough in this shelf, clean this shelf (pop) and decrease requested count, then go to next by the loop
-        count -= shelf->cnt;
-        released += shelf->cnt;
-        section.pop_front();
     }
 
     if (section.empty()){
