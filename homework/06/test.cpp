@@ -37,7 +37,7 @@ protected:
 public:
     explicit CDataType(string type = "", int size = 0) : m_type{std::move(type)}, m_size{size}{}
 
-    [[nodiscard]] virtual int getSize() const;
+    [[nodiscard]] virtual size_t getSize() const;
     [[nodiscard]] virtual string getType() const;
     virtual bool operator ==(const CDataType & rhs) const;
     virtual bool operator !=(const CDataType & rhs) const;
@@ -45,7 +45,7 @@ public:
     friend ostream & operator <<(ostream & os, const CDataType & an_int);
 };
 
-int CDataType::getSize() const{
+size_t CDataType::getSize() const{
     return m_size;
 }
 
@@ -97,9 +97,28 @@ class CDataTypeEnum : public CDataType{
 public:
     explicit CDataTypeEnum() : CDataType("enum"s, 4){}
 
+    CDataTypeEnum(const CDataTypeEnum & source);
+    CDataTypeEnum(CDataTypeEnum && source) noexcept;
+    CDataTypeEnum & operator =(CDataTypeEnum source);
+
     CDataTypeEnum & add(const string & name);
     [[nodiscard]] string exportBody(const string & name, int offset) const override;
 };
+
+CDataTypeEnum::CDataTypeEnum(const CDataTypeEnum & source) : CDataTypeEnum(){
+    for (const auto & item: source.options){
+        options.push_back(item);
+    }
+}
+
+CDataTypeEnum::CDataTypeEnum(CDataTypeEnum && source) noexcept{
+    swap(options, source.options);
+}
+
+CDataTypeEnum & CDataTypeEnum::operator =(CDataTypeEnum source){
+    swap(options, source.options);
+    return *this;
+}
 
 CDataTypeEnum & CDataTypeEnum::add(const string & name){
     options.push_back(name);
@@ -110,55 +129,100 @@ string CDataTypeEnum::exportBody(const string & name, int offset) const{
     string text;
     text.append(offset, ' ').append("enum\n");
     text.append(offset, ' ').append("{\n");
-    for (auto item: options){
+    for (const auto & item: options){
         text.append(offset + 2, ' ').append(item).append("\n");
     }
     text.append("} ").append(name).append(";\n");
+    return text;
 }
 
 /**
  * Class for STRUCT type
  */
 class CDataTypeStruct : public CDataType{
-    set<string> used_names;
-    vector<pair<string, CDataType *>> fields;
+    map<string, shared_ptr<pair<string, CDataType>>> used_names;
+    vector<shared_ptr<pair<string, CDataType>>> fields;
 public:
     explicit CDataTypeStruct() : CDataType("struct"s, 0){}
 
-    CDataTypeStruct & addField(const string & name, CDataType * type);
+    CDataTypeStruct(const CDataTypeStruct & source);
+    CDataTypeStruct(CDataTypeStruct && source) noexcept;
+    CDataTypeStruct & operator =(CDataTypeStruct source);
+
+    CDataTypeStruct & addField(const string & name, const CDataType & type);
+    CDataType & field(const string & name);
+
     [[nodiscard]] string exportBody(const string & name, int offset) const override;
 };
 
-CDataTypeStruct & CDataTypeStruct::addField(const string & name, CDataType * type){
-    if (used_names.find(name) != used_names.end())
-        throw invalid_argument("Duplicate field: m_Status");
-    used_names.insert(name);
-    fields.emplace_back(make_pair(name, type));
+CDataTypeStruct::CDataTypeStruct(const CDataTypeStruct & source) : CDataTypeStruct(){
+    for (const auto & item: source.used_names){
+        used_names.insert(item);
+    }
+    for (const auto & item: source.fields){
+        fields.push_back(item);
+    }
+}
+
+CDataTypeStruct::CDataTypeStruct(CDataTypeStruct && source) noexcept{
+    swap(used_names, source.used_names);
+    swap(fields, source.fields);
+}
+
+CDataTypeStruct & CDataTypeStruct::operator =(CDataTypeStruct source){
+    swap(used_names, source.used_names);
+    swap(fields, source.fields);
     return *this;
+}
+
+CDataTypeStruct & CDataTypeStruct::addField(const string & name, const CDataType & type){
+    if (used_names.find(name) != used_names.end())
+        throw invalid_argument("Duplicate field: " + name);
+    auto element = make_shared<pair<string, CDataType >>(make_pair(name, type));
+    used_names.insert({name, element});
+    fields.emplace_back(element);
+    return *this;
+}
+
+CDataType & CDataTypeStruct::field(const string & name){
+    auto element = used_names.find(name);
+    if (element == used_names.end())
+        throw invalid_argument("Unknown field: " + name);
+
+    return element->second->second;
 }
 
 string CDataTypeStruct::exportBody(const string & name, int offset) const{
     string text;
     text.append(offset, ' ').append("struct\n");
     text.append(offset, ' ').append("{\n");
-    for (auto item: fields){
-        text.append(offset + 2, ' ').append(item.second->getType());
-        text.append(" ").append(item.first).append(";\n");
+    for (const auto & item: fields){
+        text.append(offset + 2, ' ').append(item->second.getType());
+        text.append(" ").append(item->first).append(";\n");
     }
     text.append(offset, ' ').append("}").append(name);
     return text;
 }
 
+
+/*
+
+*/
 /**
  * Class for ARRAY type
- */
+ *//*
+
 class CDataTypeArray : public CDataType{
     // todo
 };
 
+*/
 /**
  * Class for POINTER type
- */
+ *//*
+
 class CDataTypePtr : public CDataType{
     // todo
 };
+
+*/
