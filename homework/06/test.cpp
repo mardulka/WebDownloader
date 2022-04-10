@@ -122,12 +122,16 @@ public:
 };
 
 CDataTypeEnum::CDataTypeEnum(const CDataTypeEnum & source) : CDataTypeEnum(){
+    m_type = source.m_type;
+    m_size = source.m_size;
     for (const auto & item: source.options){
         options.push_back(item);
     }
 }
 
 CDataTypeEnum::CDataTypeEnum(CDataTypeEnum && source) noexcept{
+    m_type = source.m_type;
+    m_size = source.m_size;
     swap(options, source.options);
 }
 
@@ -204,6 +208,9 @@ public:
 };
 
 CDataTypeStruct::CDataTypeStruct(const CDataTypeStruct & source) : CDataTypeStruct(){
+    m_type = source.m_type;
+    m_size = source.m_size;
+
     for (const auto & item: source.fields){
         fields.emplace_back(item.first, item.second->clone());
     }
@@ -213,6 +220,8 @@ CDataTypeStruct::CDataTypeStruct(const CDataTypeStruct & source) : CDataTypeStru
 }
 
 CDataTypeStruct::CDataTypeStruct(CDataTypeStruct && source) noexcept{
+    m_type = source.m_type;
+    m_size = source.m_size;
     swap(used_names, source.used_names);
     swap(fields, source.fields);
 }
@@ -230,7 +239,7 @@ CDataTypeStruct & CDataTypeStruct::addField(const string & name, const CDataType
     auto element = shared_ptr<CDataType>(type.clone());
     used_names.insert({name, element});
     fields.emplace_back(name, element);
-    m_size += type.getSize();
+    m_size += element->getSize();
     return *this;
 }
 
