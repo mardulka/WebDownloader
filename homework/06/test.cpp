@@ -41,7 +41,7 @@ public:
     [[nodiscard]] virtual string getType() const;
     virtual bool operator ==(const CDataType & rhs) const;
     virtual bool operator !=(const CDataType & rhs) const;
-    [[nodiscard]] virtual string printBody(const string & name, int offset) const;
+    [[nodiscard]] virtual string printBody(int offset) const;
     [[nodiscard]] virtual CDataType * clone() const = 0;
     friend ostream & operator <<(ostream & os, const CDataType & an_int);
 };
@@ -64,13 +64,13 @@ bool CDataType::operator !=(const CDataType & rhs) const{
     return !(*this == rhs);
 }
 
-string CDataType::printBody(const string & name, int offset) const{
+string CDataType::printBody(int offset) const{
     string text;
-    return text.append(offset, ' ').append(m_type).append(" ").append(name).append(";\n");
+    return text.append(offset, ' ').append(m_type);
 }
 
 ostream & operator <<(ostream & os, const CDataType & an_int){
-    os << an_int.printBody("", 0);
+    os << an_int.printBody(0);
     return os;
 }
 
@@ -115,7 +115,7 @@ public:
     CDataTypeEnum & operator =(CDataTypeEnum source);
 
     CDataTypeEnum & add(const string & name);
-    [[nodiscard]] string printBody(const string & name, int offset) const override;
+    [[nodiscard]] string printBody(int offset) const override;
     bool operator ==(const CDataType & rhs) const override;
     bool operator !=(const CDataType & rhs) const override;
     [[nodiscard]] CDataType * clone() const override;
@@ -141,7 +141,7 @@ CDataTypeEnum & CDataTypeEnum::add(const string & name){
     return *this;
 }
 
-string CDataTypeEnum::printBody(const string & name, int offset) const{
+string CDataTypeEnum::printBody(int offset) const{
     string text;
     text.append(offset, ' ').append("enum\n");
     text.append(offset, ' ').append("{\n");
@@ -152,7 +152,7 @@ string CDataTypeEnum::printBody(const string & name, int offset) const{
         else
             text.append(",\n");
     }
-    text.append(offset, ' ').append("} ").append(name).append(";\n");
+    text.append(offset, ' ').append("}");
     return text;
 }
 
@@ -197,7 +197,7 @@ public:
     CDataTypeStruct & addField(const string & name, const CDataType & type);
     const CDataType & field(const string & name);
 
-    [[nodiscard]] string printBody(const string & name, int offset) const override;
+    [[nodiscard]] string printBody(int offset) const override;
     [[nodiscard]] CDataType * clone() const override;
     bool operator ==(const CDataType & rhs) const override;
     bool operator !=(const CDataType & rhs) const override;
@@ -242,14 +242,14 @@ const CDataType & CDataTypeStruct::field(const string & name){
     return *(element->second);
 }
 
-string CDataTypeStruct::printBody(const string & name, int offset) const{
+string CDataTypeStruct::printBody(int offset) const{
     string text;
     text.append(offset, ' ').append("struct\n");
     text.append(offset, ' ').append("{\n");
     for (const auto & item: fields){
-        text.append(item.second->printBody(item.first, offset + 2));
+        text.append(item.second->printBody(offset + 2)).append(" ").append(item.first).append(";\n");
     }
-    text.append(offset, ' ').append("}").append(name);
+    text.append(offset, ' ').append("}");
     return text;
 }
 
