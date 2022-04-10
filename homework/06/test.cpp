@@ -211,6 +211,13 @@ public:
      * @param name name of new option.
      * @return reference to object itself for chaining. Exception if type is already present.
      */
+    CDataTypeEnum & add(const char * name);
+
+    /**
+     * Method adding new option into this type.
+     * @param name name of new option.
+     * @return reference to object itself for chaining. Exception if type is already present.
+     */
     CDataTypeEnum & add(const string & name);
 };
 
@@ -277,6 +284,15 @@ CDataType * CDataTypeEnum::clone() const{
     return clonedType;
 }
 
+CDataTypeEnum & CDataTypeEnum::add(const char * name){
+    string sname{name};
+    if (used_options.find(sname) != used_options.end())
+        throw invalid_argument("Duplicate enum value: " + sname);
+    options.push_back(sname);
+    used_options.insert(sname);
+    return *this;
+}
+
 CDataTypeEnum & CDataTypeEnum::add(const string & name){
     if (used_options.find(name) != used_options.end())
         throw invalid_argument("Duplicate enum value: " + name);
@@ -338,6 +354,14 @@ public:
      * @param type Object of type which should be included.
      * @return reference to object itself for chaining. Exception if type name is already present.
      */
+    CDataTypeStruct & addField(const char * name, const CDataType & type);
+
+    /**
+     * Method adding new nested type into this type.
+     * @param name name of new type.
+     * @param type Object of type which should be included.
+     * @return reference to object itself for chaining. Exception if type name is already present.
+     */
     CDataTypeStruct & addField(const string & name, const CDataType & type);
 
     /**
@@ -345,7 +369,14 @@ public:
      * @param name name of nested type which should be provided
      * @return reference to required type or exception if not exists
      */
-    const CDataType & field(const string & name);
+    const CDataType & field(const char * name) const;
+
+    /**
+     * Method providing access to one nested type.
+     * @param name name of nested type which should be provided
+     * @return reference to required type or exception if not exists
+     */
+    const CDataType & field(const string & name) const;
 };
 
 CDataTypeStruct::CDataTypeStruct(const CDataTypeStruct & source) : CDataTypeStruct(){
@@ -415,6 +446,18 @@ CDataType * CDataTypeStruct::clone() const{
     return clonedType;
 }
 
+CDataTypeStruct & CDataTypeStruct::addField(const char * name, const CDataType & type){
+    string sname{name};
+    if (used_names.find(sname) != used_names.end()){
+        throw invalid_argument("Duplicate field: " + sname);
+    }
+    auto element = shared_ptr<CDataType>(type.clone());
+    used_names.insert({sname, element});
+    fields.emplace_back(sname, element);
+    m_size += element->getSize();
+    return *this;
+}
+
 CDataTypeStruct & CDataTypeStruct::addField(const string & name, const CDataType & type){
     if (used_names.find(name) != used_names.end()){
         throw invalid_argument("Duplicate field: " + name);
@@ -426,7 +469,16 @@ CDataTypeStruct & CDataTypeStruct::addField(const string & name, const CDataType
     return *this;
 }
 
-const CDataType & CDataTypeStruct::field(const string & name){
+const CDataType & CDataTypeStruct::field(const char * name) const{
+    string sname{name};
+    auto element = used_names.find(sname);
+    if (element == used_names.end())
+        throw invalid_argument("Unknown field: " + sname);
+
+    return *(element->second);
+}
+
+const CDataType & CDataTypeStruct::field(const string & name) const{
     auto element = used_names.find(name);
     if (element == used_names.end())
         throw invalid_argument("Unknown field: " + name);
