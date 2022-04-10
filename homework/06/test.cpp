@@ -79,7 +79,7 @@ public:
      * Method cloning type. VIRTUAL
      * @return Pointer to new copy.
      */
-    [[nodiscard]] virtual CDataType * clone() const = 0;
+    [[nodiscard]] virtual shared_ptr<CDataType> clone() const = 0;
 
     /**
      * Ostream operator for printing type.
@@ -132,11 +132,11 @@ public:
      * Method cloning type. VIRTUAL
      * @return Pointer to new copy.
      */
-    [[nodiscard]] CDataType * clone() const override;
+    [[nodiscard]] shared_ptr<CDataType> clone() const override;
 };
 
-CDataType * CDataTypeInt::clone() const{
-    return new CDataTypeInt();
+shared_ptr<CDataType> CDataTypeInt::clone() const{
+    return shared_ptr<CDataType>(new CDataTypeInt());
 }
 
 /**
@@ -153,11 +153,11 @@ public:
      * Method cloning type. VIRTUAL
      * @return Pointer to new copy.
      */
-    [[nodiscard]] CDataType * clone() const override;
+    [[nodiscard]] shared_ptr<CDataType> clone() const override;
 };
 
-CDataType * CDataTypeDouble::clone() const{
-    return new CDataTypeDouble();
+shared_ptr<CDataType> CDataTypeDouble::clone() const{
+    return shared_ptr<CDataType>(new CDataTypeDouble());
 }
 
 /**
@@ -204,7 +204,7 @@ public:
      * Method cloning type. VIRTUAL
      * @return Pointer to new copy.
      */
-    [[nodiscard]] CDataType * clone() const override;
+    [[nodiscard]] shared_ptr<CDataType> clone() const override;
 
     /**
      * Method adding new option into this type.
@@ -276,11 +276,13 @@ string CDataTypeEnum::printBody(int offset) const{
     return text;
 }
 
-CDataType * CDataTypeEnum::clone() const{
-    auto * clonedType = new CDataTypeEnum();
-    for (const auto & item: this->options){
-        clonedType->options.push_back(item);
+shared_ptr<CDataType> CDataTypeEnum::clone() const{
+    shared_ptr<CDataTypeEnum> clonedType(new CDataTypeEnum());
+
+    for (auto item: this->options){
+        clonedType->add(item);
     }
+
     return clonedType;
 }
 
@@ -346,7 +348,7 @@ public:
      * Method cloning type. VIRTUAL
      * @return Pointer to new copy.
      */
-    [[nodiscard]] CDataType * clone() const override;
+    [[nodiscard]] shared_ptr<CDataType> clone() const override;
 
     /**
      * Method adding new nested type into this type.
@@ -434,14 +436,12 @@ string CDataTypeStruct::printBody(int offset) const{
     return text;
 }
 
-CDataType * CDataTypeStruct::clone() const{
-    auto * clonedType = new CDataTypeStruct();
-    for (const auto & item: fields){
-        clonedType->fields.emplace_back(item.first, shared_ptr<CDataType>(item.second->clone()));
+shared_ptr<CDataType> CDataTypeStruct::clone() const{
+    shared_ptr<CDataTypeStruct> clonedType(new CDataTypeStruct());
+    for (auto item: fields){
+        clonedType->addField(item.first, *(item.second));
     }
-    for (const auto & item: clonedType->fields){
-        clonedType->used_names.emplace(item.first, item.second);
-    }
+
 
     return clonedType;
 }
@@ -451,7 +451,7 @@ CDataTypeStruct & CDataTypeStruct::addField(const char * name, const CDataType &
     if (used_names.find(sname) != used_names.end()){
         throw invalid_argument("Duplicate field: " + sname);
     }
-    auto element = shared_ptr<CDataType>(type.clone());
+    auto element = type.clone();
     used_names.insert({sname, element});
     fields.emplace_back(sname, element);
     m_size += element->getSize();
@@ -462,7 +462,7 @@ CDataTypeStruct & CDataTypeStruct::addField(const string & name, const CDataType
     if (used_names.find(name) != used_names.end()){
         throw invalid_argument("Duplicate field: " + name);
     }
-    auto element = shared_ptr<CDataType>(type.clone());
+    auto element = type.clone();
     used_names.insert({name, element});
     fields.emplace_back(name, element);
     m_size += element->getSize();
