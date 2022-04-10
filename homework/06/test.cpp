@@ -106,6 +106,7 @@ CDataType * CDataTypeDouble::clone() const{
  * Class for ENUM type
  */
 class CDataTypeEnum : public CDataType{
+    set<string> used_options;
     vector<string> options;
 public:
     explicit CDataTypeEnum() : CDataType("enum"s, 4){}
@@ -127,12 +128,16 @@ CDataTypeEnum::CDataTypeEnum(const CDataTypeEnum & source) : CDataTypeEnum(){
     for (const auto & item: source.options){
         options.push_back(item);
     }
+    for (const auto & item: options){
+        used_options.insert(item);
+    }
 }
 
 CDataTypeEnum::CDataTypeEnum(CDataTypeEnum && source) noexcept{
     m_type = source.m_type;
     m_size = source.m_size;
     swap(options, source.options);
+    swap(used_options, source.used_options);
 }
 
 CDataTypeEnum & CDataTypeEnum::operator =(CDataTypeEnum source){
@@ -141,7 +146,10 @@ CDataTypeEnum & CDataTypeEnum::operator =(CDataTypeEnum source){
 }
 
 CDataTypeEnum & CDataTypeEnum::add(const string & name){
+    if (used_options.find(name) != used_options.end())
+        throw invalid_argument("Duplicate enum value: " + name);
     options.push_back(name);
+    used_options.insert(name);
     return *this;
 }
 
