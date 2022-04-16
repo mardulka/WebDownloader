@@ -102,6 +102,20 @@ public:
      * @return
      */
     [[nodiscard]] virtual const CDataType & element() const;
+
+    /**
+     * Method providing access to one nested type.
+     * @param name name of nested type which should be provided
+     * @return reference to required type or exception if not exists
+     */
+    [[nodiscard]] virtual const CDataType & field(const char * name) const;
+
+    /**
+     * Method providing access to one nested type.
+     * @param name name of nested type which should be provided
+     * @return reference to required type or exception if not exists
+     */
+    [[nodiscard]] virtual const CDataType & field(const string & name) const;
 };
 
 size_t CDataType::getSize() const{
@@ -134,6 +148,16 @@ ostream & operator <<(ostream & os, const CDataType & an_int){
 
 const CDataType & CDataType::element() const{
     return *(m_element);
+}
+
+const CDataType & CDataType::field([[maybe_unused]]const char * name) const{
+    auto empty = shared_ptr<CDataType>(nullptr);
+    return *(empty);
+}
+
+const CDataType & CDataType::field([[maybe_unused]]const string & name) const{
+    auto empty = shared_ptr<CDataType>(nullptr);
+    return *(empty);
 }
 
 /**
@@ -413,14 +437,14 @@ public:
      * @param name name of nested type which should be provided
      * @return reference to required type or exception if not exists
      */
-    const CDataType & field(const char * name) const;
+    const CDataType & field(const char * name) const override;
 
     /**
      * Method providing access to one nested type.
      * @param name name of nested type which should be provided
      * @return reference to required type or exception if not exists
      */
-    [[nodiscard]] const CDataType & field(const string & name) const;
+    [[nodiscard]] const CDataType & field(const string & name) const override;
 };
 
 CDataTypeStruct::CDataTypeStruct(const CDataTypeStruct & source) : CDataTypeStruct(){
@@ -617,7 +641,7 @@ bool CDataTypeArray::operator !=(const CDataType & rhs) const{
 string CDataTypeArray::printBody(int offset) const{
     string text;
     text.append(offset, ' ').append(m_element->printBody(0));
-    text.append("[" + array_size).append("]");
+    text.append("[" + to_string(array_size)).append("]");
 
     return text;
 }
