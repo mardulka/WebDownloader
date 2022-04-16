@@ -28,19 +28,27 @@ using namespace std;
 #endif /* __PROGTEST__ */
 
 /**
+ * Enum for data types
+ */
+enum class CDataTypeValue{
+    EMPTY, INT, DOUBLE, STRUCT, ENUM, ARRAY, POINTER
+};
+
+/**
  * Abstract class. Common ancestor for all types.
  */
 class CDataType{
 protected:
-    string m_type;
+    CDataTypeValue m_type;
     size_t m_size;
+    shared_ptr<CDataType> m_element;
 public:
     /**
      * Constructor in abstract class for setting common fields.
      * @param type type name
      * @param size type size
      */
-    explicit CDataType(string type = "", size_t size = 0) : m_type{std::move(type)}, m_size{size}{}
+    explicit CDataType(CDataTypeValue type = CDataTypeValue::EMPTY, size_t size = 0) : m_type{type}, m_size{size}{}
 
     /**
      * Method getting type size. VIRTUAL
@@ -52,17 +60,17 @@ public:
      * Method getting type type. VIRTUAL
      * @return Type type.
      */
-    [[nodiscard]] virtual string getType() const;
+    [[nodiscard]] virtual CDataTypeValue getType() const;
 
     /**
-     * Comparision operator. Comparing only same type. VIRTUAL
+     * Comparison operator. Comparing only same type. VIRTUAL
      * @param rhs Data type comparing with object type.
      * @return True if same. False if not.
      */
     virtual bool operator ==(const CDataType & rhs) const;
 
     /**
-     * Comparision operator. Comparing only same type. VIRTUAL
+     * Comparison operator. Comparing only same type. VIRTUAL
      * @param rhs Data type comparing with object type.
      * @return True if different. True if same.
      */
@@ -93,14 +101,14 @@ public:
      * Return underlying element;
      * @return
      */
-    const CDataType & element() const;
+    [[nodiscard]] virtual const CDataType & element() const;
 };
 
 size_t CDataType::getSize() const{
     return m_size;
 }
 
-string CDataType::getType() const{
+CDataTypeValue CDataType::getType() const{
     return m_type;
 }
 
@@ -116,7 +124,7 @@ bool CDataType::operator !=(const CDataType & rhs) const{
 
 string CDataType::printBody(int offset) const{
     string text;
-    return text.append(offset, ' ').append(m_type);
+    return text.append(offset, ' ').append("");
 }
 
 ostream & operator <<(ostream & os, const CDataType & an_int){
@@ -125,7 +133,7 @@ ostream & operator <<(ostream & os, const CDataType & an_int){
 }
 
 const CDataType & CDataType::element() const{
-    return nullptr;
+    return *(m_element);
 }
 
 /**
@@ -136,17 +144,29 @@ public:
     /**
      * Default constructor. Calling parent constructor with defined parameters.
      */
-    explicit CDataTypeInt() : CDataType("int", 4){}
+    explicit CDataTypeInt() : CDataType(CDataTypeValue::INT, 4){}
 
     /**
      * Method cloning type. VIRTUAL
      * @return Pointer to new copy.
      */
     [[nodiscard]] shared_ptr<CDataType> clone() const override;
+
+    /**
+     * Method returning proper formatted output of this type. VIRTUAL
+     * @param offset Number of spaces from line start. For this type defined in parent printing.
+     * @return String of printed output.
+     */
+    [[nodiscard]] string printBody(int offset) const override;
 };
 
 shared_ptr<CDataType> CDataTypeInt::clone() const{
     return shared_ptr<CDataType>(new CDataTypeInt());
+}
+
+string CDataTypeInt::printBody(int offset) const{
+    string text;
+    return text.append(offset, ' ').append("int");
 }
 
 /**
@@ -157,17 +177,29 @@ public:
     /**
      * Default constructor. Calling parent constructor with defined parameters.
      */
-    explicit CDataTypeDouble() : CDataType("double", 8){}
+    explicit CDataTypeDouble() : CDataType(CDataTypeValue::DOUBLE, 8){}
 
     /**
      * Method cloning type. VIRTUAL
      * @return Pointer to new copy.
      */
     [[nodiscard]] shared_ptr<CDataType> clone() const override;
+
+    /**
+     * Method returning proper formatted output of this type. VIRTUAL
+     * @param offset Number of spaces from line start. For this type defined in parent printing.
+     * @return String of printed output.
+     */
+    [[nodiscard]] string printBody(int offset) const override;
 };
 
 shared_ptr<CDataType> CDataTypeDouble::clone() const{
     return shared_ptr<CDataType>(new CDataTypeDouble());
+}
+
+string CDataTypeDouble::printBody(int offset) const{
+    string text;
+    return text.append(offset, ' ').append("double");
 }
 
 /**
@@ -180,7 +212,7 @@ public:
     /**
      * Default constructor. Calling parent constructor with defined parameters.
      */
-    explicit CDataTypeEnum() : CDataType("enum"s, 4){}
+    explicit CDataTypeEnum() : CDataType(CDataTypeValue::ENUM, 4){}
 
     /**
      * Copy and move constructor and operator = with copy-swap approach. Ensuring deep copy.
@@ -289,7 +321,7 @@ string CDataTypeEnum::printBody(int offset) const{
 shared_ptr<CDataType> CDataTypeEnum::clone() const{
     shared_ptr<CDataTypeEnum> clonedType(new CDataTypeEnum());
 
-    for (auto item: this->options){
+    for (const auto & item: this->options){
         clonedType->add(item);
     }
 
@@ -323,7 +355,7 @@ public:
     /**
      * Default constructor. Calling parent constructor with defined parameters.
      */
-    explicit CDataTypeStruct() : CDataType("struct"s, 0){}
+    explicit CDataTypeStruct() : CDataType(CDataTypeValue::STRUCT, 0){}
 
     /**
      * Copy and move constructor and operator = with copy-swap approach. Ensuring deep copy.
@@ -388,7 +420,7 @@ public:
      * @param name name of nested type which should be provided
      * @return reference to required type or exception if not exists
      */
-    const CDataType & field(const string & name) const;
+    [[nodiscard]] const CDataType & field(const string & name) const;
 };
 
 CDataTypeStruct::CDataTypeStruct(const CDataTypeStruct & source) : CDataTypeStruct(){
@@ -448,7 +480,7 @@ string CDataTypeStruct::printBody(int offset) const{
 
 shared_ptr<CDataType> CDataTypeStruct::clone() const{
     shared_ptr<CDataTypeStruct> clonedType(new CDataTypeStruct());
-    for (auto item: fields){
+    for (const auto & item: fields){
         clonedType->addField(item.first, *(item.second));
     }
 
@@ -499,11 +531,12 @@ const CDataType & CDataTypeStruct::field(const string & name) const{
  * Class for ARRAY type
  */
 class CDataTypeArray : public CDataType{
-    shared_ptr<CDataType> array_type;
     size_t array_size;
 public:
     CDataTypeArray(size_t size, const CDataType & type)
-            : CDataType("array", size * type.getSize()), array_size{size}, array_type{type.clone()}{}
+            : CDataType(CDataTypeValue::ARRAY, size * type.getSize()), array_size{size}{
+        m_element = type.clone();
+    }
 
     /**
      * Copy and move constructor and operator = with copy-swap approach. Ensuring deep copy.
@@ -540,29 +573,29 @@ public:
      */
     [[nodiscard]] shared_ptr<CDataType> clone() const override;
 
-    const CDataType & element() const;
+    [[nodiscard]] const CDataType & element() const override;
 
 };
 
-CDataTypeArray::CDataTypeArray(const CDataTypeArray & source){
+CDataTypeArray::CDataTypeArray(const CDataTypeArray & source) : CDataType(source){
     m_type = source.m_type;
     m_size = source.m_size;
     array_size = source.array_size;
-    array_type = {source.array_type->clone()};
+    m_element = {source.m_element->clone()};
 }
 
 CDataTypeArray::CDataTypeArray(CDataTypeArray && source) noexcept{
     m_type = source.m_type;
     m_size = source.m_size;
     array_size = source.array_size;
-    swap(array_type, source.array_type);
+    swap(m_element, source.m_element);
 }
 
 CDataTypeArray & CDataTypeArray::operator =(CDataTypeArray source){
     m_type = source.m_type;
     m_size = source.m_size;
     array_size = source.array_size;
-    swap(array_type, source.array_type);
+    swap(m_element, source.m_element);
     return *this;
 }
 
@@ -571,7 +604,7 @@ bool CDataTypeArray::operator ==(const CDataType & rhs) const{
         return false;
 
     const auto & compared = dynamic_cast<const CDataTypeArray &>(rhs);
-    if (array_size != compared.array_size || array_type != compared.array_type)
+    if (array_size != compared.array_size || m_element != compared.m_element)
         return false;
 
     return true;
@@ -583,17 +616,17 @@ bool CDataTypeArray::operator !=(const CDataType & rhs) const{
 
 string CDataTypeArray::printBody(int offset) const{
     string text;
-    text.append(offset, ' ').append(array_type->printBody(0));
+    text.append(offset, ' ').append(m_element->printBody(0));
     text.append("[" + array_size).append("]");
 
     return text;
 }
 
 shared_ptr<CDataType> CDataTypeArray::clone() const{
-    shared_ptr<CDataTypeArray> clonedType(new CDataTypeArray(array_size, *(array_type)));
+    shared_ptr<CDataTypeArray> clonedType(new CDataTypeArray(array_size, *(m_element)));
     return clonedType;
 }
 
 const CDataType & CDataTypeArray::element() const{
-    return *(array_type);
+    return *(m_element);
 }
