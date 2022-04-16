@@ -818,6 +818,7 @@ TEST_CASE("TEST LEVEL 2", "[PREDEFINED]"){
                                 "    int**(*(* m_Ar9)[25])[50];\n"
                                 "  }* m_Madness[40];\n"
                                 "}"));
+
     REQUIRE (a.field("m_Madness").element().element().field("m_Ar9") == a.field("m_Ar9"));
     REQUIRE (a.field("m_Madness").element().element().field("m_Ar9") != a.field("m_Ar8"));
     try{
