@@ -150,14 +150,14 @@ const CDataType & CDataType::element() const{
     return *(m_element);
 }
 
-const CDataType & CDataType::field([[maybe_unused]]const char * name) const{
-    auto empty = shared_ptr<CDataType>(nullptr);
-    return *(empty);
+const CDataType & CDataType::field([[maybe_unused]] const char * name) const{
+    string text = "Cannot use field() for type: " + printBody(0, 0);
+    throw invalid_argument(text);
 }
 
-const CDataType & CDataType::field([[maybe_unused]]const string & name) const{
-    auto empty = shared_ptr<CDataType>(nullptr);
-    return *(empty);
+const CDataType & CDataType::field([[maybe_unused]] const string & name) const{
+    string text = "Cannot use field() for type: " + printBody(0, 0);
+    throw invalid_argument(text);
 }
 
 /**
@@ -182,6 +182,7 @@ public:
      * @return String of printed output.
      */
     [[nodiscard]] string printBody(int offset, int pointers) const override;
+
 };
 
 shared_ptr<CDataType> CDataTypeInt::clone() const{
@@ -215,6 +216,7 @@ public:
      * @return String of printed output.
      */
     [[nodiscard]] string printBody(int offset, int pointers) const override;
+
 };
 
 shared_ptr<CDataType> CDataTypeDouble::clone() const{

@@ -54,7 +54,7 @@ static bool whitespaceMatch(const T_ & x, const string & ref){
 
 
 // TESTS ---------------------------------------------------------------------------------------------------------------
-
+/*
 TEST_CASE("TEST LEVEL 1", "[PREDEFINED]"){
 
     CDataTypeStruct a = CDataTypeStruct().
@@ -262,7 +262,7 @@ TEST_CASE("TEST LEVEL 1", "[PREDEFINED]"){
     }
 
 }
-
+*/
 TEST_CASE("TEST LEVEL 2", "[PREDEFINED]"){
 
 
