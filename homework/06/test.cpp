@@ -84,6 +84,13 @@ public:
     [[nodiscard]] virtual string printBody(int offset, int pointers) const;
 
     /**
+     * Method returning proper formatted output for array type. VIRTUAL
+     * @param text Text from higher array.
+     * @return String of printed output.
+     */
+    [[nodiscard]] virtual string printArray(string text, int offset) const;
+
+    /**
      * Method cloning type. VIRTUAL
      * @return Pointer to new copy.
      */
@@ -139,6 +146,10 @@ bool CDataType::operator !=(const CDataType & rhs) const{
 string CDataType::printBody(int offset, int pointers) const{
     string text;
     return text.append(offset, ' ').append(pointers, '*').append("");
+}
+
+string CDataType::printArray(string text, [[maybe_unused]] int offset) const{
+    return text.append("");
 }
 
 ostream & operator <<(ostream & os, const CDataType & an_int){
@@ -594,6 +605,13 @@ public:
     [[nodiscard]] string printBody(int offset, int pointers) const override;
 
     /**
+     * Method returning proper formatted output for array type. VIRTUAL
+     * @param text Text from higher array.
+     * @return String of printed output.
+     */
+    [[nodiscard]] string printArray(string text, int offset) const override;
+
+    /**
      * Method cloning type. VIRTUAL
      * @return Pointer to new copy.
      */
@@ -644,11 +662,35 @@ bool CDataTypeArray::operator !=(const CDataType & rhs) const{
     return !(*this == rhs);
 }
 
-//TODO spravny vypis array
 string CDataTypeArray::printBody(int offset, int pointers) const{
     string text;
-    text.append(offset, ' ').append(m_element->printBody(0, 0));
+
+    //pointers {(*)}
+    if (pointers > 0){
+        text.append("(").append(pointers, '*').append(")");
+    }
+    //size {[20]}
     text.append("[" + to_string(array_size)).append("]");
+
+    if (element().getType() == CDataTypeValue::ARRAY){
+        text = element().printArray(text, offset);
+    } else{
+        string tmp;
+        tmp.append(offset, ' ').append(element().printBody(0, 0)).append(text);
+        text = tmp;
+    }
+    return text;
+}
+
+string CDataTypeArray::printArray(string text, int offset) const{
+    if (element().getType() == CDataTypeValue::ARRAY){
+        text.append("[" + to_string(array_size)).append("]");
+        text = element().printArray(text, offset);
+    } else{
+        string tmp;
+        tmp.append(offset, ' ').append(element().printBody(offset, 0)).append(text);
+        text = tmp.append("[" + to_string(array_size)).append("]");
+    }
 
     return text;
 }
