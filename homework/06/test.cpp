@@ -88,6 +88,12 @@ public:
      * @return reference to output stream for chaining.
      */
     friend ostream & operator <<(ostream & os, const CDataType & an_int);
+
+    /**
+     * Return underlying element;
+     * @return
+     */
+    const CDataType & element() const;
 };
 
 size_t CDataType::getSize() const{
@@ -116,6 +122,10 @@ string CDataType::printBody(int offset) const{
 ostream & operator <<(ostream & os, const CDataType & an_int){
     os << an_int.printBody(0);
     return os;
+}
+
+const CDataType & CDataType::element() const{
+    return nullptr;
 }
 
 /**
@@ -442,7 +452,6 @@ shared_ptr<CDataType> CDataTypeStruct::clone() const{
         clonedType->addField(item.first, *(item.second));
     }
 
-
     return clonedType;
 }
 
@@ -484,4 +493,107 @@ const CDataType & CDataTypeStruct::field(const string & name) const{
         throw invalid_argument("Unknown field: " + name);
 
     return *(element->second);
+}
+
+/**
+ * Class for ARRAY type
+ */
+class CDataTypeArray : public CDataType{
+    shared_ptr<CDataType> array_type;
+    size_t array_size;
+public:
+    CDataTypeArray(size_t size, const CDataType & type)
+            : CDataType("array", size * type.getSize()), array_size{size}, array_type{type.clone()}{}
+
+    /**
+     * Copy and move constructor and operator = with copy-swap approach. Ensuring deep copy.
+     * @param source
+     */
+    CDataTypeArray(const CDataTypeArray & source);
+    CDataTypeArray(CDataTypeArray && source) noexcept;
+    CDataTypeArray & operator =(CDataTypeArray source);
+
+    /**
+     * Comparision operator. Comparing same type, same included types with same order. Names are not relevant. VIRTUAL
+     * @param rhs Data type comparing with object type.
+     * @return True if same. False if not.
+     */
+    bool operator ==(const CDataType & rhs) const override;
+
+    /**
+     * Comparision operator. Comparing same type, same included types with same order. Names are not relevant. VIRTUAL
+     * @param rhs Data type comparing with object type.
+     * @return True if different. True if same.
+     */
+    bool operator !=(const CDataType & rhs) const override;
+
+    /**
+     * Method returning proper formatted output of this type. VIRTUAL
+     * @param offset Number of spaces from line start. For this type defined in parent printing.
+     * @return String of printed output.
+     */
+    [[nodiscard]] string printBody(int offset) const override;
+
+    /**
+     * Method cloning type. VIRTUAL
+     * @return Pointer to new copy.
+     */
+    [[nodiscard]] shared_ptr<CDataType> clone() const override;
+
+    const CDataType & element() const;
+
+};
+
+CDataTypeArray::CDataTypeArray(const CDataTypeArray & source){
+    m_type = source.m_type;
+    m_size = source.m_size;
+    array_size = source.array_size;
+    array_type = {source.array_type->clone()};
+}
+
+CDataTypeArray::CDataTypeArray(CDataTypeArray && source) noexcept{
+    m_type = source.m_type;
+    m_size = source.m_size;
+    array_size = source.array_size;
+    swap(array_type, source.array_type);
+}
+
+CDataTypeArray & CDataTypeArray::operator =(CDataTypeArray source){
+    m_type = source.m_type;
+    m_size = source.m_size;
+    array_size = source.array_size;
+    swap(array_type, source.array_type);
+    return *this;
+}
+
+bool CDataTypeArray::operator ==(const CDataType & rhs) const{
+    if (this->m_type != rhs.getType())
+        return false;
+
+    const auto & compared = dynamic_cast<const CDataTypeArray &>(rhs);
+    if (array_size != compared.array_size || array_type != compared.array_type)
+        return false;
+
+    return true;
+}
+
+bool CDataTypeArray::operator !=(const CDataType & rhs) const{
+    return !(*this == rhs);
+}
+
+string CDataTypeArray::printBody(int offset) const{
+    string text;
+    text.append(offset, ' ').append(array_type->printBody(0));
+    text.append("[" + array_size).append("]");
+
+    return text;
+}
+
+shared_ptr<CDataType> CDataTypeArray::clone() const{
+    shared_ptr<CDataTypeArray> clonedType(new CDataTypeArray(array_size, *(array_type)));
+    return clonedType;
+}
+
+const CDataType & CDataTypeArray::element() const{
+    return *(array_type);
 }
