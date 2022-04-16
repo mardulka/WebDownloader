@@ -81,7 +81,7 @@ public:
      * @param offset Number of spaces from line start. For this type defined in parent printing.
      * @return String of printed output.
      */
-    [[nodiscard]] virtual string printBody(int offset) const;
+    [[nodiscard]] virtual string printBody(int offset, int pointers) const;
 
     /**
      * Method cloning type. VIRTUAL
@@ -136,13 +136,13 @@ bool CDataType::operator !=(const CDataType & rhs) const{
     return !(*this == rhs);
 }
 
-string CDataType::printBody(int offset) const{
+string CDataType::printBody(int offset, int pointers) const{
     string text;
-    return text.append(offset, ' ').append("");
+    return text.append(offset, ' ').append(pointers, '*').append("");
 }
 
 ostream & operator <<(ostream & os, const CDataType & an_int){
-    os << an_int.printBody(0);
+    os << an_int.printBody(0, 0);
     return os;
 }
 
@@ -181,16 +181,16 @@ public:
      * @param offset Number of spaces from line start. For this type defined in parent printing.
      * @return String of printed output.
      */
-    [[nodiscard]] string printBody(int offset) const override;
+    [[nodiscard]] string printBody(int offset, int pointers) const override;
 };
 
 shared_ptr<CDataType> CDataTypeInt::clone() const{
     return shared_ptr<CDataType>(new CDataTypeInt());
 }
 
-string CDataTypeInt::printBody(int offset) const{
+string CDataTypeInt::printBody(int offset, int pointers) const{
     string text;
-    return text.append(offset, ' ').append("int");
+    return text.append(offset, ' ').append("int").append(pointers, '*');
 }
 
 /**
@@ -214,16 +214,16 @@ public:
      * @param offset Number of spaces from line start. For this type defined in parent printing.
      * @return String of printed output.
      */
-    [[nodiscard]] string printBody(int offset) const override;
+    [[nodiscard]] string printBody(int offset, int pointers) const override;
 };
 
 shared_ptr<CDataType> CDataTypeDouble::clone() const{
     return shared_ptr<CDataType>(new CDataTypeDouble());
 }
 
-string CDataTypeDouble::printBody(int offset) const{
+string CDataTypeDouble::printBody(int offset, int pointers) const{
     string text;
-    return text.append(offset, ' ').append("double");
+    return text.append(offset, ' ').append("double").append(pointers, '*');
 }
 
 /**
@@ -264,7 +264,7 @@ public:
      * @param offset Number of spaces from line start. For this type defined in parent printing.
      * @return String of printed output.
      */
-    [[nodiscard]] string printBody(int offset) const override;
+    [[nodiscard]] string printBody(int offset, int pointers) const override;
 
     /**
      * Method cloning type. VIRTUAL
@@ -327,7 +327,7 @@ bool CDataTypeEnum::operator !=(const CDataType & rhs) const{
     return !(*this == rhs);
 }
 
-string CDataTypeEnum::printBody(int offset) const{
+string CDataTypeEnum::printBody(int offset, int pointers) const{
     string text;
     text.append(offset, ' ').append("enum\n");
     text.append(offset, ' ').append("{\n");
@@ -338,7 +338,7 @@ string CDataTypeEnum::printBody(int offset) const{
         else
             text.append(",\n");
     }
-    text.append(offset, ' ').append("}");
+    text.append(offset, ' ').append("}").append(pointers, '*');
     return text;
 }
 
@@ -408,7 +408,7 @@ public:
      * @param offset Number of spaces from line start. For this type defined in parent printing.
      * @return String of printed output.
      */
-    [[nodiscard]] string printBody(int offset) const override;
+    [[nodiscard]] string printBody(int offset, int pointers) const override;
 
     /**
      * Method cloning type. VIRTUAL
@@ -491,14 +491,14 @@ bool CDataTypeStruct::operator !=(const CDataType & rhs) const{
     return !(*this == rhs);
 }
 
-string CDataTypeStruct::printBody(int offset) const{
+string CDataTypeStruct::printBody(int offset, int pointers) const{
     string text;
     text.append(offset, ' ').append("struct\n");
     text.append(offset, ' ').append("{\n");
     for (const auto & item: fields){
-        text.append(item.second->printBody(offset + 2)).append(" ").append(item.first).append(";\n");
+        text.append(item.second->printBody(offset + 2, 0)).append(" ").append(item.first).append(";\n");
     }
-    text.append(offset, ' ').append("}");
+    text.append(offset, ' ').append("}").append(pointers, '*');
     return text;
 }
 
@@ -589,7 +589,7 @@ public:
      * @param offset Number of spaces from line start. For this type defined in parent printing.
      * @return String of printed output.
      */
-    [[nodiscard]] string printBody(int offset) const override;
+    [[nodiscard]] string printBody(int offset, int pointers) const override;
 
     /**
      * Method cloning type. VIRTUAL
@@ -597,6 +597,10 @@ public:
      */
     [[nodiscard]] shared_ptr<CDataType> clone() const override;
 
+    /**
+     * Method returning referenced element type. VIRTUAL
+     * @return const reference to underlying element.
+     */
     [[nodiscard]] const CDataType & element() const override;
 
 };
@@ -638,9 +642,10 @@ bool CDataTypeArray::operator !=(const CDataType & rhs) const{
     return !(*this == rhs);
 }
 
-string CDataTypeArray::printBody(int offset) const{
+//TODO spravny vypis array
+string CDataTypeArray::printBody(int offset, int pointers) const{
     string text;
-    text.append(offset, ' ').append(m_element->printBody(0));
+    text.append(offset, ' ').append(m_element->printBody(0, 0));
     text.append("[" + to_string(array_size)).append("]");
 
     return text;
@@ -652,5 +657,108 @@ shared_ptr<CDataType> CDataTypeArray::clone() const{
 }
 
 const CDataType & CDataTypeArray::element() const{
+    return *(m_element);
+}
+
+/**
+ * Class for POINTER type
+ */
+class CDataTypePtr : public CDataType{
+
+public:
+    CDataTypePtr(const CDataType & type) : CDataType(CDataTypeValue::POINTER, 8){
+        m_element = type.clone();
+    }
+
+    /**
+     * Copy and move constructor and operator = with copy-swap approach. Ensuring deep copy.
+     * @param source
+     */
+    CDataTypePtr(const CDataTypePtr & source);
+    CDataTypePtr(CDataTypePtr && source) noexcept;
+    CDataTypePtr & operator =(CDataTypePtr source);
+
+    /**
+     * Comparision operator. Comparing same type, same included types with same order. Names are not relevant. VIRTUAL
+     * @param rhs Data type comparing with object type.
+     * @return True if same. False if not.
+     */
+    bool operator ==(const CDataType & rhs) const override;
+
+    /**
+     * Comparision operator. Comparing same type, same included types with same order. Names are not relevant. VIRTUAL
+     * @param rhs Data type comparing with object type.
+     * @return True if different. True if same.
+     */
+    bool operator !=(const CDataType & rhs) const override;
+
+    /**
+     * Method returning proper formatted output of this type. VIRTUAL
+     * @param offset Number of spaces from line start. For this type defined in parent printing.
+     * @return String of printed output.
+     */
+    [[nodiscard]] string printBody(int offset, int ptrs) const override;
+
+    /**
+     * Method cloning type. VIRTUAL
+     * @return Pointer to new copy.
+     */
+    [[nodiscard]] shared_ptr<CDataType> clone() const override;
+
+    /**
+     * Method returning referenced element type. VIRTUAL
+     * @return const reference to underlying element.
+     */
+    [[nodiscard]] const CDataType & element() const override;
+
+};
+
+CDataTypePtr::CDataTypePtr(const CDataTypePtr & source) : CDataType(source){
+    m_type = source.m_type;
+    m_size = source.m_size;
+    m_element = {source.m_element->clone()};
+}
+
+CDataTypePtr::CDataTypePtr(CDataTypePtr && source) noexcept{
+    m_type = source.m_type;
+    m_size = source.m_size;
+    swap(m_element, source.m_element);
+}
+
+CDataTypePtr & CDataTypePtr::operator =(CDataTypePtr source){
+    m_type = source.m_type;
+    m_size = source.m_size;
+    swap(m_element, source.m_element);
+    return *this;
+}
+
+bool CDataTypePtr::operator ==(const CDataType & rhs) const{
+    if (this->m_type != rhs.getType())
+        return false;
+
+    const auto & compared = dynamic_cast<const CDataTypePtr &>(rhs);
+    if (m_element != compared.m_element)
+        return false;
+
+    return true;
+}
+
+bool CDataTypePtr::operator !=(const CDataType & rhs) const{
+    return !(*this == rhs);
+}
+
+string CDataTypePtr::printBody(int offset, int ptrs) const{
+    string text;
+    text.append(offset, ' ').append(m_element->printBody(0, ptrs + 1));
+
+    return text;
+}
+
+shared_ptr<CDataType> CDataTypePtr::clone() const{
+    shared_ptr<CDataTypePtr> clonedType(new CDataTypePtr(*(m_element)));
+    return clonedType;
+}
+
+const CDataType & CDataTypePtr::element() const{
     return *(m_element);
 }
