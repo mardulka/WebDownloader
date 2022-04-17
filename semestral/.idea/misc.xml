@@ -6,6 +6,7 @@
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/build" />
+      <file path="$PROJECT_DIR$/doc" />
       <file path="$PROJECT_DIR$/insp" />
     </excludeRoots>
   </component>

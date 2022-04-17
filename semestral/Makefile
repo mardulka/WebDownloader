@@ -20,4 +20,11 @@ $(BDIR)/%.o: */%.cpp
 clean:
 	rm -f $(BDIR)/Makefile.d $(BDIR)/*.o $(BDIR)/webdownloader
 
+doc:
+	doxygen Doxyfile
+
+cleandoc:
+	rm -rf ./doc/*
+
+
 -include $(BDIR)/Makefile.d

@@ -16,11 +16,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - CLI improvements">
-      <change afterPath="$PROJECT_DIR$/prohlaseni.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/CFileType.h" afterDir="false" />
+    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - prohlaseni.txt created, Doxygen prepared.">
+      <change afterPath="$PROJECT_DIR$/Doxyfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/zadani.txt" beforeDir="false" afterPath="$PROJECT_DIR$/zadani.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -235,7 +236,7 @@
       <workItem from="1650148544967" duration="797000" />
       <workItem from="1650189356502" duration="629000" />
       <workItem from="1650190004067" duration="122000" />
-      <workItem from="1650190138796" duration="33828000" />
+      <workItem from="1650190138796" duration="34373000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
       <created>1650191313707</created>
@@ -279,7 +280,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650226684245</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="SEM - prohlaseni.txt created, Doxygen prepared.">
+      <created>1650231313249</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1650231313249</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -306,7 +314,8 @@
     <MESSAGE value="SEM - Reading CLI options done. Makefile corrections." />
     <MESSAGE value="SEM - Settings class added." />
     <MESSAGE value="SEM - CLI improvements" />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - CLI improvements" />
+    <MESSAGE value="SEM - prohlaseni.txt created, Doxygen prepared." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - prohlaseni.txt created, Doxygen prepared." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
