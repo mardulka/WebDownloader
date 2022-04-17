@@ -1,0 +1,145 @@
+# Aplikace
+
+Název:      Web Downloader
+
+Popis:      Aplikace umožňuje stahovat internetové stránky včetně stránek na které se odkazuje. Odkazované stránky
+            se stahují pouze ze stejné domény, volitelně lze omezit počet úrovní odkazů.
+            Se stránkami se defaultně stahují i CSS soubory, obrázky a JS soubory se kvůli velikosti souborů nestahují
+            a link zůstává na původní online soubory. Stahování těchto souborů lze nastavit přepínači.
+            Odkazy, které vedou mimo doménu nebo by překročily nastavený limit úrovní v základu vedou také na původní
+            online stránky. Také zde je možné toto chování upravit přepínačem, který takové odkazy nahradí odkazem
+            na vytvořenou chybovou stránku.
+            Soubory jsou ukládány do definované struktury na disku do složky kde je program zavolán. Cílovou složku lze
+            změnit pomocí přepínače.
+
+Rozhraní:   Aplikaci lze volat pouze z CLI s níže popsaným přehledem příkazů. Alplikace je kompilovaná jak pro použití
+            na architektuře x86-64 pro Windows a Debian Linux.
+
+CLI volání: webdownloader <URL> [-l levels_no] [-p] [-j] [-e] [-d target_folder]
+            --------------------------------------------------------------------
+            -l  Definuje maximální počet úrovní pro které se provede stažení stránky. Počet úrovní se počítá vždy
+                od definovaného počátku, který má úroveň 0.
+            -p  Povoluje stahování obrázků.
+            -j  Povoluje stahování Javascript souborů.
+            -e  Nastavuje nahrazování odkazů mimo doménu nebo limit úrovní na chybovou stránku.
+            -d  Nastavuje cílovou složku pro stahování.
+
+Struktura:  Pojmenováni je převzato z URL na doméně, kde jsou '/' nahrazeny '_'. Pro příklad stažení (startovní stránky i odkazů)
+            <https://courses.fit.cvut.cz/BI-PA2/index.html> bude stránka uložena jako <BI-PA2_index.html>.
+            Soubory jsou ukládány do následující adresářové struktury:
+            ---------------------------------------------------------
+            /<target>
+            |- <SourceURL>.html
+            |--/subpages
+            | |- <URLpage1>.html
+            | |- <URLpage2>.html
+            | \- <URLpage3>.html
+            |--/css
+            | |- <URLcss1>.html
+            | |- <URLcss2>.html
+            | \- <URLcss3>.html
+            |--/pictures
+            | |- <URLpicture1>.html
+            | |- <URLpicture2>.html
+            | \- <URLpicture3>.html
+            \--/js
+              |- <URLjs1>.html
+              |- <URLjs2>.html
+              \- <URLjs3>.html
+
+************************************************************************************************************************
+# Popis polymorfismu
+
+Polymorfizmus je využit pro ukládání souborů, konkrétně návrhový vzor Builder. Abstraktní společný předek implementuje
+spojení s webem a řízení stahování skze spojovací třídu CConnection a dále obecnou funkci pro ukládání. Konkrétní třídy
+odvozené pak určují do které podložky se má soubor umístit.
+
+/CFile (abstract)
+|-CFileHtml
+|-CFileCss
+|-CFileJS
+\-CFilePicture
+
++-----------------------+
+|         CFile         |
++-----------------------+
+| -fileURL:URL          |
+| -target:FileSystem    |
++-----------------------+
+| +CFile(URL)           |
+| +getURL(): URL        |
+| +download(): void     |
+| +fileName(): string   |
++-----------------------+
+
++-----------------------+
+|       CFileHtml       |
++-----------------------+
+|                       |
++-----------------------+
+| +CFileHtml(FileSystem)|
+| +getURL(): URL        |
+| +download(): void     |
+| +fileName(): string   |
++-----------------------+
+
++-----------------------+
+|       CFileCss        |
++-----------------------+
+|                       |
++-----------------------+
+| +CFileCss(FileSystem) |
+| +getURL(): URL        |
+| +download(): void     |
+| +fileName(): string   |
++-----------------------+
+
++-----------------------+
+|        CFileJs        |
++-----------------------+
+|                       |
++-----------------------+
+| +CFileJs(FileSystem)  |
+| +getURL(): URL        |
+| +download(): void     |
+| +fileName(): string   |
++-----------------------+
+
++---------------------------+
+|       CFilePicture        |
++---------------------------+
+|                           |
++---------------------------+
+| +CFilePicture(FileSystem) |
+| +getURL(): URL            |
+| +download(): void         |
+| +fileName(): string       |
++---------------------------+
+
+
+************************************************************************************************************************
+# Originální zadání z Progtestu
+
+Jednoduchý downloader
+
+Napište program podobný nástroji wget --mirror, který na příkazové řádce z URL (HTTP) vytvoří lokální kopii. Musí podporovat:
+
+1.  převedení všech URL tak, aby odkazovaly na správné soubory na disku
+2.  prochází stránky rekurzivně (bez opakovaného stahování)
+3.  umožňuje omezit hloubku rekurzivního procházení (hodnotou, omezením na podporované URL)
+
+Downloader navíc umožňuje upravovat ukládané html a to následujícími způsoby:
+
+1.  Odkazy na obrázky mohou vést na původní url, nebo na obrázek uložený na disku
+2.  Odkazy na stránku, která má větší hloubku, mohou vést buď na původní URL, nebo na stránku na disku, která uživateli oznámí,
+    že stránka neexistuje.
+
+Volitelně: Vícevláknové stahování, podpora HTTPS
+
+Kde lze využít polymorfismus? (doporučené)
+
+*   Zpracování souborů: HTML stránka (potřebuje určité úpravy), obrázek (prostě se stáhne), CSS (úpravy nepotřebuje, ale mohou tam být obrázky), ...
+*   Úprava HTML tagů: upravení tagů s obrázky, opravení odkazů, ...
+*   Styl procházení: BFS, DFS, HTML pages first (přednost HTML stránky před obrázky), ...
+
+************************************************************************************************************************

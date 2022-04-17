@@ -6,12 +6,12 @@ SDIR=src
 CXXFLAGS=-std=c++17 -Wall -pedantic -O2
 SHELL:=/bin/bash
 
-all: downloader
+all: webdownloader
 
 deps:
 	$(CXX) -MM $(SDIR)/*.cpp > $(BDIR)/Makefile.d
 
-downloader: CDownloader.o
+webdownloader: CDownloader.o
 	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $(BDIR)/$^
 
 %.o: $(SDIR)/%.cpp
