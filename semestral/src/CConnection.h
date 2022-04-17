@@ -1,0 +1,10 @@
+#ifndef SEMESTRAL_CCONNECTION_H
+#define SEMESTRAL_CCONNECTION_H
+
+
+class CConnection{
+
+};
+
+
+#endif //SEMESTRAL_CCONNECTION_H

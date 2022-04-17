@@ -1,22 +1,23 @@
 CXX=g++
 LD=g++
 AR=ar
-DIR=build
+BDIR=build
+SDIR=src
 CXXFLAGS=-std=c++17 -Wall -pedantic -O2
 SHELL:=/bin/bash
 
 all: downloader
 
 deps:
-	$(CXX) -MM *.cpp > $(DIR)/Makefile.d
+	$(CXX) -MM $(SDIR)/*.cpp > $(BDIR)/Makefile.d
 
 downloader: CDownloader.o
-	$(CXX) $(CXXFLAGS) -o $@ $(DIR)/$^
+	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $(BDIR)/$^
 
-%.o: %.cpp
-	$(CXX) $(CXXFLAGS) -c -o $(DIR)/$@ $<
+%.o: $(SDIR)/%.cpp
+	$(CXX) $(CXXFLAGS) -c -o $(BDIR)/$@ $<
 
 clean:
-	rm -f $(DIR)/Makefile.d $(DIR)/*.o $(DIR)/downloader
+	rm -f $(BDIR)/Makefile.d $(BDIR)/*.o $(BDIR)/downloader
 
--include $(DIR)/Makefile.d
+-include $(BDIR)/Makefile.d

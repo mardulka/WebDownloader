@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated>
-      <config projectName="semestral" targetName="downloader" />
-      <config projectName="semestral" targetName="deps" />
-      <config projectName="semestral" targetName="all" />
-    </generated>
+    <generated />
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -17,22 +13,33 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CConnection.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CDownloadCss.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CDownloadFile.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CDownloadHtml.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CDownloadPicture.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CDownloader.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CDownloader.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/CReadCommands.h" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/insp/Example_project_cpp.zip" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitkeep" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CCli.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CCli.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CConnection.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CDownloader.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CFile.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CFile.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CFileCss.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CFileCss.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CFileHtml.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CFileHtml.h" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CFilePicture.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/CFilePicture.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/CConnection.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CDownloadCss.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CDownloadFile.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CDownloadHtml.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CDownloadPicture.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CDownloader.cpp" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CDownloader.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/CReadCommands.h" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -101,9 +108,14 @@
     &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
     &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;MakefileSettings&quot;
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   }
 }</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Programming\CVUT\PA2\semestral\src" />
+    </key>
+  </component>
   <component name="RunManager" selected="Makefile Target.clean">
     <configuration default="true" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
       <texify-bibtex>
@@ -119,21 +131,6 @@
     <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="all" CONFIG_NAME="all" version="1">
-      <method v="2">
-        <option name="CLION.COMPOUND.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="deps" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="deps" CONFIG_NAME="deps" version="1">
-      <method v="2">
-        <option name="CLION.COMPOUND.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="downloader" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="downloader" CONFIG_NAME="downloader" version="1">
-      <method v="2">
-        <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="EXTERNAL_TOOL_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
@@ -204,9 +201,6 @@
       <method v="2" />
     </configuration>
     <list>
-      <item itemvalue="Makefile Application.all" />
-      <item itemvalue="Makefile Application.deps" />
-      <item itemvalue="Makefile Application.downloader" />
       <item itemvalue="Makefile Target.clean" />
       <item itemvalue="Makefile Target.downloader" />
       <item itemvalue="Makefile Target.deps" />
@@ -234,10 +228,28 @@
       <workItem from="1650098285341" duration="2536000" />
       <workItem from="1650101103684" duration="532000" />
       <workItem from="1650113607347" duration="2383000" />
+      <workItem from="1650148544967" duration="797000" />
+      <workItem from="1650189356502" duration="629000" />
+      <workItem from="1650190004067" duration="122000" />
+      <workItem from="1650190138796" duration="1004000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="com.intellij.fileTypeFactory" implementationName="*.d" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
 </project>
