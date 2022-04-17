@@ -1,35 +1,72 @@
 #include "CCli.h"
 
+using namespace std;
+
 void CCli::readSettings(int argc, char ** argv){
     if (argc < 2){
-        write("No parameters given. Please specify required parameters.");
         printHelp();
-        throw new std::invalid_argument("No parameters given.");
+        throw invalid_argument("No parameters given. Please specify required parameters!");
     }
+
+    for (auto i = 1 ; i < argc ; ++i){
+        string arg = argv[i];
+
+        if (argv[i][0] == '-'){
+            if (arg == "-h"){
+                printHelp();
+                throw invalid_argument("Help page requested.");
+            } else if (arg == "-p"){
+                pictures = true;
+            } else if (arg == "-j"){
+                scripts = true;
+            } else if (arg == "-e"){
+                errorPage = true;
+            } else if (arg == "-l"){
+                if (i+1 == argc) throw invalid_argument("No levels number provided!");
+                try{
+                    levels = stoul(argv[++i]);
+                } catch(...) {
+                    throw invalid_argument("No levels number provided or given level number is too big!");
+                }
+            } else if (arg == "-d"){
+                if (i+1 == argc) throw invalid_argument("No directory provided!");
+                targetFolder = argv[++i];
+            } else{
+                throw invalid_argument("Unknown parameter given.");
+            }
+        } else{
+            if (!url.empty())
+                throw invalid_argument("Ambiguous URL defined.");
+            url = arg;
+        }
+    }
+
 }
 
-void CCli::write(std::string text){
-    std::cout << text << std::endl;
+void CCli::write(string text){
+    cout << text << endl;
 }
 
 void CCli::printHelp(){
 
-    std::string level1, level2;
+    string level1, level2;
     level1.append(2, ' ');
     level2.append(4, ' ');
 
-    int optionsNameWidth = 7;
+    int optionsNameWidth = 15;
 
-    std::cout << "Usage: webdownloader [OPTIONS] URL [URL...]" << std::endl;
-    std::cout << std::endl;
-    std::cout << "Options:" << std::endl;
-    std::cout << level1 << "General Options:" << std::endl;
-    std::cout << level2 << std::setw(optionsNameWidth) << std::left <<  "-h" << "Shows help for application CLI commands" << std::endl;
-    std::cout << level2 << std::setw(optionsNameWidth) << std::left <<  "-p" << "Allows pictures download" << std::endl;
-    std::cout << level2 << std::setw(optionsNameWidth) << std::left <<  "-j" << "Allows scripts download" << std::endl;
-    std::cout << level2 << std::setw(optionsNameWidth) << std::left <<  "-e" << "Link beyond limit shows error page" << std::endl;
-    std::cout << level1 << "Additional setting:" << std::endl;
-    std::cout << level2 << std::setw(optionsNameWidth) << std::left <<  "-l NUMBER" << "Defines maximal link level for sites downloading." << std::endl;
-    std::cout << level2 << std::setw(optionsNameWidth) << std::left <<  "-d FOLDER" << "Sets folder for website download." << std::endl;
+    cout << "Usage: webdownloader [OPTIONS] URL [URL...]" << endl;
+    cout << "WARNING: CLI calls doesn't support combined options writing, like '-pje' !" << endl;
+    cout << endl;
+    cout << "Options:" << endl;
+    cout << level1 << "General Options:" << endl;
+    cout << level2 << left << setw(optionsNameWidth) << "-h" << "Shows help for application CLI commands" << endl;
+    cout << level2 << left << setw(optionsNameWidth) << "-p" << "Allows pictures download" << endl;
+    cout << level2 << left << setw(optionsNameWidth) << "-j" << "Allows scripts download" << endl;
+    cout << level2 << left << setw(optionsNameWidth) << "-e" << "Link beyond limit shows error page" << endl;
+    cout << level1 << "Additional setting:" << endl;
+    cout << level2 << left << setw(optionsNameWidth) << "-l NUMBER"
+         << "Defines maximal link level for sites downloading." << endl;
+    cout << level2 << left << setw(optionsNameWidth) << "-d FOLDER" << "Sets folder for website download." << endl;
 }
 

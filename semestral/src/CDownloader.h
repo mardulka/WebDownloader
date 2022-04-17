@@ -2,6 +2,7 @@
 #define SEMESTRAL_CDOWNLOADER_H
 
 #include "CCli.h"
+#include "CConnection.h"
 
 int main(int argc, char ** argv);
 

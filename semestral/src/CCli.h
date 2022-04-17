@@ -8,6 +8,14 @@
 
 class CCli{
 
+    bool pictures = false;
+    bool scripts = false;
+    bool errorPage = false;
+    unsigned int levels = 0;
+    std::string targetFolder;
+    std::string url;
+
+
 public:
     /**
      * Method reads given parameters and parse them into application settings.

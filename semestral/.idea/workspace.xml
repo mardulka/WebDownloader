@@ -12,7 +12,7 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Created first version of zadani.txt">
+    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Added first methods in CCli class.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CCli.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.cpp" afterDir="false" />
@@ -91,7 +91,7 @@
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
     "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "proofread"
+    "settings.editor.selected.configurable": "preferences.sourceCode.C/C++"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -214,7 +214,7 @@
       <workItem from="1650148544967" duration="797000" />
       <workItem from="1650189356502" duration="629000" />
       <workItem from="1650190004067" duration="122000" />
-      <workItem from="1650190138796" duration="13284000" />
+      <workItem from="1650190138796" duration="25956000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
       <created>1650191313707</created>
@@ -230,7 +230,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650197925275</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="SEM - Added first methods in CCli class.">
+      <created>1650204050808</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1650204050808</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -253,6 +260,11 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing." />
     <MESSAGE value="SEM - Created first version of zadani.txt" />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Created first version of zadani.txt" />
+    <MESSAGE value="SEM - Added first methods in CCli class." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Added first methods in CCli class." />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>
