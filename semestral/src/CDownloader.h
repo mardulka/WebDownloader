@@ -1,7 +1,7 @@
 #ifndef SEMESTRAL_CDOWNLOADER_H
 #define SEMESTRAL_CDOWNLOADER_H
 
-#include <iostream>
+#include "CCli.h"
 
 int main(int argc, char ** argv);
 

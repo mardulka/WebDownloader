@@ -12,10 +12,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
-      <change afterPath="$PROJECT_DIR$/zadani.txt" afterDir="false" />
+    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Created first version of zadani.txt">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CCli.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CCli.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CDownloader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CDownloader.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -211,7 +214,7 @@
       <workItem from="1650148544967" duration="797000" />
       <workItem from="1650189356502" duration="629000" />
       <workItem from="1650190004067" duration="122000" />
-      <workItem from="1650190138796" duration="7326000" />
+      <workItem from="1650190138796" duration="13284000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
       <created>1650191313707</created>
@@ -220,7 +223,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650191313707</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="SEM - Created first version of zadani.txt">
+      <created>1650197925275</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1650197925275</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -242,6 +252,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing." />
+    <MESSAGE value="SEM - Created first version of zadani.txt" />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Created first version of zadani.txt" />
   </component>
 </project>
