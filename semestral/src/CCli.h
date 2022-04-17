@@ -5,18 +5,16 @@
 #include <iomanip>
 #include <exception>
 #include <string>
+#include "CSettings.h"
 
 class CCli{
 
-    bool pictures = false;
-    bool scripts = false;
-    bool errorPage = false;
-    unsigned int levels = 0;
-    std::string targetFolder;
-    std::string url;
-
+    CSettings & settings;
 
 public:
+
+    explicit CCli(CSettings & settings);
+
     /**
      * Method reads given parameters and parse them into application settings.
      * @param argc number of parameters
@@ -29,6 +27,10 @@ public:
      */
     void printHelp();
 
+    /**
+     * Method for printing simple text line to CLI
+     * @param text
+     */
     void write(std::string text);
 };
 

@@ -2,6 +2,8 @@
 
 using namespace std;
 
+CCli::CCli(CSettings & settings) : settings(settings){}
+
 void CCli::readSettings(int argc, char ** argv){
     if (argc < 2){
         printHelp();
@@ -16,28 +18,28 @@ void CCli::readSettings(int argc, char ** argv){
                 printHelp();
                 throw invalid_argument("Help page requested.");
             } else if (arg == "-p"){
-                pictures = true;
+                settings.pictures = true;
             } else if (arg == "-j"){
-                scripts = true;
+                settings.scripts = true;
             } else if (arg == "-e"){
-                errorPage = true;
+                settings.errorPage = true;
             } else if (arg == "-l"){
-                if (i+1 == argc) throw invalid_argument("No levels number provided!");
+                if (i + 1 == argc) throw invalid_argument("No levels number provided!");
                 try{
-                    levels = stoul(argv[++i]);
-                } catch(...) {
+                    settings.levels = stoul(argv[++i]);
+                } catch (...){
                     throw invalid_argument("No levels number provided or given level number is too big!");
                 }
             } else if (arg == "-d"){
-                if (i+1 == argc) throw invalid_argument("No directory provided!");
-                targetFolder = argv[++i];
+                if (i + 1 == argc) throw invalid_argument("No directory provided!");
+                settings.targetFolder = argv[++i];
             } else{
                 throw invalid_argument("Unknown parameter given.");
             }
         } else{
-            if (!url.empty())
+            if (!settings.url.empty())
                 throw invalid_argument("Ambiguous URL defined.");
-            url = arg;
+            settings.url = arg;
         }
     }
 

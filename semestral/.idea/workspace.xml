@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="CMakeRunConfigurationManager">
-    <generated />
+    <generated>
+      <config projectName="semestral" targetName="deps" />
+      <config projectName="semestral" targetName="all" />
+      <config projectName="semestral" targetName="webdownloader" />
+    </generated>
   </component>
   <component name="CMakeSettings">
     <configurations>
@@ -12,13 +16,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Added first methods in CCli class.">
+    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Reading CLI options done. Makefile corrections.">
+      <change afterPath="$PROJECT_DIR$/src/CSettings.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CCli.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CCli.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CDownloader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDownloader.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -116,6 +120,21 @@
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
+    <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="all" CONFIG_NAME="all" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="deps" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="deps" CONFIG_NAME="deps" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="webdownloader" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="webdownloader" CONFIG_NAME="webdownloader" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
     <configuration default="true" type="EXTERNAL_TOOL_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
       <texify-external>
         <program>PYTHONTEX</program>
@@ -184,6 +203,9 @@
       <method v="2" />
     </configuration>
     <list>
+      <item itemvalue="Makefile Application.all" />
+      <item itemvalue="Makefile Application.deps" />
+      <item itemvalue="Makefile Application.webdownloader" />
       <item itemvalue="Makefile Target.clean" />
       <item itemvalue="Makefile Target.downloader" />
       <item itemvalue="Makefile Target.deps" />
@@ -214,7 +236,7 @@
       <workItem from="1650148544967" duration="797000" />
       <workItem from="1650189356502" duration="629000" />
       <workItem from="1650190004067" duration="122000" />
-      <workItem from="1650190138796" duration="25956000" />
+      <workItem from="1650190138796" duration="28216000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
       <created>1650191313707</created>
@@ -237,7 +259,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650204050808</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="SEM - Reading CLI options done. Makefile corrections.">
+      <created>1650222826116</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1650222826116</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -261,7 +290,8 @@
     <MESSAGE value="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing." />
     <MESSAGE value="SEM - Created first version of zadani.txt" />
     <MESSAGE value="SEM - Added first methods in CCli class." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Added first methods in CCli class." />
+    <MESSAGE value="SEM - Reading CLI options done. Makefile corrections." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Reading CLI options done. Makefile corrections." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
