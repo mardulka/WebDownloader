@@ -1,0 +1,8 @@
+#ifndef SEMESTRAL_CFILETYPE_H
+#define SEMESTRAL_CFILETYPE_H
+
+enum class CFileType{
+    HTML, CSS, JS, PICTURE
+};
+
+#endif //SEMESTRAL_CFILETYPE_H

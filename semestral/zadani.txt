@@ -1,4 +1,4 @@
-# Aplikace
+# Popis Aplikace
 
 Název:      Web Downloader
 
@@ -51,8 +51,11 @@ Struktura:  Pojmenováni je převzato z URL na doméně, kde jsou '/' nahrazeny 
 # Popis polymorfismu
 
 Polymorfizmus je využit pro ukládání souborů, konkrétně návrhový vzor Builder. Abstraktní společný předek implementuje
-spojení s webem a řízení stahování skze spojovací třídu CConnection a dále obecnou funkci pro ukládání. Konkrétní třídy
-odvozené pak určují do které podložky se má soubor umístit.
+spojení s webovou stránkou a řízení stahování skze spojovací třídu CConnection a dále obecnou funkci pro ukládání. Konkrétní třídy
+odvozené pak podle svého typu a implementace určují sprácnou složku, do které se má konkrétní soubor umístit.
+
+Použití konkrétní třídy určuje řídící třída CConnection při procházení tagů na HTML stránce. Pokud narazí na link s odpovídajícím
+otagováním, použije instanci konkrétní třídy pro zachycení tohoto linku pro pozdější zpracování.
 
 /CFile (abstract)
 |-CFileHtml
