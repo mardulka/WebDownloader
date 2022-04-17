@@ -6,8 +6,7 @@ CCli::CCli(CSettings & settings) : settings(settings){}
 
 void CCli::readSettings(int argc, char ** argv){
     if (argc < 2){
-        printHelp();
-        throw invalid_argument("No parameters given. Please specify required parameters!");
+        throw invalid_argument("No argument provided. Please use -h option to see help.");
     }
 
     for (auto i = 1 ; i < argc ; ++i){
@@ -16,7 +15,7 @@ void CCli::readSettings(int argc, char ** argv){
         if (argv[i][0] == '-'){
             if (arg == "-h"){
                 printHelp();
-                throw invalid_argument("Help page requested.");
+                throw invalid_argument("");
             } else if (arg == "-p"){
                 settings.pictures = true;
             } else if (arg == "-j"){
@@ -25,11 +24,16 @@ void CCli::readSettings(int argc, char ** argv){
                 settings.errorPage = true;
             } else if (arg == "-l"){
                 if (i + 1 == argc) throw invalid_argument("No levels number provided!");
+                int value;
                 try{
-                    settings.levels = stoul(argv[++i]);
-                } catch (...){
-                    throw invalid_argument("No levels number provided or given level number is too big!");
+                    value = stoi(argv[++i]);
+                } catch (const invalid_argument & e){
+                    throw invalid_argument("Level number has not number format!");
+                } catch (const out_of_range & e1){
+                    throw invalid_argument("Level number is too big!");
                 }
+                if (value < 0) throw invalid_argument("Levels number cannot be negative value!");
+                settings.levels = value;
             } else if (arg == "-d"){
                 if (i + 1 == argc) throw invalid_argument("No directory provided!");
                 settings.targetFolder = argv[++i];

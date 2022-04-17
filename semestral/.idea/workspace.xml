@@ -16,13 +16,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Reading CLI options done. Makefile corrections.">
-      <change afterPath="$PROJECT_DIR$/src/CSettings.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Settings class added.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CCli.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CCli.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CDownloader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CSettings.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CSettings.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -236,7 +234,7 @@
       <workItem from="1650148544967" duration="797000" />
       <workItem from="1650189356502" duration="629000" />
       <workItem from="1650190004067" duration="122000" />
-      <workItem from="1650190138796" duration="28216000" />
+      <workItem from="1650190138796" duration="29265000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
       <created>1650191313707</created>
@@ -266,7 +264,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650222826116</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="SEM - Settings class added.">
+      <created>1650225627974</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1650225627974</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -291,7 +296,8 @@
     <MESSAGE value="SEM - Created first version of zadani.txt" />
     <MESSAGE value="SEM - Added first methods in CCli class." />
     <MESSAGE value="SEM - Reading CLI options done. Makefile corrections." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Reading CLI options done. Makefile corrections." />
+    <MESSAGE value="SEM - Settings class added." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Settings class added." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
