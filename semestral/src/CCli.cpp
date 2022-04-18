@@ -99,3 +99,14 @@ void CCli::printHelp(){
     cout << level2 << left << setw(optionsNameWidth) << "-d FOLDER" << "Sets folder for website download." << endl;
 }
 
+void CCli::printSettings(){
+    cout << "Pictures download: " << boolalpha << m_settings->pictures << endl;
+    cout << "Scripts download: " << boolalpha << m_settings->scripts << endl;
+    cout << "Error-page creation: " << boolalpha << m_settings->errorPage << endl;
+    cout << "Levels: " << m_settings->levels << endl;
+    cout << "Target folder: " << m_settings->targetFolder << endl;
+    cout << "Starting URL: " << m_settings->url << endl;
+}
+
+
+

@@ -28,6 +28,11 @@ public:
     void printHelp();
 
     /**
+     * Method for printing settings. Can be used for checking.
+     */
+    void printSettings();
+
+    /**
      * Method for printing simple text line to CLI
      * @param text
      */

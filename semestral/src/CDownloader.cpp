@@ -16,6 +16,9 @@ int main(int argc, char ** argv){
         return 1;
     }
 
+    //Check
+    Cli.printSettings();
+
     //TODO validate URL in CConnection class first
 
     //TODO Enable connection with web and give control to download
