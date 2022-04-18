@@ -11,8 +11,7 @@ int main(int argc, char ** argv){
     try{
         Cli.readSettings(argc, argv);
     } catch (const invalid_argument & e){
-        string message = e.what();
-        Cli.write(message);
+        Cli.write(e.what());
         return 1;
     }
 
@@ -25,10 +24,10 @@ int main(int argc, char ** argv){
     try{
         connection.connect(settings->url);
     } catch (const invalid_argument & e){
-        string message = e.what();
+        Cli.write(e.what());
         return 3;
     } catch (const logic_error & e){
-        string message = e.what();
+        Cli.write(e.what());
         return 3;
     }
 

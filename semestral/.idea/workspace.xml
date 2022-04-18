@@ -18,10 +18,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path.">
+    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Little refactoring.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CCli.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CCli.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CDownloader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -73,6 +73,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectApplicationVersion">
     <option name="ide" value="CLion" />
     <option name="majorVersion" value="2022" />
@@ -95,6 +98,7 @@
     "cidr.known.project.marker": "true",
     "last_opened_file_path": "C:/Programming/CVUT/PA2/semestral/build",
     "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
     "settings.editor.selected.configurable": "MakefileSettings",
     "structure.view.defaults.are.configured": "true"
   }
@@ -250,7 +254,7 @@
       <workItem from="1650189356502" duration="629000" />
       <workItem from="1650190004067" duration="122000" />
       <workItem from="1650190138796" duration="35113000" />
-      <workItem from="1650263906744" duration="26586000" />
+      <workItem from="1650263906744" duration="27978000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
       <created>1650191313707</created>
@@ -336,7 +340,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650292547415</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="SEM - Little refactoring.">
+      <created>1650293702925</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1650293702925</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -369,7 +380,8 @@
     <MESSAGE value="SEM - Added method fot setting print. Required for checking input." />
     <MESSAGE value="SEM - Writen logic for connecting server.&#10;&#10;- Working.&#10;- Invalid URL must be solved." />
     <MESSAGE value="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path." />
+    <MESSAGE value="SEM - Little refactoring." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Little refactoring." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

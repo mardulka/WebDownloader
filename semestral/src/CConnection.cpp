@@ -19,12 +19,12 @@ CConnection::CConnection(){
 }
 
 void CConnection::connect(const string & hostName){
-    //Get address.
+    //Get address, check if any address has been returned, copy obtained address to server address struct.
     m_host_ptr = gethostbyname(hostName.c_str());
-    if (!m_host_ptr) throw invalid_argument("Url is not valid.");
+    if (m_host_ptr == nullptr) throw invalid_argument("Url is not valid.");
     memcpy(&m_serverAddress.sin_addr, m_host_ptr->h_addr, m_host_ptr->h_length);
 
-    //Try to connect
+    //Try to connect to server.
     if (::connect(m_socket, (struct sockaddr *) &m_serverAddress, m_sockAddrSize) < 0){
         close(m_socket);
         throw logic_error("Communication with server cannot be established!");
