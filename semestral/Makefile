@@ -15,7 +15,7 @@ webdownloader: $(BDIR)/CDownloader.o $(BDIR)/CCli.o
 	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $^
 
 $(BDIR)/%.o: */%.cpp
-	$(CXX) $(CXXFLAGS) -c -o $@ $<
+	$(CXX) $(CXXFLAGS) -g -c -o $@ $<
 
 clean:
 	rm -f $(BDIR)/Makefile.d $(BDIR)/*.o $(BDIR)/webdownloader

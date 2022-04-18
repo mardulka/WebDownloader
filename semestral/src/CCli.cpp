@@ -1,8 +1,10 @@
 #include "CCli.h"
 
+#include <utility>
+
 using namespace std;
 
-CCli::CCli(CSettings & settings) : settings(settings){}
+CCli::CCli(shared_ptr<CSettings> settings) : m_settings{std::move(settings)}{}
 
 void CCli::readSettings(int argc, char ** argv){
     if (argc < 2){
@@ -17,11 +19,11 @@ void CCli::readSettings(int argc, char ** argv){
                 printHelp();
                 throw invalid_argument("");
             } else if (arg == "-p"){
-                settings.pictures = true;
+                m_settings->pictures = true;
             } else if (arg == "-j"){
-                settings.scripts = true;
+                m_settings->scripts = true;
             } else if (arg == "-e"){
-                settings.errorPage = true;
+                m_settings->errorPage = true;
             } else if (arg == "-l"){
                 if (i + 1 == argc) throw invalid_argument("No levels number provided!");
                 int value;
@@ -33,20 +35,41 @@ void CCli::readSettings(int argc, char ** argv){
                     throw invalid_argument("Level number is too big!");
                 }
                 if (value < 0) throw invalid_argument("Levels number cannot be negative value!");
-                settings.levels = value;
+                m_settings->levels = value;
             } else if (arg == "-d"){
+                string strPath;
                 if (i + 1 == argc) throw invalid_argument("No directory provided!");
-                settings.targetFolder = argv[++i];
+                strPath = argv[++i];
+                // throws exception for directory validate, it should be left to propagate further;
+                readDirectory(strPath);
             } else{
                 throw invalid_argument("Unknown parameter given.");
             }
         } else{
-            if (!settings.url.empty())
+            if (!m_settings->url.empty())
                 throw invalid_argument("Ambiguous URL defined.");
-            settings.url = arg;
+            m_settings->url = arg;
         }
     }
 
+}
+
+void CCli::readDirectory(const string & strPath){
+    filesystem::path tmpPath;
+    try{
+        tmpPath = filesystem::path(strPath);
+    } catch (...){
+        throw invalid_argument("Provided target path in not a path!");
+    }
+
+    if (!m_settings->targetFolder.empty() && !filesystem::equivalent(m_settings->targetFolder, tmpPath))
+        throw invalid_argument("Ambiguous target path defined.");
+    if (!filesystem::exists(tmpPath))
+        throw invalid_argument("Provided path doesn't exist.");
+    if (!filesystem::is_directory(tmpPath))
+        throw invalid_argument("Provided path is not a directory");
+
+    m_settings->targetFolder.swap(tmpPath);
 }
 
 void CCli::write(string text){

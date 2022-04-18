@@ -9,11 +9,11 @@
 
 class CCli{
 
-    CSettings & settings;
+    std::shared_ptr<CSettings> m_settings;
 
 public:
 
-    explicit CCli(CSettings & settings);
+    explicit CCli(std::shared_ptr<CSettings> settings);
 
     /**
      * Method reads given parameters and parse them into application settings.
@@ -32,6 +32,12 @@ public:
      * @param text
      */
     void write(std::string text);
+
+    /**
+     * Method validate given string as system path and tore it into settings class if ok.
+     * @param strPath
+     */
+    void readDirectory(const std::string & strPath);
 };
 
 

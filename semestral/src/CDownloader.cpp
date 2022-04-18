@@ -4,7 +4,7 @@ using namespace std;
 
 int main(int argc, char ** argv){
     //Create struct holding settings together
-    CSettings settings;
+    auto settings = make_shared<CSettings>();
 
     //Read CLI information for application RUN into prepared settings struct
     CCli Cli(settings);
@@ -16,11 +16,11 @@ int main(int argc, char ** argv){
         return 1;
     }
 
-    //TODO validate URL + Folder
+    //TODO validate URL in CConnection class first
 
-    //Enable connection with web and give control to download
+    //TODO Enable connection with web and give control to download
 
 
-    //Write
+    //TODO Write result
 
 }

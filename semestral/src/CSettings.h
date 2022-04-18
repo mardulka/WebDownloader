@@ -1,39 +1,42 @@
 #ifndef SEMESTRAL_CSETTINGS_H
 #define SEMESTRAL_CSETTINGS_H
 
+#include <filesystem>
+
 /**
  * Struct for storing application settings
  */
 struct CSettings{
     /**
-     * Defines wheter pictures should be downloaded
+     * Defines whether pictures should be downloaded
      */
-    bool pictures = false;
+    bool pictures;
 
     /**
      * Defines whether scripts should be downloaded
      */
-    bool scripts = false;
+    bool scripts;
 
     /**
-     * Defines whetheer links beyond limits shoud lead to error page (other option is remain original)
+     * Defines whether links beyond limits should lead to error page (other option is remain original)
      */
-    bool errorPage = false;
+    bool errorPage;
 
     /**
      * Defines number of link levels which should be download. {0} is top, so download only original page. {-1} means no limit.
      */
-    int levels = 0;
+    int levels = -1;
 
     /**
      * Defines target folder where downloaded files should be stored.
      */
-    std::string targetFolder;
+    std::filesystem::path targetFolder;
 
     /**
      * Defines starting URL from which download should be started.
      */
     std::string url;
+
 };
 
 
