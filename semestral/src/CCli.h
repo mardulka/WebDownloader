@@ -28,7 +28,7 @@ public:
     void printHelp();
 
     /**
-     * Method for printing settings. Can be used for checking.
+     * Method for printing settings.
      */
     void printSettings();
 

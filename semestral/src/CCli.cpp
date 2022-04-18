@@ -52,6 +52,11 @@ void CCli::readSettings(int argc, char ** argv){
         }
     }
 
+    //if directory remain empty, use current directory.
+    if (m_settings->targetFolder.empty()){
+        m_settings->targetFolder = filesystem::current_path();
+    }
+
 }
 
 void CCli::readDirectory(const string & strPath){
@@ -100,12 +105,19 @@ void CCli::printHelp(){
 }
 
 void CCli::printSettings(){
-    cout << "Pictures download: " << boolalpha << m_settings->pictures << endl;
-    cout << "Scripts download: " << boolalpha << m_settings->scripts << endl;
-    cout << "Error-page creation: " << boolalpha << m_settings->errorPage << endl;
-    cout << "Levels: " << m_settings->levels << endl;
-    cout << "Target folder: " << m_settings->targetFolder << endl;
-    cout << "Starting URL: " << m_settings->url << endl;
+    //Header
+    cout << setw(16) << setfill('-') << " ";
+    cout << "Download settings:";
+    cout << setw(16) << setfill('-') << left <<  " " << endl << setfill(' ');
+    //Body
+    cout << setw(25) << left << "Pictures download: " << boolalpha << m_settings->pictures << endl;
+    cout << setw(25) << left << "Scripts download: " << boolalpha << m_settings->scripts << endl;
+    cout << setw(25) << left << "Error-page creation: " << boolalpha << m_settings->errorPage << endl;
+    cout << setw(25) << left << "Levels: " << m_settings->levels << endl;
+    cout << setw(25) << left << "Target folder: " << m_settings->targetFolder << endl;
+    cout << setw(25) << left << "Starting URL: " << m_settings->url << endl;
+    //Footer
+    cout << setw(25) << left << setw(50) << setfill('-') << "" << endl;
 }
 
 

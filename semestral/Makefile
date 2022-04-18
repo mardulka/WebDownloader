@@ -20,8 +20,9 @@ $(BDIR)/%.o: */%.cpp
 clean:
 	rm -f $(BDIR)/Makefile.d $(BDIR)/*.o $(BDIR)/webdownloader
 
+.PHONY: doc
 doc:
-	doxygen Doxyfile
+	@doxygen
 
 cleandoc:
 	rm -rf ./doc/*

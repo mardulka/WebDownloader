@@ -16,9 +16,9 @@ int main(int argc, char ** argv){
         return 1;
     }
 
-    /*Check // TODO delete
+    //Check settings
     Cli.printSettings();
-    */
+
 
     //Creation of CConnection class with automatic try of creation connection
     CConnection connection;
