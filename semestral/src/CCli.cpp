@@ -77,7 +77,7 @@ void CCli::readDirectory(const string & strPath){
     m_settings->targetFolder.swap(tmpPath);
 }
 
-void CCli::write(string text){
+void CCli::write(const string& text){
     cout << text << endl;
 }
 

@@ -18,12 +18,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Writen logic for connecting server.&#10;&#10;- Working.&#10;- Invalid URL must be solved.">
+    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CCli.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CCli.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDownloader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -252,7 +250,7 @@
       <workItem from="1650189356502" duration="629000" />
       <workItem from="1650190004067" duration="122000" />
       <workItem from="1650190138796" duration="35113000" />
-      <workItem from="1650263906744" duration="25542000" />
+      <workItem from="1650263906744" duration="26586000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
       <created>1650191313707</created>
@@ -331,7 +329,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650290660002</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path.">
+      <created>1650292547415</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1650292547415</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -363,7 +368,8 @@
     <MESSAGE value="SEM - Corrected FilePath storing and checking" />
     <MESSAGE value="SEM - Added method fot setting print. Required for checking input." />
     <MESSAGE value="SEM - Writen logic for connecting server.&#10;&#10;- Working.&#10;- Invalid URL must be solved." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Writen logic for connecting server.&#10;&#10;- Working.&#10;- Invalid URL must be solved." />
+    <MESSAGE value="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

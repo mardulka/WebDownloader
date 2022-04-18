@@ -25,7 +25,7 @@ public:
     /**
      * Method printing help for application
      */
-    void printHelp();
+    static void printHelp();
 
     /**
      * Method for printing settings.
@@ -36,7 +36,7 @@ public:
      * Method for printing simple text line to CLI
      * @param text
      */
-    void write(std::string text);
+    void write(const std::string& text);
 
     /**
      * Method validate given string as system path and tore it into settings class if ok.
