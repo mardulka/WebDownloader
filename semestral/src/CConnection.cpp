@@ -1,4 +1,3 @@
-#include <cstring>
 #include "CConnection.h"
 
 using namespace std;
@@ -35,4 +34,23 @@ void CConnection::connect(const string & hostName){
 
 CConnection::~CConnection(){
     close(m_socket);
+}
+
+void CConnection::sendGetRequest(const string & url){
+    string request;
+    request.append("GET ").append(url).append(R"( HTTP/1.1\r\n)");
+    request.append("Host: ").append(m_host_ptr->h_name).append(R"(\r\n)");
+    request.append("Connection: keep-alive").append(R"(\r\n\r\n)");
+    send(m_socket, request.c_str(), request.length(), 0);
+    cout << "Sent request: " << endl << request << endl;
+}
+
+string CConnection::getServerResponse(){
+    string output;
+    char * buffer = new char[m_bufferSize];
+    cout << "Waiting for response....." << endl;
+    while (read(m_socket, buffer, m_bufferSize - 1) > 0)
+        output.append(buffer);
+    delete[] buffer;
+    return output;
 }

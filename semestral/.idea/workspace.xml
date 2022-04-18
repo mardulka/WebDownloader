@@ -18,9 +18,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Little refactoring.">
+    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Information about invalid address print in terminal.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CConnection.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CDownloader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -254,7 +255,7 @@
       <workItem from="1650189356502" duration="629000" />
       <workItem from="1650190004067" duration="122000" />
       <workItem from="1650190138796" duration="35113000" />
-      <workItem from="1650263906744" duration="27978000" />
+      <workItem from="1650263906744" duration="34450000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
       <created>1650191313707</created>
@@ -347,7 +348,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650293702925</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="SEM - Information about invalid address print in terminal.">
+      <created>1650296752182</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1650296752182</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -381,7 +389,8 @@
     <MESSAGE value="SEM - Writen logic for connecting server.&#10;&#10;- Working.&#10;- Invalid URL must be solved." />
     <MESSAGE value="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path." />
     <MESSAGE value="SEM - Little refactoring." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Little refactoring." />
+    <MESSAGE value="SEM - Information about invalid address print in terminal." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Information about invalid address print in terminal." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

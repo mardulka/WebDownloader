@@ -10,7 +10,7 @@ int main(int argc, char ** argv){
     CCli Cli(settings);
     try{
         Cli.readSettings(argc, argv);
-    } catch (const invalid_argument & e){
+    } catch (const exception & e){
         Cli.write(e.what());
         return 1;
     }
@@ -18,21 +18,19 @@ int main(int argc, char ** argv){
     //Check settings
     Cli.printSettings();
 
-
     //Creation of CConnection class with automatic try of creation connection
     CConnection connection;
     try{
         connection.connect(settings->url);
-    } catch (const invalid_argument & e){
-        Cli.write(e.what());
-        return 3;
-    } catch (const logic_error & e){
+    } catch (const exception & e){
         Cli.write(e.what());
         return 3;
     }
 
 
     //TODO Give control to download
+    connection.sendGetRequest("/");
+    cout << connection.getServerResponse() << endl;
     cout << "Stahujeme." << endl;
 
     //TODO Write result

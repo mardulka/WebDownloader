@@ -9,6 +9,8 @@
 #include <netinet/in.h>
 #include <strings.h>
 #include <netdb.h>
+#include <cstring>
+#include <sstream>
 
 class CConnection{
 
@@ -59,6 +61,18 @@ public:
      * Throws "logic error" exception if connection cannot be established.
      */
     void connect(const std::string & hostName);
+
+
+    /**
+     * Method for sending requests to server.
+     * @param content text of request
+     */
+    void sendGetRequest(const std::string & content);
+
+    /**
+     * Method for reading response from server.
+     */
+    std::string getServerResponse();
 
 };
 
