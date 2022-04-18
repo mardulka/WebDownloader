@@ -16,13 +16,25 @@ int main(int argc, char ** argv){
         return 1;
     }
 
-    //Check
+    /*Check // TODO delete
     Cli.printSettings();
+    */
 
-    //TODO validate URL in CConnection class first
+    //Creation of CConnection class with automatic try of creation connection
+    CConnection connection;
+    try{
+        connection.connect(settings->url);
+    } catch (const invalid_argument & e){
+        string message = e.what();
+        return 3;
+    } catch (const logic_error & e){
+        string message = e.what();
+        return 3;
+    }
 
-    //TODO Enable connection with web and give control to download
 
+    //TODO Give control to download
+    cout << "Stahujeme." << endl;
 
     //TODO Write result
 

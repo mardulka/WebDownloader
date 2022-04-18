@@ -11,7 +11,7 @@ all: webdownloader
 deps:
 	$(CXX) -MM */*.cpp > $(BDIR)/Makefile.d
 
-webdownloader: $(BDIR)/CDownloader.o $(BDIR)/CCli.o
+webdownloader: $(BDIR)/CDownloader.o $(BDIR)/CCli.o $(BDIR)/CConnection.o
 	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $^
 
 $(BDIR)/%.o: */%.cpp

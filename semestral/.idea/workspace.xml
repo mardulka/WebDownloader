@@ -18,10 +18,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Corrected FilePath storing and checking">
+    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Added method fot setting print. Required for checking input.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CCli.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CCli.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CCli.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CConnection.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CDownloader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -251,7 +252,7 @@
       <workItem from="1650189356502" duration="629000" />
       <workItem from="1650190004067" duration="122000" />
       <workItem from="1650190138796" duration="35113000" />
-      <workItem from="1650263906744" duration="13824000" />
+      <workItem from="1650263906744" duration="23702000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
       <created>1650191313707</created>
@@ -316,7 +317,14 @@
       <option name="project" value="LOCAL" />
       <updated>1650279939932</updated>
     </task>
-    <option name="localTasksCounter" value="10" />
+    <task id="LOCAL-00010" summary="SEM - Added method fot setting print. Required for checking input.">
+      <created>1650280203103</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1650280203103</updated>
+    </task>
+    <option name="localTasksCounter" value="11" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -346,7 +354,8 @@
     <MESSAGE value="SEM - prohlaseni.txt created, Doxygen prepared." />
     <MESSAGE value="SEM - Doxygen configured and implemented into Makefile." />
     <MESSAGE value="SEM - Corrected FilePath storing and checking" />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Corrected FilePath storing and checking" />
+    <MESSAGE value="SEM - Added method fot setting print. Required for checking input." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Added method fot setting print. Required for checking input." />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
