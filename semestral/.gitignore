@@ -1,5 +1,6 @@
 build/*
 doc/*
+.idea/*
 
 ### C++ template
 # Prerequisites

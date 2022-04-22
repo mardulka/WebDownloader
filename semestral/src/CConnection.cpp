@@ -38,19 +38,25 @@ CConnection::~CConnection(){
 
 void CConnection::sendGetRequest(const string & url){
     string request;
-    request.append("GET ").append(url).append(R"( HTTP/1.1\r\n)");
-    request.append("Host: ").append(m_host_ptr->h_name).append(R"(\r\n)");
-    request.append("Connection: keep-alive").append(R"(\r\n\r\n)");
-    send(m_socket, request.c_str(), request.length(), 0);
+    request.append("GET ").append(url).append(" HTTP/1.1").append("\r\n");
+    request.append("Host: ").append(m_host_ptr->h_name).append("\r\n");
+    request.append("Connection: ").append("close").append("\r\n");
+    request.append("Accept: */*").append("\r\n").append("\r\n");
+    send(m_socket, request.c_str(), request.length(), MSG_NOSIGNAL);
     cout << "Sent request: " << endl << request << endl;
 }
 
 string CConnection::getServerResponse(){
     string output;
     char * buffer = new char[m_bufferSize];
+    memset(buffer, 0, m_bufferSize);
     cout << "Waiting for response....." << endl;
-    while (read(m_socket, buffer, m_bufferSize - 1) > 0)
+    int a = 0;
+    while ((a = read(m_socket, buffer, m_bufferSize)) > 0){
+        cout << setfill('-') << setw(10) << right << "->" << a << endl;
         output.append(buffer);
+        memset(buffer, 0, m_bufferSize);
+    }
     delete[] buffer;
     return output;
 }
