@@ -26,39 +26,56 @@
 using namespace std;
 #endif /* __PROGTEST__ */
 
-/*
-template<typename T_>
-bool comp = [](T_ a, T_ b){return a < b;};
-*/
-
-template<typename T_, typename C_ = int>
+/**
+ * Templated class
+ * @tparam T_ Type which should be indexed. Expected STRING, LIST<STRING> and VECTOR<STRING>
+ * @tparam C_ Comparator, not mandatory. Expected LAMBDA, FUNCTOR, FUNCTION POINTER.
+ */
+template<typename T_, typename C_ = less<>>
 class CIndex{
 
+    /**
+     * Storge of indexing
+     */
+    T_ m_storage;
 
-    T_ storage;
+    /**
+     * Comparating function, which providing required operator <
+     */
+    C_ m_cmp;
 
 public:
 
-    explicit CIndex(T_ storage) : storage(storage){}
+    /**
+     * Constructor
+     * @param storage Storafe for indexing
+     * @param cmp Comparing function
+     */
+    explicit CIndex(const T_ & storage, const C_ & cmp = less<>()) : m_storage(storage), m_cmp(cmp){}
 
-    //explicit CIndex(T_ && storage) : storage(move(storage)){}
-
+    /**
+     * Method for indexing query matches.
+     * @param query Query of elements which occurrences is searched inside indexed type.
+     * @return Set of indexes where the match begins.
+     */
     set<size_t> search(T_ query) const{
         auto result = set<size_t>();
 
-        for (size_t i = 0 ; i < storage.size() ; ++i){
-            size_t j = i;
-            size_t k = 0;
+        size_t i = 0;
+        for (auto it = m_storage.begin() ; it != m_storage.end() ; ++it, ++i){
+            auto s_it = it;
+            auto q_it = query.begin();
             bool fit = true;
-            for (; k < query.size() && j < storage.size() ; ++j, ++k){
-                if (storage[j] < query[k] || query[k] < storage[j]){
+            for (; q_it != query.end() && s_it != m_storage.end() ; ++s_it, ++q_it){
+                if (m_cmp(*s_it, *q_it) || m_cmp(*q_it, *s_it)){
                     fit = false;
                     break;
                 }
             }
-            if (k < query.size())
-                continue;
 
+            //break before query end
+            if (q_it != query.end())
+                continue;
 
             //storing into set i position
             if (fit)
