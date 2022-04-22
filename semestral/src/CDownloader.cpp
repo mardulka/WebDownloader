@@ -28,11 +28,12 @@ int main(int argc, char ** argv){
     }
 
 
-    //TODO Give control to download
+    //TODO Give control to download - files results into queue.
     connection.sendGetRequest("/");
     cout << connection.getServerResponse() << endl;
     cout << "Stahujeme." << endl;
 
-    //TODO Write result
+    //TODO Create HTMLfile
+    //TODO start parse HTML file
 
 }

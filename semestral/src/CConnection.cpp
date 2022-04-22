@@ -18,17 +18,20 @@ CConnection::CConnection(){
 }
 
 void CConnection::connect(const string & hostName){
-    //Get address, check if any address has been returned, copy obtained address to server address struct.
+    //Get address, check if any address has been returned.
     m_host_ptr = gethostbyname(hostName.c_str());
     if (m_host_ptr == nullptr) throw invalid_argument("Url is not valid.");
+
+    //Copy obtained address to server address struct.
     memcpy(&m_serverAddress.sin_addr, m_host_ptr->h_addr, m_host_ptr->h_length);
 
-    //Try to connect to server.
+    //Try to connect to server with prepared address struct.
     if (::connect(m_socket, (struct sockaddr *) &m_serverAddress, m_sockAddrSize) < 0){
         close(m_socket);
         throw logic_error("Communication with server cannot be established!");
     }
 
+    //notify success
     cout << "Connection established." << endl;
 }
 
@@ -48,15 +51,19 @@ void CConnection::sendGetRequest(const string & url){
 
 string CConnection::getServerResponse(){
     string output;
+    //prepared buffer;
     char * buffer = new char[m_bufferSize];
     memset(buffer, 0, m_bufferSize);
+    //notify progress
     cout << "Waiting for response....." << endl;
-    int a = 0;
-    while ((a = read(m_socket, buffer, m_bufferSize)) > 0){
-        cout << setfill('-') << setw(10) << right << "->" << a << endl;
+
+    //read
+    while (read(m_socket, buffer, m_bufferSize) > 0){
         output.append(buffer);
         memset(buffer, 0, m_bufferSize);
     }
+
+    //delete buffer and return result
     delete[] buffer;
     return output;
 }
