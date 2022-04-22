@@ -3,3 +3,7 @@
 //
 
 #include "CFileHtml.h"
+
+using namespace std;
+
+CFileHtml::CFileHtml(const string & url) : CFile(url){}

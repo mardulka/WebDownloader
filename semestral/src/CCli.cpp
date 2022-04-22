@@ -4,7 +4,7 @@
 
 using namespace std;
 
-CCli::CCli(shared_ptr<CSettings> settings) : m_settings{std::move(settings)}{}
+CCli::CCli(shared_ptr <CSettings> settings) : m_settings{std::move(settings)}{}
 
 void CCli::readSettings(int argc, char ** argv){
     if (argc < 2){
@@ -77,7 +77,7 @@ void CCli::readDirectory(const string & strPath){
     m_settings->targetFolder.swap(tmpPath);
 }
 
-void CCli::write(const string& text){
+void CCli::write(const string & text){
     cout << text << endl;
 }
 
@@ -108,7 +108,7 @@ void CCli::printSettings(){
     //Header
     cout << setw(16) << setfill('-') << " ";
     cout << "Download settings:";
-    cout << setw(16) << setfill('-') << left <<  " " << endl << setfill(' ');
+    cout << setw(16) << setfill('-') << left << " " << endl << setfill(' ');
     //Body
     cout << setw(25) << left << "Pictures download: " << boolalpha << m_settings->pictures << endl;
     cout << setw(25) << left << "Scripts download: " << boolalpha << m_settings->scripts << endl;

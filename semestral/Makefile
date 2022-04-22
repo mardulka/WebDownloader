@@ -8,10 +8,12 @@ SHELL:=/bin/bash
 
 all: webdownloader
 
+.PHONY: doc deps
+
 deps:
 	$(CXX) -MM */*.cpp > $(BDIR)/Makefile.d
 
-webdownloader: $(BDIR)/CDownloader.o $(BDIR)/CCli.o $(BDIR)/CConnection.o
+webdownloader: $(BDIR)/CDownloader.o $(BDIR)/CCli.o $(BDIR)/CConnection.o $(BDIR)/CFile.o $(BDIR)/CFileHtml.o $(BDIR)/CDownEngine.o
 	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $^
 
 $(BDIR)/%.o: */%.cpp
@@ -20,7 +22,7 @@ $(BDIR)/%.o: */%.cpp
 clean:
 	rm -f $(BDIR)/Makefile.d $(BDIR)/*.o $(BDIR)/webdownloader
 
-.PHONY: doc
+
 doc:
 	@doxygen
 

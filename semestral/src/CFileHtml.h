@@ -5,6 +5,8 @@
 
 class CFileHtml: public CFile{
 
+public:
+    CFileHtml(const std::string & url);
 };
 
 

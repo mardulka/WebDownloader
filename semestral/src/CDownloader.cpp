@@ -18,22 +18,24 @@ int main(int argc, char ** argv){
     //Check settings
     Cli.printSettings();
 
-    //Creation of CConnection class with automatic try of creation connection
-    CConnection connection;
-    try{
-        connection.connect(settings->url);
-    } catch (const exception & e){
-        Cli.write(e.what());
-        return 3;
-    }
 
 
-    //TODO Give control to download - files results into queue.
-    connection.sendGetRequest("/");
-    cout << connection.getServerResponse() << endl;
-    cout << "Stahujeme." << endl;
+    //TODO Give control to download and start.
+    CDownEngine engine(settings);
+    engine.start();
 
-    //TODO Create HTMLfile
-    //TODO start parse HTML file
+
+    //TODO testing
+    /*
+        CConnection connection;
+        connection.sendGetRequest("/");
+        cout << connection.getServerResponse() << endl;
+        cout << "Stahujeme." << endl;
+    */
+
+
+    //TODO Print stats from engine
+
+
 
 }

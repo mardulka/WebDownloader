@@ -3,6 +3,7 @@
 
 #include "CCli.h"
 #include "CConnection.h"
+#include "CDownEngine.h"
 
 int main(int argc, char ** argv);
 
