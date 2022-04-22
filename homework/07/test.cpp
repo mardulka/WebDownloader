@@ -32,7 +32,8 @@ using namespace std;
  * @tparam T_ Type which should be indexed. Expected STRING, LIST<STRING> and VECTOR<STRING>
  * @tparam C_ Comparator, not mandatory. Expected LAMBDA, FUNCTOR, FUNCTION POINTER.
  */
-template<typename T_, typename C_ = less<typename T_::const_reference>>
+template<typename T_, typename C_ = less<typename T_::value_type>>
+
 class CIndex{
 
     /**
@@ -52,8 +53,8 @@ public:
      * @param storage Storafe for indexing
      * @param cmp Comparing function
      */
-    explicit CIndex(const T_ & storage, const C_ & cmp = less<typename T_::const_reference>()) : m_storage(storage),
-                                                                                                 m_cmp(cmp){}
+    explicit CIndex(const T_ & storage, const C_ & cmp = less<typename T_::value_type>()) : m_storage(storage),
+                                                                                            m_cmp(cmp){}
 
     /**
      * Method for indexing query matches.
@@ -88,4 +89,3 @@ public:
     }
 
 };
-
