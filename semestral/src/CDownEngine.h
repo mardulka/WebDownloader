@@ -48,12 +48,6 @@ public:
     CDownEngine(const std::shared_ptr <CSettings> & settings);
 
     /**
-     * Methods providing connection by calling methods on connecting object.
-     * @return
-     */
-    bool connect();
-
-    /**
      * Method starting downloading process;
      */
     void start();
