@@ -13,6 +13,13 @@
 #include <netdb.h>
 #include <cstring>
 #include <sstream>
+#include <optional>
+#include <memory>
+
+#include "CFile.h"
+#include "CFileHtml.h"
+#include "CFileCss.h"
+#include "CFilePicture.h"
 
 class CConnection{
 
@@ -58,6 +65,14 @@ public:
      */
     virtual ~CConnection();
 
+    /**
+     * Method returning file from web connection.
+     * @param url URL of the file
+     * @return OPTIONAL SHARED PTR of the new file.
+     */
+    std::optional<std::shared_ptr<CFile>> getFile(std::string url);
+
+private:
     /**
      * Create connection with defined URL.
      * Throws "logic error" exception if connection cannot be established.

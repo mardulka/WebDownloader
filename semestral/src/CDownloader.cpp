@@ -15,17 +15,21 @@ int main(int argc, char ** argv){
         return 1;
     }
 
-    //Check settings
+    //Settings output
     Cli.printSettings();
 
+    //Give control to download engine and start downloading.
+    try{
+        CDownEngine engine(settings);
+        engine.start();
+    } catch (const invalid_argument & e){
+        Cli.write(e.what());
+        return 2;
+    }
 
 
-    //TODO Give control to download and start.
-    CDownEngine engine(settings);
-    engine.start();
 
-
-    //TODO testing
+    //TODO testing - delete in future
     /*
         CConnection connection;
         connection.sendGetRequest("/");
@@ -33,9 +37,6 @@ int main(int argc, char ** argv){
         cout << "Stahujeme." << endl;
     */
 
-
-    //TODO Print stats from engine
-
-
-
+    //TODO print downloading stats
+    //engine.printStats();
 }

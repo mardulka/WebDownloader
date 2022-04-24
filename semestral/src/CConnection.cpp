@@ -67,3 +67,12 @@ string CConnection::getServerResponse(){
     delete[] buffer;
     return output;
 }
+
+std::optional <shared_ptr<CFile>> CConnection::getFile(std::string url){
+    //TODO - parse URL
+    //TODO - create GET message
+    //TODO - recieve response
+    //TODO - parse response
+    //TODO - create file and return
+    return nullopt;
+}

@@ -4,11 +4,21 @@
 #include <string>
 
 class CFile{
-    std::string url;
+    std::string m_url;
+    std::string m_content;
 
 public:
-    CFile(const std::string & url);
+    /**
+     * Constructor
+     * @param url Url of
+     */
+    CFile(const std::string & url) : m_url(url){}
 
+    /**
+     * Save content.
+     * @return
+     */
+    virtual bool save() = 0;
 };
 
 

@@ -4,6 +4,10 @@
 #include "CCli.h"
 #include "CConnection.h"
 #include "CDownEngine.h"
+#include "CFile.h"
+#include "CFileHtml.h"
+#include "CFileCss.h"
+#include "CFilePicture.h"
 
 int main(int argc, char ** argv);
 

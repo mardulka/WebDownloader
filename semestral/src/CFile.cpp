@@ -6,4 +6,3 @@
 
 using namespace std;
 
-CFile::CFile(const string & url) : url(url){}
