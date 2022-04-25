@@ -2,7 +2,7 @@
 #define SEMESTRAL_CFILETYPE_H
 
 enum class CFileType{
-    HTML, CSS, JS, PICTURE
+    NO_TYPE, HTML, CSS, JS, PICTURE
 };
 
 #endif //SEMESTRAL_CFILETYPE_H

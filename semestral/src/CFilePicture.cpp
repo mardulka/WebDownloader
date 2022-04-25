@@ -1,11 +1,11 @@
 #include "CFilePicture.h"
 
-CFilePicture::CFilePicture(const string & name, const string & relative_path, const string & file_ending)
-        : CFile(name, relative_path, file_ending){
-    m_type = CFileType::PICTURE;
-}
+using namespace std;
 
-void CFilePicture::save(std::filesystem::path targetFolder){
+CFilePicture::CFilePicture(const string & name, const string & relative_path, const string & file_ending)
+        : CFile(name, relative_path, file_ending, CFileType::PICTURE){}
+
+void CFilePicture::save(filesystem::path targetFolder){
     filesystem::path target_path = filesystem::path(targetFolder / m_relative_path);
 
     checkDirectory(target_path); //throws exception for not being a directory
