@@ -13,11 +13,7 @@ CFileType CFile::getType(){
 void CFile::save(std::filesystem::path targetFolder){
     filesystem::path target_path = filesystem::path(targetFolder / m_relative_path);
 
-    if (!filesystem::exists(target_path)){
-        create_directory(target_path);
-    } else if (!filesystem::is_directory(target_path)){
-        throw new invalid_argument("FILE: Target for saving is not a directory.");
-    }
+    checkDirectory(target_path); //throws exception for not being a directory
 
     //saving by stream from content
     fstream output;
@@ -28,6 +24,16 @@ void CFile::save(std::filesystem::path targetFolder){
 
     output << m_content;
     output.close();
+}
 
+void CFile::checkDirectory(std::filesystem::path targetPath){
+    if (!filesystem::exists(targetPath)){
+        create_directory(targetPath);
+    } else if (!filesystem::is_directory(targetPath)){
+        throw new invalid_argument("FILE: Target for saving is not a directory.");
+    }
+}
 
+const std::string CFile::getFileName() const{
+    return m_file_name + "." + m_file_ending;
 }

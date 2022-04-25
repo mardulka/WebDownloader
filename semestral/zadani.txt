@@ -50,75 +50,62 @@ Struktura:  Pojmenováni je převzato z URL na doméně, kde jsou '/' nahrazeny 
 ************************************************************************************************************************
 # Popis polymorfismu
 
-Polymorfizmus je využit pro ukládání souborů, konkrétně návrhový vzor Builder. Abstraktní společný předek implementuje
-spojení s webovou stránkou a řízení stahování skze spojovací třídu CConnection a dále obecnou funkci pro ukládání. Konkrétní třídy
-odvozené pak podle svého typu a implementace určují sprácnou složku, do které se má konkrétní soubor umístit.
+Polymorfizmus je využit pro ukládání souborů. Abstraktní společný předek implementuje obecnou funkci pro ukládání.
+Konkrétní třídy odvozené pak podle svého typu a implementace určují správnou složku, do které se má konkrétní soubor umístit,
+typ otevření souboru, i správnou koncovku souboru.
 
-Použití konkrétní třídy určuje řídící třída CConnection při procházení tagů na HTML stránce. Pokud narazí na link s odpovídajícím
+Jestli bude polymorfismus použit i pro stahování souborů závisí na pozdějším rozhodnutí, jeslti je dostatečné rozhodovat
+o formátu souborů pouze na základě tagů v HTML souboru, nebo je třeba brát typ souboru až z response serveru na GET
+request pro dané URL. V prvním případě by soubor byl zakládán až po obdržení response přímo CConnection třídou, která by
+tak tento soubor už vyplněný vracela třídě CDownEngine a ta by volala pouze ukládání. V druhém případě by byl seznam
+souborů vracen přímo parsující funkcí HTML souboru a stahování by si pak soubor řídil sám. Rozhodnutí padne nejspíše
+až v průběhu práce, či na základě zhodnocení dostatečnosti polymorfismu.
+
+Použití konkrétní třídy určuje třída CConnection při procházení tagů na HTML stránce. Pokud narazí na link s odpovídajícím
 otagováním, použije instanci konkrétní třídy pro zachycení tohoto linku pro pozdější zpracování.
-
-/CFile (abstract)
-|-CFileHtml
-|-CFileCss
-|-CFileJS
-\-CFilePicture
 
 +-----------------------+
 |         CFile         |
 +-----------------------+
-| -fileURL:URL          |
-| -target:FileSystem    |
+| -m_type:CFileType     |
+| -m_relative_path:path |
+| -m_file_name:string   |
+| -m_file_ending:string |
+| -m_content:string     |
 +-----------------------+
-| +CFile(URL)           |
-| +getURL(): URL        |
-| +download(): void     |
-| +fileName(): string   |
+| +CFile(<attr>)        |
+| +getType()            |
+| +getFileName()        |
+| +save(): virtual      |
 +-----------------------+
+            |
+            +---------------------------+---------------------------+---------------------------+
+            |                           |                           |                           |
++-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
+|       CFileHtml       |   |       CFileCss        |   |        CFileJs        |   |     CFilePicture      |
++-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
+|                       |   |                       |   |                       |   |                       |
++-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
+| +CFileHtml(<attr>)    |   | +CFileCss(<attr>)     |   | +CFileJs(<attr>)      |   | +CFilePicture(<attr>) |
++-----------------------+   +-----------------------+   +-----------------------+   | +save(): override     |
+                                                                                    +-----------------------+
 
-+-----------------------+
-|       CFileHtml       |
-+-----------------------+
-|                       |
-+-----------------------+
-| +CFileHtml(FileSystem)|
-| +getURL(): URL        |
-| +download(): void     |
-| +fileName(): string   |
-+-----------------------+
+************************************************************************************************************************
+#Případné další použití polymorfismu - Rozšíření o HTTPS
+NEBUDE IMPLEMENTOVÁNO!
 
-+-----------------------+
-|       CFileCss        |
-+-----------------------+
-|                       |
-+-----------------------+
-| +CFileCss(FileSystem) |
-| +getURL(): URL        |
-| +download(): void     |
-| +fileName(): string   |
-+-----------------------+
+Další využití polymorfismu je vidět například u třídy CConnection, která by byla abstraktní třídou možných spojení
+pro stahování odkazů. Aktuálně je stahování realizováno pouze pro http stránky. Pro https stránky je třeba implementovat
+spojení pomocí SSL. Tato nová třída by byla potomkem současné třídy, sdílela stejný interface a proto změna stahování
+z omezení http na https by byla pouze v přídání této nové třídy a jejím nahrazení v konstruktoru CDownEngine.
 
-+-----------------------+
-|        CFileJs        |
-+-----------------------+
-|                       |
-+-----------------------+
-| +CFileJs(FileSystem)  |
-| +getURL(): URL        |
-| +download(): void     |
-| +fileName(): string   |
-+-----------------------+
+************************************************************************************************************************
+#Případné využití vícevláknového stahování
+NEBUDE IMPLEMENTOVÁNO!
 
-+---------------------------+
-|       CFilePicture        |
-+---------------------------+
-|                           |
-+---------------------------+
-| +CFilePicture(FileSystem) |
-| +getURL(): URL            |
-| +download(): void         |
-| +fileName(): string       |
-+---------------------------+
-
+S ohledem na sdílení zdrojů bych přínos vícevláknového zpracování viděl v možnosti, kdy by jedno vlákno provádělo stahování
+obsahů souborů, druhé vlákno provádělo ukládání na disk, další jedno nebo více vláken by ideálně provádělo parsování HTML
+souborů pro získání dalších odkazů a jejich nahrazování.
 
 ************************************************************************************************************************
 # Originální zadání z Progtestu

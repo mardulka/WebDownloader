@@ -1,9 +1,8 @@
-//
-// Created by marek on 17.04.2022.
-//
-
 #include "CFileHtml.h"
 
 using namespace std;
 
-CFileHtml::CFileHtml(const string & url) : CFile(url){}
+CFileHtml::CFileHtml(const string & name, const string & relative_path = "/subpages")
+        : CFile(name, relative_path, "html"){
+    m_type = CFileType::HTML;
+}
