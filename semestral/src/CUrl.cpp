@@ -48,7 +48,7 @@ CUrl::CUrl(string url){
         url = url.substr(0, position);
 
         //check zero and negative value
-        if(m_port <= 0){
+        if(m_port <= 0 || m_port > 65535){
             throw invalid_argument("Given URL has wrong port number!");
         }
     }
@@ -82,7 +82,7 @@ string CUrl::getHost() const{
     return m_host;
 }
 
-unsigned short CUrl::getPort() const{
+unsigned int CUrl::getPort() const{
     return m_port;
 }
 

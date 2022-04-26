@@ -8,10 +8,12 @@
 #include <stdexcept>
 
 /**
- * Class for wrapping http and https URL without fragments.
+ * Immutable class for wrapping http and https URL without fragments.
  * Provides parsing and validation logic and offers some methods for direct access to URL parts.
  *
  * <scheme>://<host>:<port>/<path>?<query>
+ *
+ * Constructor throws INVALID_ARGUMENT exception if syntax error in URL is occurred while is parsed.
  */
 class CUrl{
     /**
@@ -27,7 +29,7 @@ class CUrl{
     /**
      * Port number, default value is 80
      */
-    unsigned short m_port = 80;
+    unsigned int m_port = 80;
 
     /**
      * Resource path - mustn't start with "/" symbol - it is here only as delimiter between host and path
@@ -43,12 +45,14 @@ public:
 
     /**
      * Basic constructor
+     * @param url Url for parsing and storing.
+     *
+     * Throws INVALID_ARGUMENT exception if syntax error in URL is occurred while is parsed.
      */
     CUrl(std::string url);
 
     /**
      * Copy and move constructors and operators. Since contents are only strings which has implemented these, defaults are ok.
-     * TODO check it!!!!!!
      */
     CUrl(const CUrl & url) = default;
     CUrl(CUrl && url) = default;
@@ -59,37 +63,37 @@ public:
      * Getter on scheme
      * @return String of scheme
      */
-    std::string getScheme() const;
+    [[nodiscard]] std::string getScheme() const;
 
     /**
      * Getter on host
      * @return String of host
      */
-    std::string getHost() const;
+    [[nodiscard]] std::string getHost() const;
 
     /**
      * Getter on port
      * @return port number
      */
-    unsigned short getPort() const;
+    [[nodiscard]] unsigned int getPort() const;
 
     /**
      * Getter on path / resource
      * @return String of resource path
      */
-    std::string getPath() const;
+    [[nodiscard]] std::string getPath() const;
 
     /**
      * Getter on query
      * @return String of query
      */
-    std::string getQuery() const;
+    [[nodiscard]] std::string getQuery() const;
 
     /**
      * Method returning URL in proper format.
      * @return String of URL.
      */
-    std::string getUrl() const;
+    [[nodiscard]] std::string getUrl() const;
 };
 
 

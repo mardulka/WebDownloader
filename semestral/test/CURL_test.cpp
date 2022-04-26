@@ -149,3 +149,59 @@ TEST_CASE("14# URL with wrong scheme delimiter"){
         CHECK(std::string (e.what()) == std::string ("Given URL contains characters there are not valid!"));
     }
 }
+
+TEST_CASE("15# Copy testing"){
+    CUrl * url15 = new CUrl("http://fit.cvut.cz:666/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    CHECK(url15->getScheme() == "http");
+    CHECK(url15->getHost() == "fit.cvut.cz");
+    CHECK(url15->getPort() == 666);
+    CHECK(url15->getPath() == "/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    CHECK(url15->getQuery() == "");
+
+    CUrl url15a = (*url15);
+    CUrl url15b(*url15);
+
+    delete url15;
+
+    CHECK(url15a.getScheme() == "http");
+    CHECK(url15a.getHost() == "fit.cvut.cz");
+    CHECK(url15a.getPort() == 666);
+    CHECK(url15a.getPath() == "/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    CHECK(url15a.getQuery() == "");
+
+    CHECK(url15b.getScheme() == "http");
+    CHECK(url15b.getHost() == "fit.cvut.cz");
+    CHECK(url15b.getPort() == 666);
+    CHECK(url15b.getPath() == "/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    CHECK(url15b.getQuery() == "");
+
+}
+
+TEST_CASE("16# Move testing"){
+    CUrl url16 = CUrl("http://fit.cvut.cz:666/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    CHECK(url16.getScheme() == "http");
+    CHECK(url16.getHost() == "fit.cvut.cz");
+    CHECK(url16.getPort() == 666);
+    CHECK(url16.getPath() == "/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    CHECK(url16.getQuery() == "");
+
+    CUrl url16a(std::move(url16));
+    CHECK(url16.getScheme() == "");
+    CHECK(url16.getHost() == "");
+    CHECK(url16.getPort() == 666);
+    CHECK(url16.getPath() == "/");
+    CHECK(url16.getQuery() == "");
+    CHECK(url16a.getScheme() == "http");
+    CHECK(url16a.getHost() == "fit.cvut.cz");
+    CHECK(url16a.getPort() == 666);
+    CHECK(url16a.getPath() == "/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    CHECK(url16a.getQuery() == "");
+
+    CUrl url16b = CUrl("http://fit.cvut.cz:666/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    CHECK(url16b.getScheme() == "http");
+    CHECK(url16b.getHost() == "fit.cvut.cz");
+    CHECK(url16b.getPort() == 666);
+    CHECK(url16b.getPath() == "/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    CHECK(url16b.getQuery() == "");
+
+}
