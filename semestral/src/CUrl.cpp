@@ -9,12 +9,16 @@ CUrl::CUrl(string url){
 
     size_t position = 0;
 
-
     //READ SCHEME - if "://" is now found
     position = url.find("://");
     if (position != string::npos){
         m_scheme = url.substr(0, position);
         url = url.substr(position + 3);
+
+        //Check scheme validity
+        if(m_scheme != "http" && m_scheme != "https"){
+            throw invalid_argument("Given URL scheme is not valid. Supported URL schemes are http and https only, apparently could be omitted.");
+        }
     }
 
     //Read Query - if "?" is now found
@@ -34,14 +38,39 @@ CUrl::CUrl(string url){
     //READ PORT - if ":" is now found
     position = url.find(':');
     if (position != string::npos){
-        m_port = stoi(url.substr(position + 1));
+        try{
+            m_port = stoi(url.substr(position + 1));
+        } catch (const invalid_argument & e){
+            throw invalid_argument("Given URL has wrong port number!");
+        } catch (const out_of_range & e2){
+            throw invalid_argument("Given URL has wrong port number!");
+        }
         url = url.substr(0, position);
+
+        //check zero and negative value
+        if(m_port <= 0){
+            throw invalid_argument("Given URL has wrong port number!");
+        }
     }
 
     //READ host - rest
     if (url.empty())
         throw invalid_argument("URL has no host!");
     m_host = url;
+
+    //check content for host and path
+    for (auto character: m_host){
+        if (isalpha(character) || character == '_' || character == '-' || character == '~' || character == '.')
+            continue;
+        throw invalid_argument("Given URL contains characters there are not valid!");
+    }
+
+    for (auto character: m_path){
+        if (isalpha(character) || character == '_' || character == '-' || character == '~' || character == '/')
+            continue;
+        throw invalid_argument("Given URL contains characters there are not valid!");
+    }
+
 
 }
 

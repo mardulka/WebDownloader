@@ -35,6 +35,6 @@ CURLtest: $(BDIR)/CURL_test.o $(BDIR)/CUrl.o
 	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $^
 
 run_tests:
-	./build/CURLtest -s
+	./build/CURLtest
 
 -include $(BDIR)/Makefile.d

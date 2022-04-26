@@ -1,4 +1,5 @@
 #define CATCH_CONFIG_MAIN
+
 #include "catch.hpp"
 
 //Include tested file
@@ -83,4 +84,68 @@ TEST_CASE("9# URL with scheme, port and path"){
     CHECK(url9.getPort() == 666);
     CHECK(url9.getPath() == "/cs/uchazeci/programy-a-obory/bakalarske-studium");
     CHECK(url9.getQuery() == "");
+}
+
+TEST_CASE("10# URL with wrong scheme."){
+    try{
+        CUrl url10 = CUrl("ftp://fit.cvut.cz:666/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    } catch (const std::invalid_argument & e){
+        CHECK(std::string (e.what()) == std::string ("Given URL scheme is not valid. Supported URL schemes are http and https only, apparently could be omitted."));
+    }
+}
+
+TEST_CASE("11# URL with empty host"){
+    try{
+        CUrl url11 = CUrl("http:///cs/uchazeci/programy-a-obory/bakalarske-studium");
+    } catch (const std::invalid_argument & e){
+        CHECK(std::string (e.what()) == std::string ("URL has no host!"));
+    }
+}
+
+TEST_CASE("12# URL with empty, 0 and negative port number"){
+    try{
+        CUrl url12 = CUrl("http://fit.cvut.cz:/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    } catch (const std::invalid_argument & e){
+        CHECK(std::string (e.what()) == std::string ("Given URL has wrong port number!"));
+    }
+
+    try{
+        CUrl url12 = CUrl("http://fit.cvut.cz:0/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    } catch (const std::invalid_argument & e){
+        CHECK(std::string (e.what()) == std::string ("Given URL has wrong port number!"));
+    }
+
+    try{
+        CUrl url12 = CUrl("http://fit.cvut.cz:-80/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    } catch (const std::invalid_argument & e){
+        CHECK(std::string (e.what()) == std::string ("Given URL has wrong port number!"));
+    }
+}
+
+TEST_CASE("13# URL with empty scheme"){
+    try{
+        CUrl url13 = CUrl("://fit.cvut.cz:/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    } catch (const std::invalid_argument & e){
+        CHECK(std::string (e.what()) == std::string ("Given URL scheme is not valid. Supported URL schemes are http and https only, apparently could be omitted."));
+    }
+}
+
+TEST_CASE("14# URL with wrong scheme delimiter"){
+    try{
+        CUrl url14 = CUrl("http:/fit.cvut.cz:666/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    } catch (const std::invalid_argument & e){
+        CHECK(std::string (e.what()) == std::string ("Given URL has wrong port number!"));
+    }
+
+    try{
+        CUrl url14 = CUrl("http:fit.cvut.cz:666/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    } catch (const std::invalid_argument & e){
+        CHECK(std::string (e.what()) == std::string ("Given URL has wrong port number!"));
+    }
+
+    try{
+        CUrl url14 = CUrl("http//fit.cvut.cz:666/cs/uchazeci/programy-a-obory/bakalarske-studium");
+    } catch (const std::invalid_argument & e){
+        CHECK(std::string (e.what()) == std::string ("Given URL contains characters there are not valid!"));
+    }
 }
