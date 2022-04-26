@@ -205,3 +205,25 @@ TEST_CASE("16# Move testing"){
     CHECK(url16b.getQuery() == "");
 
 }
+
+TEST_CASE("17# Empty URL"){
+    CUrl url17 = CUrl();
+    CHECK(url17.getScheme() == "");
+    CHECK(url17.getHost() == "");
+    CHECK(url17.getPort() == 80);
+    CHECK(url17.getPath() == "/");
+    CHECK(url17.getQuery() == "");
+
+    CHECK(url17.empty());
+}
+
+TEST_CASE("18# Real URL from application test"){
+    CUrl url18 = CUrl("http://silvercalmcoolplay.neverssl.com/online");
+    CHECK(url18.getScheme() == "http");
+    CHECK(url18.getHost() == "silvercalmcoolplay.neverssl.com");
+    CHECK(url18.getPort() == 80);
+    CHECK(url18.getPath() == "/online");
+    CHECK(url18.getQuery() == "");
+
+    CHECK_FALSE(url18.empty());
+}

@@ -39,9 +39,9 @@ CConnection::~CConnection(){
     close(m_socket);
 }
 
-void CConnection::sendGetRequest(const string & url){
+void CConnection::sendGetRequest(const string & resource){
     string request;
-    request.append("GET ").append(url).append(" HTTP/1.1").append("\r\n");
+    request.append("GET ").append(resource).append(" HTTP/1.1").append("\r\n");
     request.append("Host: ").append(m_host_ptr->h_name).append("\r\n");
     request.append("Connection: ").append("close").append("\r\n");
     request.append("Accept: */*").append("\r\n").append("\r\n");
@@ -49,7 +49,7 @@ void CConnection::sendGetRequest(const string & url){
     cout << "Sent request: " << endl << request << endl;
 }
 
-string CConnection::getServerResponse(){
+string CConnection::getServerResponse() const{
     string output;
     //prepared buffer;
     char * buffer = new char[m_bufferSize];
@@ -68,10 +68,12 @@ string CConnection::getServerResponse(){
     return output;
 }
 
-std::optional <shared_ptr<CFile>> CConnection::getFile(std::string url){
-    //TODO - parse URL
-    //TODO - create GET message
-    //TODO - recieve response
+std::optional <shared_ptr<CFile>> CConnection::getFile(const CUrl & url){
+    connect(url.getHost());
+    sendGetRequest(url.getPath());
+
+    string response = getServerResponse();
+
     //TODO - parse response
     //TODO - create file and return
     return nullopt;

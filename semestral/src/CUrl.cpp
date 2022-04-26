@@ -16,8 +16,9 @@ CUrl::CUrl(string url){
         url = url.substr(position + 3);
 
         //Check scheme validity
-        if(m_scheme != "http" && m_scheme != "https"){
-            throw invalid_argument("Given URL scheme is not valid. Supported URL schemes are http and https only, apparently could be omitted.");
+        if (m_scheme != "http" && m_scheme != "https"){
+            throw invalid_argument(
+                    "Given URL scheme is not valid. Supported URL schemes are http and https only, apparently could be omitted.");
         }
     }
 
@@ -48,7 +49,7 @@ CUrl::CUrl(string url){
         url = url.substr(0, position);
 
         //check zero and negative value
-        if(m_port <= 0 || m_port > 65535){
+        if (m_port <= 0 || m_port > 65535){
             throw invalid_argument("Given URL has wrong port number!");
         }
     }
@@ -117,4 +118,20 @@ std::string CUrl::getUrl() const{
         url.append("?").append(m_query);
 
     return url;
+}
+
+bool CUrl::empty(){
+    return m_host.empty();
+}
+
+bool CUrl::operator ==(const CUrl & rhs) const{
+    return m_scheme == rhs.m_scheme &&
+           m_host == rhs.m_host &&
+           m_port == rhs.m_port &&
+           m_path == rhs.m_path &&
+           m_query == rhs.m_query;
+}
+
+bool CUrl::operator !=(const CUrl & rhs) const{
+    return !(rhs == *this);
 }

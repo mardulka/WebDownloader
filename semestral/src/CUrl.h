@@ -17,12 +17,12 @@
  */
 class CUrl{
     /**
-     * Scheme (http, https, ftp, smtp,...)
+     * Scheme (only http, https valid)
      */
     std::string m_scheme;
 
     /**
-     * Host name (with or without "www.")
+     * Host name
      */
     std::string m_host;
 
@@ -43,13 +43,19 @@ class CUrl{
 
 public:
 
+
+    /**
+     * Default constructor
+     */
+    CUrl() = default;
+
     /**
      * Basic constructor
      * @param url Url for parsing and storing.
      *
      * Throws INVALID_ARGUMENT exception if syntax error in URL is occurred while is parsed.
      */
-    CUrl(std::string url);
+    explicit CUrl(std::string url);
 
     /**
      * Copy and move constructors and operators. Since contents are only strings which has implemented these, defaults are ok.
@@ -94,6 +100,26 @@ public:
      * @return String of URL.
      */
     [[nodiscard]] std::string getUrl() const;
+
+    /**
+     * Method returning information if url is empty. Empty URL is when HOST is empty
+     * @return true if URL is empty, false otherwise
+     */
+    bool empty();
+
+    /**
+     * Equality operator
+     * @param rhs compared URL
+     * @return true if same, false otherwise
+     */
+    bool operator ==(const CUrl & rhs) const;
+
+    /**
+     * Inequality operator
+     * @param rhs compared URL
+     * @return false if same, true otherwise
+     */
+    bool operator !=(const CUrl & rhs) const;
 };
 
 

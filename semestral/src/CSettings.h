@@ -2,6 +2,7 @@
 #define SEMESTRAL_CSETTINGS_H
 
 #include <filesystem>
+#include "CUrl.h"
 
 /**
  * Struct for storing application settings
@@ -35,7 +36,7 @@ struct CSettings{
     /**
      * Defines starting URL from which download should be started.
      */
-    std::string url;
+    CUrl url;
 
 };
 

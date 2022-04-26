@@ -4,7 +4,7 @@
 
 using namespace std;
 
-CCli::CCli(shared_ptr <CSettings> settings) : m_settings{std::move(settings)}{}
+CCli::CCli(shared_ptr<CSettings> settings) : m_settings{std::move(settings)}{}
 
 void CCli::readSettings(int argc, char ** argv){
     if (argc < 2){
@@ -48,7 +48,7 @@ void CCli::readSettings(int argc, char ** argv){
         } else{
             if (!m_settings->url.empty())
                 throw invalid_argument("Ambiguous URL defined.");
-            m_settings->url = arg;
+            m_settings->url = CUrl(arg);
         }
     }
 
@@ -115,7 +115,7 @@ void CCli::printSettings(){
     cout << setw(25) << left << "Error-page creation: " << boolalpha << m_settings->errorPage << endl;
     cout << setw(25) << left << "Levels: " << m_settings->levels << endl;
     cout << setw(25) << left << "Target folder: " << m_settings->targetFolder << endl;
-    cout << setw(25) << left << "Starting URL: " << m_settings->url << endl;
+    cout << setw(25) << left << "Starting URL: " << m_settings->url.getUrl() << endl;
     //Footer
     cout << setw(25) << left << setw(50) << setfill('-') << "" << endl;
 }

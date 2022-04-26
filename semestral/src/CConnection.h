@@ -20,6 +20,7 @@
 #include "CFileHtml.h"
 #include "CFileCss.h"
 #include "CFilePicture.h"
+#include "CUrl.h"
 
 class CConnection{
 
@@ -70,7 +71,7 @@ public:
      * @param url URL of the file
      * @return OPTIONAL SHARED PTR of the new file.
      */
-    std::optional<std::shared_ptr<CFile>> getFile(std::string url);
+    std::optional<std::shared_ptr<CFile>> getFile(const CUrl & url);
 
 private:
     /**
@@ -89,7 +90,7 @@ private:
     /**
      * Method for reading response from server.
      */
-    std::string getServerResponse();
+    [[nodiscard]] std::string getServerResponse() const;
 
 };
 
