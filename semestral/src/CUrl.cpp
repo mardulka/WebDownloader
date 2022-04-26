@@ -1,31 +1,55 @@
-//
-// Created by marek on 25.04.2022.
-//
-
 #include "CUrl.h"
 
 using namespace std;
 
-CUrl::CUrl(const string & url){
+CUrl::CUrl(string url){
     if (url.length() == 0)
         throw invalid_argument("URL: Given url is empty.");
 
-    //TODO read scheme
 
-    //TODO read host
+    size_t position = 0;
 
-    //TODO read port
 
-    //todo read path
+    //READ SCHEME - if "://" is now found
+    position = url.find("://");
+    if (position != string::npos){
+        m_scheme = url.substr(0, position);
+        url = url.substr(position + 3);
+    }
 
+    //Read Query - if "?" is now found
+    position = url.find('?');
+    if (position != string::npos){
+        m_query = url.substr(position + 1);
+        url = url.substr(0, position);
+    }
+
+    //READ path - if "/" is now found
+    position = url.find('/');
+    if (position != string::npos){
+        m_path = url.substr(position + 1);
+        url = url.substr(0, position);
+    }
+
+    //READ PORT - if ":" is now found
+    position = url.find(':');
+    if (position != string::npos){
+        m_port = stoi(url.substr(position + 1));
+        url = url.substr(0, position);
+    }
+
+    //READ host - rest
+    if (url.empty())
+        throw invalid_argument("URL has no host!");
+    m_host = url;
 
 }
 
-const string & CUrl::getScheme() const{
+string CUrl::getScheme() const{
     return m_scheme;
 }
 
-const string & CUrl::getHost() const{
+string CUrl::getHost() const{
     return m_host;
 }
 
@@ -33,15 +57,15 @@ unsigned short CUrl::getPort() const{
     return m_port;
 }
 
-const string & CUrl::getPath() const{
-    return m_path;
+string CUrl::getPath() const{
+    return "/"s + m_path;
 }
 
-const std::string & CUrl::getQuery() const{
+std::string CUrl::getQuery() const{
     return m_query;
 }
 
-const std::string CUrl::getUrl() const{
+std::string CUrl::getUrl() const{
     string url;
 
     //if is defined scheme, start with it

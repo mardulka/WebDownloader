@@ -3,18 +3,20 @@
   <component name="CidrRootsConfiguration">
     <sourceRoots>
       <file path="$PROJECT_DIR$/src" />
+      <file path="$PROJECT_DIR$/test" />
     </sourceRoots>
     <excludeRoots>
       <file path="$PROJECT_DIR$/build" />
       <file path="$PROJECT_DIR$/doc" />
       <file path="$PROJECT_DIR$/insp" />
+      <file path="$PROJECT_DIR$/test/build" />
     </excludeRoots>
   </component>
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MakefileSettings">
     <option name="linkedExternalProjectsSettings">
       <MakefileProjectSettings>
-        <option name="buildDirectory" value="/mnt/c/Programming/CVUT/PA2/semestral/" />
+        <option name="buildDirectory" value="" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="modules">
           <set>

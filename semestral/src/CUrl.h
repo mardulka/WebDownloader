@@ -2,6 +2,8 @@
 #define SEMESTRAL_CURL_H
 
 #include <string>
+#include <iostream>
+#include <iomanip>
 #include <exception>
 #include <stdexcept>
 
@@ -23,9 +25,9 @@ class CUrl{
     std::string m_host;
 
     /**
-     * Port number
+     * Port number, default value is 80
      */
-    unsigned short m_port;
+    unsigned short m_port = 80;
 
     /**
      * Resource path - mustn't start with "/" symbol - it is here only as delimiter between host and path
@@ -38,19 +40,32 @@ class CUrl{
     std::string m_query;
 
 public:
-    CUrl(const std::string & url);
+
+    /**
+     * Basic constructor
+     */
+    CUrl(std::string url);
+
+    /**
+     * Copy and move constructors and operators. Since contents are only strings which has implemented these, defaults are ok.
+     * TODO check it!!!!!!
+     */
+    CUrl(const CUrl & url) = default;
+    CUrl(CUrl && url) = default;
+    CUrl & operator =(const CUrl & url) = default;
+    CUrl & operator =(CUrl && url) = default;
 
     /**
      * Getter on scheme
      * @return String of scheme
      */
-    const std::string & getScheme() const;
+    std::string getScheme() const;
 
     /**
      * Getter on host
      * @return String of host
      */
-    const std::string & getHost() const;
+    std::string getHost() const;
 
     /**
      * Getter on port
@@ -62,19 +77,19 @@ public:
      * Getter on path / resource
      * @return String of resource path
      */
-    const std::string & getPath() const;
+    std::string getPath() const;
 
     /**
      * Getter on query
      * @return String of query
      */
-    const std::string & getQuery() const;
+    std::string getQuery() const;
 
     /**
      * Method returning URL in proper format.
      * @return String of URL.
      */
-    const std::string getUrl() const;
+    std::string getUrl() const;
 };
 
 

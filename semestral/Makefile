@@ -2,6 +2,7 @@ CXX=g++
 LD=g++
 AR=ar
 BDIR=build
+TDIR=test
 CXXFLAGS=-std=c++17 -Wall -pedantic -O2
 SHELL:=/bin/bash
 
@@ -29,5 +30,11 @@ doc:
 cleandoc:
 	rm -rf ./doc/*
 
+
+CURLtest: $(BDIR)/CURL_test.o $(BDIR)/CUrl.o
+	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $^
+
+run_tests:
+	./build/CURLtest -s
 
 -include $(BDIR)/Makefile.d

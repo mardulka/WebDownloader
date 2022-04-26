@@ -12,17 +12,22 @@
       <config projectName="semestral" targetName="doc" />
     </generated>
   </component>
-  <component name="CMakeSettings">
+  <component name="CMakeSettings" AUTO_RELOAD="true">
     <configurations>
-      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug" ENABLED="true" GENERATION_DIR="test/build_debug" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Release" ENABLED="true" GENERATION_DIR="test/build_debug" CONFIG_NAME="Release" />
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="SEM - Information about invalid address print in terminal.">
+    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CFile files corrected. URL file almost done.&#10;&#10;- URL parsing logic need to be written">
+      <change afterPath="$PROJECT_DIR$/test/CURL_test.cpp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/test/catch.hpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CConnection.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDownloader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CUrl.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CUrl.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CUrl.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CUrl.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -37,14 +42,18 @@
       <ProjectState />
     </projectState>
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="CMakeLists.txt" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="HighlightingSettingsPerFile">
-    <setting file="file://$PROJECT_DIR$/Makefile" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/zadani.txt" root0="FORCE_HIGHLIGHTING" />
-  </component>
   <component name="MakefileLocalSettings">
+    <option name="toolchainName" value="WSL" />
     <option name="availableProjects">
       <map>
         <entry>
@@ -71,18 +80,13 @@
       </map>
     </option>
   </component>
+  <component name="MakefilesProjectLoadingState">
+    <option name="doClean" value="false" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
-  </component>
-  <component name="ProjectApplicationVersion">
-    <option name="ide" value="CLion" />
-    <option name="majorVersion" value="2022" />
-    <option name="minorVersion" value="1" />
-  </component>
-  <component name="ProjectId" id="27sAAeTxDlBAEHZjqeIW4oQmnMs" />
+  <component name="ProjectId" id="289hRR7AHPTq8CIDkL1tOzT8iEe" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="autoscrollFromSource" value="true" />
@@ -97,19 +101,23 @@
     "WebServerToolWindowFactoryState": "false",
     "cf.first.check.clang-format": "false",
     "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Programming/CVUT/PA2/semestral/build",
+    "last_opened_file_path": "C:/Programming/CVUT/PA2/semestral",
     "nodejs_package_manager_path": "npm",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "MakefileSettings",
+    "settings.editor.selected.configurable": "CLionExternalConfigurable",
     "structure.view.defaults.are.configured": "true"
   }
 }]]></component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Programming\CVUT\PA2\semestral" />
+      <recent name="C:\Programming\CVUT\PA2\semestral\test" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
-      <recent name="C:\Programming\CVUT\PA2\semestral\src" />
+      <recent name="C:\Programming\CVUT\PA2\semestral" />
+      <recent name="C:\Programming\CVUT\PA2\semestral\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Makefile Target.doc">
+  <component name="RunManager" selected="Makefile Target.CURLtest">
     <configuration default="true" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
       <texify-bibtex>
         <compiler />
@@ -121,34 +129,34 @@
       </texify-bibtex>
       <method v="2" />
     </configuration>
-    <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="$PROJECT_DIR$/build/webdownloader">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cleandoc" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="cleandoc" CONFIG_NAME="cleandoc" version="1">
+    <configuration name="cleandoc" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="cleandoc" CONFIG_NAME="cleandoc" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="deps" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="deps" CONFIG_NAME="deps" version="1">
+    <configuration name="deps" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="deps" CONFIG_NAME="deps" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="doc" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="doc" CONFIG_NAME="doc" version="1">
+    <configuration name="doc" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="doc" CONFIG_NAME="doc" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="webdownloader" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="webdownloader" CONFIG_NAME="webdownloader" version="1">
+    <configuration name="webdownloader" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="webdownloader" CONFIG_NAME="webdownloader" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile/webdownloader">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="EXTERNAL_TOOL_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
@@ -180,32 +188,20 @@
       </texify>
       <method v="2" />
     </configuration>
+    <configuration name="CURLtest" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="\mnt\c\Programming\CVUT\PA2\semestral\Makefile" target="CURLtest" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
     <configuration name="all" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
       <makefile filename="$PROJECT_DIR$/Makefile" target="all" workingDirectory="" arguments="">
         <envs />
       </makefile>
       <method v="2" />
     </configuration>
-    <configuration name="clean" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
-      <makefile filename="$PROJECT_DIR$/Makefile" target="clean" workingDirectory="" arguments="">
-        <envs />
-      </makefile>
-      <method v="2" />
-    </configuration>
-    <configuration name="deps" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
-      <makefile filename="$PROJECT_DIR$/Makefile" target="deps" workingDirectory="" arguments="">
-        <envs />
-      </makefile>
-      <method v="2" />
-    </configuration>
-    <configuration name="doc" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
-      <makefile filename="$PROJECT_DIR$/Makefile" target="doc" workingDirectory="" arguments="">
-        <envs />
-      </makefile>
-      <method v="2" />
-    </configuration>
-    <configuration name="downloader" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
-      <makefile filename="$PROJECT_DIR$/Makefile" target="downloader" workingDirectory="" arguments="">
+    <configuration name="cleandoc" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="cleandoc" workingDirectory="" arguments="">
         <envs />
       </makefile>
       <method v="2" />
@@ -220,149 +216,93 @@
     </configuration>
     <list>
       <item itemvalue="Makefile Application.all" />
-      <item itemvalue="Makefile Application.cleandoc" />
       <item itemvalue="Makefile Application.deps" />
       <item itemvalue="Makefile Application.doc" />
+      <item itemvalue="Makefile Application.cleandoc" />
       <item itemvalue="Makefile Application.webdownloader" />
-      <item itemvalue="Makefile Target.doc" />
-      <item itemvalue="Makefile Target.clean" />
-      <item itemvalue="Makefile Target.downloader" />
-      <item itemvalue="Makefile Target.deps" />
+      <item itemvalue="Makefile Target.CURLtest" />
       <item itemvalue="Makefile Target.all" />
+      <item itemvalue="Makefile Target.cleandoc" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Makefile Target.doc" />
+        <item itemvalue="Makefile Target.CURLtest" />
         <item itemvalue="Makefile Target.all" />
-        <item itemvalue="Makefile Target.clean" />
-        <item itemvalue="Makefile Target.deps" />
-        <item itemvalue="Makefile Target.downloader" />
+        <item itemvalue="Makefile Target.cleandoc" />
+        <item itemvalue="Makefile Target.cleandoc" />
       </list>
     </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="c67d1691-b50a-468c-8590-08392628c4cb" name="Changes" comment="" />
-      <created>1650098280844</created>
+      <changelist id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="" />
+      <created>1650634703408</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1650098280844</updated>
-      <workItem from="1650098285341" duration="2536000" />
-      <workItem from="1650101103684" duration="532000" />
-      <workItem from="1650113607347" duration="2383000" />
-      <workItem from="1650148544967" duration="797000" />
-      <workItem from="1650189356502" duration="629000" />
-      <workItem from="1650190004067" duration="122000" />
-      <workItem from="1650190138796" duration="35113000" />
-      <workItem from="1650263906744" duration="34450000" />
+      <updated>1650634703408</updated>
+      <workItem from="1650634705197" duration="22886000" />
+      <workItem from="1650807948326" duration="12664000" />
+      <workItem from="1650890540311" duration="13321000" />
+      <workItem from="1650992415242" duration="2217000" />
+      <workItem from="1650994665775" duration="1618000" />
+      <workItem from="1650996312252" duration="951000" />
+      <workItem from="1650997308841" duration="6321000" />
     </task>
-    <task id="LOCAL-00001" summary="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing.">
-      <created>1650191313707</created>
+    <task id="LOCAL-00001" summary="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems...">
+      <created>1650655685448</created>
       <option name="number" value="00001" />
       <option name="presentableId" value="LOCAL-00001" />
       <option name="project" value="LOCAL" />
-      <updated>1650191313707</updated>
+      <updated>1650655685448</updated>
     </task>
-    <task id="LOCAL-00002" summary="SEM - Created first version of zadani.txt">
-      <created>1650197925275</created>
+    <task id="LOCAL-00002" summary="SEM - Little code cleanup">
+      <created>1650657824943</created>
       <option name="number" value="00002" />
       <option name="presentableId" value="LOCAL-00002" />
       <option name="project" value="LOCAL" />
-      <updated>1650197925275</updated>
+      <updated>1650657824943</updated>
     </task>
-    <task id="LOCAL-00003" summary="SEM - Added first methods in CCli class.">
-      <created>1650204050808</created>
+    <task id="LOCAL-00003" summary="SEM - Restrured classes and code.&#10;&#10;* Created CDownEngine class which would run download and save.&#10;* Move some code inside it.">
+      <created>1650662419966</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1650204050808</updated>
+      <updated>1650662419966</updated>
     </task>
-    <task id="LOCAL-00004" summary="SEM - Reading CLI options done. Makefile corrections.">
-      <created>1650222826116</created>
+    <task id="LOCAL-00004" summary="SEM - Cleaned structure">
+      <created>1650817076224</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1650222826116</updated>
+      <updated>1650817076224</updated>
     </task>
-    <task id="LOCAL-00005" summary="SEM - Settings class added.">
-      <created>1650225627974</created>
+    <task id="LOCAL-00005" summary="SEM - CFile - save() method written.">
+      <created>1650823022818</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1650225627974</updated>
+      <updated>1650823022818</updated>
     </task>
-    <task id="LOCAL-00006" summary="SEM - CLI improvements">
-      <created>1650226684245</created>
+    <task id="LOCAL-00006" summary="SEM - Structer of Files improved. Zadani.txt changed accordingly.">
+      <created>1650896185506</created>
       <option name="number" value="00006" />
       <option name="presentableId" value="LOCAL-00006" />
       <option name="project" value="LOCAL" />
-      <updated>1650226684245</updated>
+      <updated>1650896185506</updated>
     </task>
-    <task id="LOCAL-00007" summary="SEM - prohlaseni.txt created, Doxygen prepared.">
-      <created>1650231313249</created>
+    <task id="LOCAL-00007" summary="SEM - CFile files corrected. URL file almost done.&#10;&#10;- URL parsing logic need to be written">
+      <created>1650901418950</created>
       <option name="number" value="00007" />
       <option name="presentableId" value="LOCAL-00007" />
       <option name="project" value="LOCAL" />
-      <updated>1650231313249</updated>
+      <updated>1650901418950</updated>
     </task>
-    <task id="LOCAL-00008" summary="SEM - Doxygen configured and implemented into Makefile.">
-      <created>1650231936887</created>
-      <option name="number" value="00008" />
-      <option name="presentableId" value="LOCAL-00008" />
-      <option name="project" value="LOCAL" />
-      <updated>1650231936887</updated>
-    </task>
-    <task id="LOCAL-00009" summary="SEM - Corrected FilePath storing and checking">
-      <created>1650279939932</created>
-      <option name="number" value="00009" />
-      <option name="presentableId" value="LOCAL-00009" />
-      <option name="project" value="LOCAL" />
-      <updated>1650279939932</updated>
-    </task>
-    <task id="LOCAL-00010" summary="SEM - Added method fot setting print. Required for checking input.">
-      <created>1650280203103</created>
-      <option name="number" value="00010" />
-      <option name="presentableId" value="LOCAL-00010" />
-      <option name="project" value="LOCAL" />
-      <updated>1650280203103</updated>
-    </task>
-    <task id="LOCAL-00011" summary="SEM - Writen logic for connecting server.&#10;&#10;- Working.&#10;- Invalid URL must be solved.">
-      <created>1650290660002</created>
-      <option name="number" value="00011" />
-      <option name="presentableId" value="LOCAL-00011" />
-      <option name="project" value="LOCAL" />
-      <updated>1650290660002</updated>
-    </task>
-    <task id="LOCAL-00012" summary="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path.">
-      <created>1650292547415</created>
-      <option name="number" value="00012" />
-      <option name="presentableId" value="LOCAL-00012" />
-      <option name="project" value="LOCAL" />
-      <updated>1650292547415</updated>
-    </task>
-    <task id="LOCAL-00013" summary="SEM - Little refactoring.">
-      <created>1650293702925</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1650293702925</updated>
-    </task>
-    <task id="LOCAL-00014" summary="SEM - Information about invalid address print in terminal.">
-      <created>1650296752182</created>
-      <option name="number" value="00014" />
-      <option name="presentableId" value="LOCAL-00014" />
-      <option name="project" value="LOCAL" />
-      <updated>1650296752182</updated>
-    </task>
-    <option name="localTasksCounter" value="15" />
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
-  </component>
-  <component name="UnknownFeatures">
-    <option featureType="com.intellij.fileTypeFactory" implementationName="*.d" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -376,24 +316,13 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="SEM - Makefile prepared, structure changed.&#10;&#10;- Makefile prepared. Now is working to compile program in build directory from source files in src directory.&#10;- Structure changed. Created better structure with better names. Dummy implementation of CDownloader.cpp for Makefile testing." />
-    <MESSAGE value="SEM - Created first version of zadani.txt" />
-    <MESSAGE value="SEM - Added first methods in CCli class." />
-    <MESSAGE value="SEM - Reading CLI options done. Makefile corrections." />
-    <MESSAGE value="SEM - Settings class added." />
-    <MESSAGE value="SEM - CLI improvements" />
-    <MESSAGE value="SEM - prohlaseni.txt created, Doxygen prepared." />
-    <MESSAGE value="SEM - Doxygen configured and implemented into Makefile." />
-    <MESSAGE value="SEM - Corrected FilePath storing and checking" />
-    <MESSAGE value="SEM - Added method fot setting print. Required for checking input." />
-    <MESSAGE value="SEM - Writen logic for connecting server.&#10;&#10;- Working.&#10;- Invalid URL must be solved." />
-    <MESSAGE value="SEM - Information export. Default directory.&#10;&#10;- Improved printing information about initial settings and connections.&#10;- Unspecified directory now filled by current path." />
-    <MESSAGE value="SEM - Little refactoring." />
-    <MESSAGE value="SEM - Information about invalid address print in terminal." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Information about invalid address print in terminal." />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
+    <MESSAGE value="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems..." />
+    <MESSAGE value="SEM - Little code cleanup" />
+    <MESSAGE value="SEM - Restrured classes and code.&#10;&#10;* Created CDownEngine class which would run download and save.&#10;* Move some code inside it." />
+    <MESSAGE value="SEM - Cleaned structure" />
+    <MESSAGE value="SEM - CFile - save() method written." />
+    <MESSAGE value="SEM - Structer of Files improved. Zadani.txt changed accordingly." />
+    <MESSAGE value="SEM - CFile files corrected. URL file almost done.&#10;&#10;- URL parsing logic need to be written" />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - CFile files corrected. URL file almost done.&#10;&#10;- URL parsing logic need to be written" />
   </component>
 </project>
