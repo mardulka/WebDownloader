@@ -21,10 +21,15 @@ int main(int argc, char ** argv){
     //Give control to download engine and start downloading.
     try{
         CDownEngine engine(settings);
-        engine.start();
+        engine.start(); //TODO stats as input-output value
     } catch (const invalid_argument & e){
         Cli.write(e.what());
         return 2;
+    } catch(const filesystem::filesystem_error &fe){
+        cout << fe.what() << endl;
+        return 5;
+    } catch (...){
+        cout << "Unknown ERROR occured." << endl;
     }
 
     //TODO print downloading stats
