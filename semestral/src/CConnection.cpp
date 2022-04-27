@@ -84,12 +84,18 @@ std::optional<shared_ptr<CFile>> CConnection::getFile(const CUrl & url){
 
     if (response.value().getContentType() == "text"){
         if(response.value().getContentFormat() == "html"){
-            return {make_shared<CFileHtml>("filename"s)};
+            auto file = make_shared<CFileHtml>("filename"s);
+            file->setContent(response->getContent());
+            return {file};
         } else if (response.value().getContentFormat() == "css") {
-            return {make_shared<CFileCss>("filename"s)};
+            auto file = make_shared<CFileCss>("filename"s);
+            file->setContent(response->getContent());
+            return {file};
         }
     } else if (response.value().getContentType() == "image"){
-        return {make_shared<CFilePicture>("filename"s, response.value().getContentFormat())};
+        auto file =make_shared<CFilePicture>("filename"s, response.value().getContentFormat());
+        file->setContent(response->getContent());
+        return {file};
     }
 
     return nullopt;

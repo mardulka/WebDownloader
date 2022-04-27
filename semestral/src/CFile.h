@@ -2,8 +2,10 @@
 #define SEMESTRAL_CFILE_H
 
 #include <string>
+#include <iostream>
 #include <filesystem>
 #include <fstream>
+#include <utility>
 #include "CFileType.h"
 
 class CFile{
@@ -19,8 +21,9 @@ public:
      * Constructor
      * @param url Url of
      */
-    CFile(const std::string & name, const std::string & relative_path, const std::string & file_ending, const CFileType & type = CFileType::NO_TYPE)
-            : m_file_name(name), m_relative_path(relative_path), m_file_ending(file_ending), m_type(type){}
+    CFile(std::string name, const std::string & relative_path, std::string file_ending, const CFileType & type = CFileType::NO_TYPE)
+            : m_file_name(std::move(name)), m_relative_path(relative_path), m_file_ending(std::move(file_ending)),
+              m_type(type){}
 
     /**
      * Getter for type attribute.
@@ -32,13 +35,18 @@ public:
      * Getter for getting file name - compound of name and ending
      * @return
      */
-    const std::string getFileName() const;
+    std::string getFileName() const;
 
     /**
-     * Save content.
-     * @return
+     * Method providing file saving. VIRTUAL
      */
-    virtual void save(std::filesystem::path targetFolder);
+    virtual void save(const std::filesystem::path & targetFolder);
+
+    /**
+     * Method for assigning content. If any is present, is deleted.
+     * @param content
+     */
+    void setContent(std::string content);
 
 protected:
 
@@ -46,7 +54,7 @@ protected:
      * Checking if directory exists, if no it is created, it exists and is not a directory, throws INVALID ARGUMENT EXCEPTION.
      * @param targetPath Path which should be checked for existence and being directory.
      */
-    void checkDirectory(std::filesystem::path targetPath);
+    void checkDirectory(const std::filesystem::path & targetPath);
 };
 
 

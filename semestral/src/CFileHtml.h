@@ -6,7 +6,7 @@
 class CFileHtml: public CFile{
 
 public:
-    CFileHtml(const std::string & name, const std::string & relative_path = "/subpages");
+    CFileHtml(const std::string & name, const std::string & relative_path = "subpages");
 };
 
 
