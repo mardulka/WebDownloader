@@ -7,8 +7,11 @@
     <generated>
       <config projectName="semestral" targetName="deps" />
       <config projectName="semestral" targetName="all" />
+      <config projectName="semestral" targetName="CURLtest" />
+      <config projectName="semestral" targetName="CHttpResponsetest" />
       <config projectName="semestral" targetName="webdownloader" />
       <config projectName="semestral" targetName="cleandoc" />
+      <config projectName="semestral" targetName="Makefile" />
       <config projectName="semestral" targetName="doc" />
     </generated>
   </component>
@@ -19,15 +22,17 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CFile files corrected. URL file almost done.&#10;&#10;- URL parsing logic need to be written">
-      <change afterPath="$PROJECT_DIR$/test/CURL_test.cpp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/test/catch.hpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/discord.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/discord.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CHttpResponse&#10;&#10;- Splitted Content_type (text,..) and Content_format(html, css, png,..) fields to allow use values as parameters for Files.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CUrl.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CUrl.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CUrl.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CUrl.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CConnection.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CDownEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownEngine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFileCss.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileCss.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFileCss.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileCss.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFileHtml.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileHtml.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFileHtml.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileHtml.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFilePicture.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFilePicture.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,6 +91,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
   <component name="ProjectId" id="289hRR7AHPTq8CIDkL1tOzT8iEe" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
@@ -93,20 +101,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.cidr.known.project.marker": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "cf.first.check.clang-format": "false",
-    "cidr.known.project.marker": "true",
-    "last_opened_file_path": "C:/Programming/CVUT/PA2/semestral",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "CLionExternalConfigurable",
-    "structure.view.defaults.are.configured": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Programming/CVUT/PA2/semestral&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;CLionExternalConfigurable&quot;,
+    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Programming\CVUT\PA2\semestral" />
@@ -117,7 +125,7 @@
       <recent name="C:\Programming\CVUT\PA2\semestral\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Makefile Target.CURLtest">
+  <component name="RunManager" selected="Makefile Application.webdownloader">
     <configuration default="true" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
       <texify-bibtex>
         <compiler />
@@ -129,9 +137,19 @@
       </texify-bibtex>
       <method v="2" />
     </configuration>
-    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+    <configuration name="CHttpResponsetest" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="CHttpResponsetest" CONFIG_NAME="CHttpResponsetest" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
-        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="CURLtest" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="CURLtest" CONFIG_NAME="CURLtest" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Makefile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="Makefile" CONFIG_NAME="Makefile" version="1">
+      <method v="2">
+        <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
     <configuration name="all" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="all" CONFIG_NAME="all" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
@@ -154,9 +172,14 @@
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="webdownloader" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="webdownloader" CONFIG_NAME="webdownloader" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile/webdownloader">
+    <configuration name="webdownloader" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="webdownloader" CONFIG_NAME="webdownloader" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="EXTERNAL_TOOL_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
@@ -200,6 +223,12 @@
       </makefile>
       <method v="2" />
     </configuration>
+    <configuration name="clean" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
+      <makefile filename="$PROJECT_DIR$/Makefile" target="clean" workingDirectory="" arguments="">
+        <envs />
+      </makefile>
+      <method v="2" />
+    </configuration>
     <configuration name="cleandoc" type="MAKEFILE_TARGET_RUN_CONFIGURATION" factoryName="Makefile" temporary="true">
       <makefile filename="$PROJECT_DIR$/Makefile" target="cleandoc" workingDirectory="" arguments="">
         <envs />
@@ -218,17 +247,22 @@
       <item itemvalue="Makefile Application.all" />
       <item itemvalue="Makefile Application.deps" />
       <item itemvalue="Makefile Application.doc" />
+      <item itemvalue="Makefile Application.CHttpResponsetest" />
       <item itemvalue="Makefile Application.cleandoc" />
+      <item itemvalue="Makefile Application.CURLtest" />
+      <item itemvalue="Makefile Application.Makefile" />
       <item itemvalue="Makefile Application.webdownloader" />
+      <item itemvalue="Makefile Target.clean" />
       <item itemvalue="Makefile Target.CURLtest" />
       <item itemvalue="Makefile Target.all" />
       <item itemvalue="Makefile Target.cleandoc" />
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Makefile Target.clean" />
+        <item itemvalue="Makefile Target.clean" />
         <item itemvalue="Makefile Target.CURLtest" />
         <item itemvalue="Makefile Target.all" />
-        <item itemvalue="Makefile Target.cleandoc" />
         <item itemvalue="Makefile Target.cleandoc" />
       </list>
     </recent_temporary>
@@ -247,7 +281,8 @@
       <workItem from="1650992415242" duration="2217000" />
       <workItem from="1650994665775" duration="1618000" />
       <workItem from="1650996312252" duration="951000" />
-      <workItem from="1650997308841" duration="6321000" />
+      <workItem from="1650997308841" duration="14744000" />
+      <workItem from="1651076527730" duration="15017000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems...">
       <created>1650655685448</created>
@@ -298,7 +333,49 @@
       <option name="project" value="LOCAL" />
       <updated>1650901418950</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="SEM - Written parsing URL.&#10;&#10;- Parsing URL done&#10;- Basic TEST environment prepared and URL test passed.">
+      <created>1651003756412</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1651003756412</updated>
+    </task>
+    <task id="LOCAL-00009" summary="SEM - Parsing URL - exceptions for worng URL format added">
+      <created>1651007919840</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1651007919840</updated>
+    </task>
+    <task id="LOCAL-00010" summary="SEM - URL class v1 done and tested">
+      <created>1651009156735</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1651009156735</updated>
+    </task>
+    <task id="LOCAL-00011" summary="SEM - Modified classes due to changed URL interface&#10;&#10;- Problem with exception on empty URL for getHost() in CCli class">
+      <created>1651012151045</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1651012151045</updated>
+    </task>
+    <task id="LOCAL-00012" summary="SEM - CHttpResponse class written and tested.&#10;&#10;- Tests build in Makefile improved">
+      <created>1651086013469</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1651086013469</updated>
+    </task>
+    <task id="LOCAL-00013" summary="SEM - CHttpResponse&#10;&#10;- Splitted Content_type (text,..) and Content_format(html, css, png,..) fields to allow use values as parameters for Files.">
+      <created>1651090627934</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1651090627934</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -323,6 +400,12 @@
     <MESSAGE value="SEM - CFile - save() method written." />
     <MESSAGE value="SEM - Structer of Files improved. Zadani.txt changed accordingly." />
     <MESSAGE value="SEM - CFile files corrected. URL file almost done.&#10;&#10;- URL parsing logic need to be written" />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - CFile files corrected. URL file almost done.&#10;&#10;- URL parsing logic need to be written" />
+    <MESSAGE value="SEM - Written parsing URL.&#10;&#10;- Parsing URL done&#10;- Basic TEST environment prepared and URL test passed." />
+    <MESSAGE value="SEM - Parsing URL - exceptions for worng URL format added" />
+    <MESSAGE value="SEM - URL class v1 done and tested" />
+    <MESSAGE value="SEM - Modified classes due to changed URL interface&#10;&#10;- Problem with exception on empty URL for getHost() in CCli class" />
+    <MESSAGE value="SEM - CHttpResponse class written and tested.&#10;&#10;- Tests build in Makefile improved" />
+    <MESSAGE value="SEM - CHttpResponse&#10;&#10;- Splitted Content_type (text,..) and Content_format(html, css, png,..) fields to allow use values as parameters for Files." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - CHttpResponse&#10;&#10;- Splitted Content_type (text,..) and Content_format(html, css, png,..) fields to allow use values as parameters for Files." />
   </component>
 </project>

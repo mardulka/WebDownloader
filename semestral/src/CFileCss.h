@@ -5,7 +5,7 @@
 
 class CFileCss : public CFile{
 public:
-    CFileCss(const std::string & name, const std::string & relative_path, const std::string & file_ending);
+    CFileCss(const std::string & name, const std::string & relative_path = "/css");
 };
 
 

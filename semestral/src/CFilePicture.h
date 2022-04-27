@@ -5,8 +5,8 @@
 
 class CFilePicture : public CFile{
 public:
-    CFilePicture(const std::string & name, const std::string & relative_path, const std::string & file_ending);
-    virtual void save(std::filesystem::path targetFolder);
+    CFilePicture(const std::string & name, const std::string & file_ending, const std::string & relative_path = "/pictures");
+    void save(std::filesystem::path targetFolder) override;
 
 };
 

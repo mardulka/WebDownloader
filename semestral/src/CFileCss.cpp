@@ -2,5 +2,5 @@
 
 using namespace std;
 
-CFileCss::CFileCss(const string & name, const string & relative_path, const string & file_ending)
-        : CFile(name, relative_path, file_ending, CFileType::CSS){}
+CFileCss::CFileCss(const string & name, const string & relative_path)
+        : CFile(name, relative_path, "css", CFileType::CSS){}

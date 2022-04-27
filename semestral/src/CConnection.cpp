@@ -30,9 +30,6 @@ void CConnection::connect(const string & hostName){
         close(m_socket);
         throw logic_error("Communication with server cannot be established!");
     }
-
-    //notify success
-    cout << "Connection established." << endl;
 }
 
 CConnection::~CConnection(){
@@ -46,16 +43,13 @@ void CConnection::sendGetRequest(const string & resource){
     request.append("Connection: ").append("close").append("\r\n");
     request.append("Accept: */*").append("\r\n").append("\r\n");
     send(m_socket, request.c_str(), request.length(), MSG_NOSIGNAL);
-    cout << "Sent request: " << endl << request << endl;
 }
 
-string CConnection::getServerResponse() const{
+optional<CHttpResponse> CConnection::getServerResponse() const{
     string output;
     //prepared buffer;
     char * buffer = new char[m_bufferSize];
     memset(buffer, 0, m_bufferSize);
-    //notify progress
-    cout << "Waiting for response....." << endl;
 
     //read
     while (read(m_socket, buffer, m_bufferSize) > 0){
@@ -63,18 +57,40 @@ string CConnection::getServerResponse() const{
         memset(buffer, 0, m_bufferSize);
     }
 
-    //delete buffer and return result
+    //delete buffer
     delete[] buffer;
-    return output;
+
+    //Try create message and return optional
+    try{
+        CHttpResponse response(output);
+        if (response.getStatus() != 200){
+            return nullopt;
+        }
+        return {output};
+    } catch (const invalid_argument & e){
+        return nullopt;
+    }
 }
 
-std::optional <shared_ptr<CFile>> CConnection::getFile(const CUrl & url){
+std::optional<shared_ptr<CFile>> CConnection::getFile(const CUrl & url){
     connect(url.getHost());
     sendGetRequest(url.getPath());
 
-    string response = getServerResponse();
+    auto response = getServerResponse();
 
-    //TODO - parse response
-    //TODO - create file and return
+    //no response - no file
+    if (!response.has_value())
+        return nullopt;
+
+    if (response.value().getContentType() == "text"){
+        if(response.value().getContentFormat() == "html"){
+            return {make_shared<CFileHtml>("filename"s)};
+        } else if (response.value().getContentFormat() == "css") {
+            return {make_shared<CFileCss>("filename"s)};
+        }
+    } else if (response.value().getContentType() == "image"){
+        return {make_shared<CFilePicture>("filename"s, response.value().getContentFormat())};
+    }
+
     return nullopt;
 }

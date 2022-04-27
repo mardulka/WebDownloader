@@ -21,6 +21,7 @@
 #include "CFileCss.h"
 #include "CFilePicture.h"
 #include "CUrl.h"
+#include "CHttpResponse.h"
 
 class CConnection{
 
@@ -90,7 +91,7 @@ private:
     /**
      * Method for reading response from server.
      */
-    [[nodiscard]] std::string getServerResponse() const;
+    [[nodiscard]] std::optional<CHttpResponse> getServerResponse() const;
 
 };
 
