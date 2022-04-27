@@ -16,7 +16,8 @@ TEST_CASE("1# Basic Header"){
 
     CHECK(response1.getProtocol() == "HTTP/1.1");
     CHECK(response1.getStatus() == 200);
-    CHECK(response1.getContentType() == "text/html");
+    CHECK(response1.getContentType() == "text");
+    CHECK(response1.getContentFormat() == "html");
     CHECK(response1.getContent() == "<html>\n</html>\n");
 }
 
@@ -48,6 +49,7 @@ Transfer-Encoding: chunked
 
     CHECK(response2.getProtocol() == "HTTP/1.1");
     CHECK(response2.getStatus() == 200);
-    CHECK(response2.getContentType() == "text/html");
+    CHECK(response2.getContentType() == "text");
+    CHECK(response2.getContentFormat() == "html");
     CHECK(response2.getContent() == "<html>\n</html>\n");
 }

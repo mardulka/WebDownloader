@@ -24,9 +24,16 @@ CHttpResponse::CHttpResponse(const std::string & response){
         //parse attribute name - other attributes can be added in "else if" statement
         line_input >> attr_name;
         if (attr_name == "Content-Type:"){
-            line_input >> m_content_type;
-            if (m_content_type.back() == ';')    //if there is charset value, ';' is used as delimiter
-                m_content_type.pop_back();
+            string ctype;
+            line_input >> ctype;
+
+            if (ctype.back() == ';')    //if there is charset value, ';' is used as delimiter
+                ctype.pop_back();
+
+            //split
+            istringstream ctypestream(ctype);
+            getline(ctypestream, m_content_type, '/');
+            getline(ctypestream, m_content_format);
         }
     }
 
@@ -46,6 +53,10 @@ unsigned short CHttpResponse::getStatus() const{
 
 string CHttpResponse::getContentType() const{
     return m_content_type;
+}
+
+string CHttpResponse::getContentFormat() const{
+    return m_content_format;
 }
 
 string CHttpResponse::getContent() const{

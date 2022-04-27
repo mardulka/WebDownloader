@@ -25,9 +25,14 @@ class CHttpResponse{
     std::string m_status_text;
 
     /**
-     * Reponse content type (text/html)
+     * Reponse content type (text)
      */
     std::string m_content_type;
+
+    /**
+     * Reponse content type (html)
+     */
+    std::string m_content_format;
 
     /**
      * Response content itself - html formatted text, css content, script content, or image binary
@@ -66,6 +71,13 @@ public:
      * @return String of status code
      */
     std::string getContentType() const;
+
+    /**
+     * Getter on content format
+     * @return String of status code
+     */
+    std::string getContentFormat() const;
+
 
     /**
      * Getter on content
