@@ -27,16 +27,6 @@ int main(int argc, char ** argv){
         return 2;
     }
 
-
-
-    //TODO testing - delete in future
-    /*
-        CConnection connection;
-        connection.sendGetRequest("/");
-        cout << connection.getServerResponse() << endl;
-        cout << "Stahujeme." << endl;
-    */
-
     //TODO print downloading stats
     //engine.printStats();
 }

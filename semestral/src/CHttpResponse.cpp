@@ -1,0 +1,53 @@
+#include "CHttpResponse.h"
+
+using namespace std;
+
+CHttpResponse::CHttpResponse(const std::string & response){
+    istringstream input(response);
+
+    string line;
+
+    //read protocol, status and status text
+    input >> m_protocol >> m_status >> m_status_text;
+    //skip rest of line
+    getline(input, line);
+
+    //check protocol
+    if (m_protocol != "HTTP/1.1")
+        throw invalid_argument("Wrong protocol");
+
+    //Read required header attributes - header ends with empty line
+    while (getline(input, line) && !line.empty()){
+        istringstream line_input(line);
+        string attr_name;
+
+        //parse attribute name - other attributes can be added in "else if" statement
+        line_input >> attr_name;
+        if (attr_name == "Content-Type:"){
+            line_input >> m_content_type;
+            if (m_content_type.back() == ';')    //if there is charset value, ';' is used as delimiter
+                m_content_type.pop_back();
+        }
+    }
+
+    //rest of the message
+    while (getline(input, line))
+        m_content.append(line).append(1, '\n');
+
+}
+
+string CHttpResponse::getProtocol() const{
+    return m_protocol;
+}
+
+unsigned short CHttpResponse::getStatus() const{
+    return m_status;
+}
+
+string CHttpResponse::getContentType() const{
+    return m_content_type;
+}
+
+string CHttpResponse::getContent() const{
+    return m_content;
+}
