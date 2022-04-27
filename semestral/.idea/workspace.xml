@@ -22,15 +22,9 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CDownloader.cpp&#10;&#10;- Added catch for filesystem exceptions and unknown exceptions.">
+    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CFile and childs&#10;&#10;- Saving is working. Briefly tested. Problem with parsing content occurred.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFile.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFile.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFile.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFileCss.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileCss.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFileHtml.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileHtml.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFilePicture.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFilePicture.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/CHttpResponse_test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/CHttpResponse_test.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -123,7 +117,7 @@
       <recent name="C:\Programming\CVUT\PA2\semestral\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Makefile Application.webdownloader">
+  <component name="RunManager" selected="Makefile Application.CHttpResponsetest">
     <configuration default="true" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
       <texify-bibtex>
         <compiler />
@@ -280,7 +274,7 @@
       <workItem from="1650994665775" duration="1618000" />
       <workItem from="1650996312252" duration="951000" />
       <workItem from="1650997308841" duration="14744000" />
-      <workItem from="1651076527730" duration="18226000" />
+      <workItem from="1651076527730" duration="19283000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems...">
       <created>1650655685448</created>
@@ -387,7 +381,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651093371041</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="SEM - CFile and childs&#10;&#10;- Saving is working. Briefly tested. Problem with parsing content occurred.">
+      <created>1651095350425</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1651095350425</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -420,6 +421,7 @@
     <MESSAGE value="SEM - CHttpResponse&#10;&#10;- Splitted Content_type (text,..) and Content_format(html, css, png,..) fields to allow use values as parameters for Files." />
     <MESSAGE value="SEM - CFile + childs&#10;&#10;- Corrected required parameters for constructors&#10;- Added logic for creating instances of files" />
     <MESSAGE value="SEM - CDownloader.cpp&#10;&#10;- Added catch for filesystem exceptions and unknown exceptions." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - CDownloader.cpp&#10;&#10;- Added catch for filesystem exceptions and unknown exceptions." />
+    <MESSAGE value="SEM - CFile and childs&#10;&#10;- Saving is working. Briefly tested. Problem with parsing content occurred." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - CFile and childs&#10;&#10;- Saving is working. Briefly tested. Problem with parsing content occurred." />
   </component>
 </project>
