@@ -66,7 +66,7 @@ optional<CHttpResponse> CConnection::getServerResponse() const{
         if (response.getStatus() != 200){
             return nullopt;
         }
-        return {output};
+        return {response};
     } catch (const invalid_argument & e){
         return nullopt;
     }

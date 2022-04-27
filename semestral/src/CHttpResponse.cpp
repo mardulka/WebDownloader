@@ -17,7 +17,7 @@ CHttpResponse::CHttpResponse(const std::string & response){
         throw invalid_argument("Wrong protocol");
 
     //Read required header attributes - header ends with empty line
-    while (getline(input, line) && !line.empty()){
+    while (getline(input, line) && (line != "\r" || line.empty())){
         istringstream line_input(line);
         string attr_name;
 

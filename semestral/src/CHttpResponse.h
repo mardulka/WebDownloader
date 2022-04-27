@@ -46,6 +46,12 @@ public:
      */
     CHttpResponse() = default;
 
+    CHttpResponse(const CHttpResponse & rhs) = default;
+    CHttpResponse & operator =(const CHttpResponse & rhs) = default;
+    CHttpResponse(CHttpResponse && rhs) = default;
+    CHttpResponse & operator = (CHttpResponse && rhs) = default;
+
+
     /**
      * Constructor with whole response string as parameter
      * Throws INVALID_ARGUMENT on parsing error.

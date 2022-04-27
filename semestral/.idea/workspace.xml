@@ -22,8 +22,11 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CFile and childs&#10;&#10;- Saving is working. Briefly tested. Problem with parsing content occurred.">
+    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CHttpResponse_test.cpp&#10;&#10;- More tests added. Class works without problems nad passed all.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/test/CHttpResponse_test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/CHttpResponse_test.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -274,7 +277,7 @@
       <workItem from="1650994665775" duration="1618000" />
       <workItem from="1650996312252" duration="951000" />
       <workItem from="1650997308841" duration="14744000" />
-      <workItem from="1651076527730" duration="19283000" />
+      <workItem from="1651076527730" duration="21030000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems...">
       <created>1650655685448</created>
@@ -388,7 +391,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651095350425</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="SEM - CHttpResponse_test.cpp&#10;&#10;- More tests added. Class works without problems nad passed all.">
+      <created>1651096452930</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1651096452930</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -422,6 +432,7 @@
     <MESSAGE value="SEM - CFile + childs&#10;&#10;- Corrected required parameters for constructors&#10;- Added logic for creating instances of files" />
     <MESSAGE value="SEM - CDownloader.cpp&#10;&#10;- Added catch for filesystem exceptions and unknown exceptions." />
     <MESSAGE value="SEM - CFile and childs&#10;&#10;- Saving is working. Briefly tested. Problem with parsing content occurred." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - CFile and childs&#10;&#10;- Saving is working. Briefly tested. Problem with parsing content occurred." />
+    <MESSAGE value="SEM - CHttpResponse_test.cpp&#10;&#10;- More tests added. Class works without problems nad passed all." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - CHttpResponse_test.cpp&#10;&#10;- More tests added. Class works without problems nad passed all." />
   </component>
 </project>
