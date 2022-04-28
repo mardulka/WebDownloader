@@ -7,16 +7,35 @@ CHttpResponse::CHttpResponse(const std::string & response){
 
     string line;
 
-    //read protocol, status and status text
-    input >> m_protocol >> m_status >> m_status_text;
-    //skip rest of line
-    getline(input, line);
+    //read first header line into class attributes
+    readHeadIntro(input);
 
     //check protocol
     if (m_protocol != "HTTP/1.1")
         throw invalid_argument("Wrong protocol");
 
-    //Read required header attributes - header ends with empty line
+    //read head parameters into class attributes
+    readHeadParameters(input);
+
+    //rest of the message
+    while (getline(input, line))
+        m_content.append(line).append(1, '\n');
+}
+
+void CHttpResponse::readHeadIntro(istringstream & input){
+    string line;
+
+    //read protocol, status and status text
+    input >> m_protocol >> m_status >> m_status_text;
+    //skip rest of line
+    getline(input, line);
+}
+
+void CHttpResponse::readHeadParameters(istringstream & input){
+
+    string line;
+
+    //Read head line by line - ends with empty line
     while (getline(input, line)){
         //if win line breaks, delete excesive \r symbol
         if (line.back() == '\r')
@@ -43,10 +62,6 @@ CHttpResponse::CHttpResponse(const std::string & response){
             getline(ctypestream, m_content_format);
         }
     }
-
-    //rest of the message
-    while (getline(input, line))
-        m_content.append(line).append(1, '\n');
 }
 
 string CHttpResponse::getProtocol() const{

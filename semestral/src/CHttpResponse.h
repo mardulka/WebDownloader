@@ -92,6 +92,19 @@ public:
      */
     std::string getContent() const;
 
+private:
+
+    /**
+     * Method for reading first header line into class attributes
+     * @param input
+     */
+    void readHeadIntro(std::istringstream & input);
+
+    /**
+     * Method for reading defined head parameters into class attributes
+     * @param input
+     */
+    void readHeadParameters(std::istringstream & input);
 };
 
 
