@@ -20,13 +20,20 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - Polymorphism description change.">
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - Improved Makefile - more automation&#10;&#10;- Renamed test classes">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/CHttpResponse_test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/CHttpResponse.test.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/CURL_test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/CUrl.test.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CConnection.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CDownEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownEngine.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFile.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFile.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFileHtml.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileHtml.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFileHtml.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileHtml.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFilePicture.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFilePicture.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CUrl.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CUrl.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,7 +93,7 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectId" id="289hRR7AHPTq8CIDkL1tOzT8iEe" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -95,20 +102,20 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Programming/CVUT/PA2/semestral&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;CLionExternalConfigurable&quot;,
-    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "C:/Programming/CVUT/PA2/semestral",
+    "nodejs_package_manager_path": "npm",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "structure.view.defaults.are.configured": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Programming\CVUT\PA2\semestral" />
@@ -119,7 +126,7 @@
       <recent name="C:\Programming\CVUT\PA2\semestral\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Makefile Application.all">
+  <component name="RunManager" selected="Makefile Application.compile">
     <configuration default="true" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
       <texify-bibtex>
         <compiler />
@@ -136,12 +143,12 @@
         <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Doxyfile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="Doxyfile" CONFIG_NAME="Doxyfile" version="1">
+    <configuration name="Doxyfile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="Doxyfile" CONFIG_NAME="Doxyfile" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Makefile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="Makefile" CONFIG_NAME="Makefile" version="1">
+    <configuration name="Makefile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="Makefile" CONFIG_NAME="Makefile" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
@@ -151,7 +158,7 @@
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="compile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="compile" CONFIG_NAME="compile" version="1">
+    <configuration name="compile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="compile" CONFIG_NAME="compile" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
@@ -265,7 +272,7 @@
       <workItem from="1650996312252" duration="951000" />
       <workItem from="1650997308841" duration="14744000" />
       <workItem from="1651076527730" duration="21173000" />
-      <workItem from="1651164136599" duration="4377000" />
+      <workItem from="1651164136599" duration="9453000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems...">
       <created>1650655685448</created>
@@ -400,7 +407,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651165576406</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="SEM - Improved Makefile - more automation&#10;&#10;- Renamed test classes">
+      <created>1651168611279</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1651168611279</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -437,6 +451,7 @@
     <MESSAGE value="SEM - CHttpResponse_test.cpp&#10;&#10;- More tests added. Class works without problems nad passed all." />
     <MESSAGE value="SEM - CHttpResponse&#10;&#10;- Corrected parsing - empty line could contain '\r' !" />
     <MESSAGE value="SEM - Polymorphism description change." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Polymorphism description change." />
+    <MESSAGE value="SEM - Improved Makefile - more automation&#10;&#10;- Renamed test classes" />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Improved Makefile - more automation&#10;&#10;- Renamed test classes" />
   </component>
 </project>

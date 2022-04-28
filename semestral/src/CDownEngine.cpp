@@ -8,6 +8,9 @@ CDownEngine::CDownEngine(const shared_ptr<CSettings> & settings) : m_settings(se
 
     if (!rFile.has_value())
         throw invalid_argument("URL is not valid.");
+    if(rFile.value()->getType() != CFileType::HTML){
+        throw invalid_argument("Starting URL must be a web page, not resource.");
+    }
 
     m_queue.push(rFile.value());
     m_files.insert({m_settings->url.getUrl(), rFile.value()});

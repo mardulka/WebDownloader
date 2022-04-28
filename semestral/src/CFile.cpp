@@ -19,7 +19,7 @@ void CFile::save(const std::filesystem::path & targetFolder){
 
     //saving by stream from content
     ofstream output;
-    output.open(target_path.string() + '/' + m_file_name + '.' + m_file_ending, ios_base::out);
+    output.open(target_path.string() + '/' + m_file_name + '.' + m_file_ending, ios_base::out | ios_base::binary);
     if (!output.is_open()){
         throw invalid_argument("FILE: File cannot be created.");
     }
@@ -43,4 +43,8 @@ string CFile::getFileName() const{
 
 void CFile::setContent(std::string content){
     m_content = std::move(content);
+}
+
+CFileType CFile::getType() const{
+    return m_type;
 }

@@ -67,7 +67,7 @@ CUrl::CUrl(string url){
     }
 
     for (auto character: m_path){
-        if (isalpha(character) || character == '_' || character == '-' || character == '~' || character == '/')
+        if (isalpha(character) || character == '_' || character == '-' || character == '~' || character == '/' || character == '.')
             continue;
         throw invalid_argument("Given URL contains characters there are not valid!");
     }

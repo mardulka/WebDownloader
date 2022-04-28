@@ -63,7 +63,7 @@ public:
     explicit CConnection();
 
     /**
-     * Destructor. Implemented to free all raw pointers which are necessary to handle INET communication.
+     * Destructor. Implemented to close connection.
      */
     virtual ~CConnection();
 

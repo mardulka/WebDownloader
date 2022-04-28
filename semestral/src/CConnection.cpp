@@ -84,7 +84,7 @@ std::optional<shared_ptr<CFile>> CConnection::getFile(const CUrl & url){
 
     if (response.value().getContentType() == "text"){
         if(response.value().getContentFormat() == "html"){
-            auto file = make_shared<CFileHtml>("filename"s);
+            auto file = make_shared<CFileHtml>("filename"s, 0);
             file->setContent(response->getContent());
             return {file};
         } else if (response.value().getContentFormat() == "css") {

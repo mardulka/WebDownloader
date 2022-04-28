@@ -17,7 +17,14 @@ CHttpResponse::CHttpResponse(const std::string & response){
         throw invalid_argument("Wrong protocol");
 
     //Read required header attributes - header ends with empty line
-    while (getline(input, line) && (line != "\r" || line.empty())){
+    while (getline(input, line)){
+        //if win line breaks, delete excesive \r symbol
+        if (line.back() == '\r')
+            line.pop_back();
+        //check empty line indicating header end
+        if (line.empty())
+            break;
+
         istringstream line_input(line);
         string attr_name;
 
@@ -40,7 +47,6 @@ CHttpResponse::CHttpResponse(const std::string & response){
     //rest of the message
     while (getline(input, line))
         m_content.append(line).append(1, '\n');
-
 }
 
 string CHttpResponse::getProtocol() const{
