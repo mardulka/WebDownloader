@@ -50,19 +50,13 @@ Struktura:  Pojmenováni je převzato z URL na doméně, kde jsou '/' nahrazeny 
 ************************************************************************************************************************
 # Popis polymorfismu
 
-Polymorfizmus je využit pro ukládání souborů. Abstraktní společný předek implementuje obecnou funkci pro ukládání.
-Konkrétní třídy odvozené pak podle svého typu a implementace určují správnou složku, do které se má konkrétní soubor umístit,
-typ otevření souboru, i správnou koncovku souboru.
+Polymorfizmus je využit pro ukládání souborů a parsování obsahu. Abstraktní společný předek implementuje obecnou funkci
+pro ukládání a abstraktní pro parsování. Ukládací funkce zároveň volá parsování které je už implementované u konkrétního
+potomka dle jeho potřeb.
 
-Jestli bude polymorfismus použit i pro stahování souborů závisí na pozdějším rozhodnutí, jeslti je dostatečné rozhodovat
-o formátu souborů pouze na základě tagů v HTML souboru, nebo je třeba brát typ souboru až z response serveru na GET
-request pro dané URL. V prvním případě by soubor byl zakládán až po obdržení response přímo CConnection třídou, která by
-tak tento soubor už vyplněný vracela třídě CDownEngine a ta by volala pouze ukládání. V druhém případě by byl seznam
-souborů vracen přímo parsující funkcí HTML souboru a stahování by si pak soubor řídil sám. Rozhodnutí padne nejspíše
-až v průběhu práce, či na základě zhodnocení dostatečnosti polymorfismu.
+Polymorfismus pro funkci stahování použit nebude, protože rozhodovat o formátu souborů pouze na základě tagů v HTML souboru
+nepovažuji za dostatečné a typ souboru vždy beru až z informace uvedené v hlavičce response serveru na GET request .
 
-Použití konkrétní třídy určuje třída CConnection při procházení tagů na HTML stránce. Pokud narazí na link s odpovídajícím
-otagováním, použije instanci konkrétní třídy pro zachycení tohoto linku pro pozdější zpracování.
 
 +-----------------------+
 |         CFile         |
