@@ -20,10 +20,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - Minor changes&#10;&#10;- CFile - save only in parent class and always binary output&#10;- CFileHtml - added attribute for level, added to constructor as well &#10;- CHttpResponse - trim \r from row end while parsing header&#10;- CDownEngine - added check for initial URL to be a html file">
+    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CHttpResponse - split constructor into more methods">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFile.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CFileHtml.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileHtml.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -262,7 +262,7 @@
       <workItem from="1650996312252" duration="951000" />
       <workItem from="1650997308841" duration="14744000" />
       <workItem from="1651076527730" duration="21173000" />
-      <workItem from="1651164136599" duration="10318000" />
+      <workItem from="1651164136599" duration="11784000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems...">
       <created>1650655685448</created>
@@ -411,7 +411,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651173887454</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="SEM - CHttpResponse - split constructor into more methods">
+      <created>1651174581065</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1651174581065</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -450,6 +457,7 @@
     <MESSAGE value="SEM - Polymorphism description change." />
     <MESSAGE value="SEM - Improved Makefile - more automation&#10;&#10;- Renamed test classes" />
     <MESSAGE value="SEM - Minor changes&#10;&#10;- CFile - save only in parent class and always binary output&#10;- CFileHtml - added attribute for level, added to constructor as well &#10;- CHttpResponse - trim \r from row end while parsing header&#10;- CDownEngine - added check for initial URL to be a html file" />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Minor changes&#10;&#10;- CFile - save only in parent class and always binary output&#10;- CFileHtml - added attribute for level, added to constructor as well &#10;- CHttpResponse - trim \r from row end while parsing header&#10;- CDownEngine - added check for initial URL to be a html file" />
+    <MESSAGE value="SEM - CHttpResponse - split constructor into more methods" />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - CHttpResponse - split constructor into more methods" />
   </component>
 </project>

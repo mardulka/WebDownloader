@@ -14,17 +14,18 @@ CFileType CFile::getType(){
 
 void CFile::save(const std::filesystem::path & targetFolder){
     filesystem::path target_path = targetFolder / m_relative_path;
+    filesystem::path file_path = target_path / (m_file_name + '.' + m_file_ending);
 
     checkDirectory(target_path); //throws exception for not being a directory
 
     //saving by stream from content
     ofstream output;
-    output.open(target_path.string() + '/' + m_file_name + '.' + m_file_ending, ios_base::out | ios_base::binary);
+    output.open(file_path.string(), ios_base::out | ios_base::binary);
     if (!output.is_open()){
         throw invalid_argument("FILE: File cannot be created.");
     }
 
-    cout << "Saving file: " << target_path.string() + '/' + m_file_name + '.' + m_file_ending << endl;
+    cout << "Saving file: " << file_path.string() << endl;
     output << m_content;
     output.close();
 }
