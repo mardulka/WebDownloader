@@ -7,11 +7,9 @@
     <generated>
       <config projectName="semestral" targetName="deps" />
       <config projectName="semestral" targetName="all" />
-      <config projectName="semestral" targetName="CURLtest" />
-      <config projectName="semestral" targetName="CHttpResponsetest" />
-      <config projectName="semestral" targetName="webdownloader" />
-      <config projectName="semestral" targetName="cleandoc" />
+      <config projectName="semestral" targetName="Doxyfile" />
       <config projectName="semestral" targetName="Makefile" />
+      <config projectName="semestral" targetName="compile" />
       <config projectName="semestral" targetName="doc" />
     </generated>
   </component>
@@ -22,12 +20,13 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CHttpResponse_test.cpp&#10;&#10;- More tests added. Class works without problems nad passed all.">
+    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - Polymorphism description change.">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/test/CHttpResponse_test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/CHttpResponse_test.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/CHttpResponse_test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/CHttpResponse.test.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/test/CURL_test.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/test/CUrl.test.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -120,7 +119,7 @@
       <recent name="C:\Programming\CVUT\PA2\semestral\test" />
     </key>
   </component>
-  <component name="RunManager" selected="Makefile Application.CHttpResponsetest">
+  <component name="RunManager" selected="Makefile Application.all">
     <configuration default="true" type="BIBTEX_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
       <texify-bibtex>
         <compiler />
@@ -132,12 +131,12 @@
       </texify-bibtex>
       <method v="2" />
     </configuration>
-    <configuration name="CHttpResponsetest" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="CHttpResponsetest" CONFIG_NAME="CHttpResponsetest" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
+    <configuration default="true" type="CLionExternalRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
       <method v="2">
-        <option name="CLION.COMPOUND.BUILD" enabled="true" />
+        <option name="CLION.EXTERNAL.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="CURLtest" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="CURLtest" CONFIG_NAME="CURLtest" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
+    <configuration name="Doxyfile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="Doxyfile" CONFIG_NAME="Doxyfile" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
@@ -152,7 +151,7 @@
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
     </configuration>
-    <configuration name="cleandoc" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="cleandoc" CONFIG_NAME="cleandoc" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
+    <configuration name="compile" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="compile" CONFIG_NAME="compile" version="1">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
       </method>
@@ -165,16 +164,6 @@
     <configuration name="doc" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="doc" CONFIG_NAME="doc" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
       <method v="2">
         <option name="CLION.COMPOUND.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="webdownloader" type="CLionNativeAppRunConfigurationType" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="semestral" TARGET_NAME="webdownloader" CONFIG_NAME="webdownloader" version="1" RUN_PATH="/mnt/c/Programming/CVUT/PA2/semestral/Makefile">
-      <method v="2">
-        <option name="CLION.COMPOUND.BUILD" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" ELEVATE="false" USE_EXTERNAL_CONSOLE="false" PASS_PARENT_ENVS_2="true">
-      <method v="2">
-        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
       </method>
     </configuration>
     <configuration default="true" type="EXTERNAL_TOOL_RUN_CONFIGURATION" factoryName="LaTeX configuration factory">
@@ -240,13 +229,11 @@
     </configuration>
     <list>
       <item itemvalue="Makefile Application.all" />
+      <item itemvalue="Makefile Application.compile" />
       <item itemvalue="Makefile Application.deps" />
       <item itemvalue="Makefile Application.doc" />
-      <item itemvalue="Makefile Application.CHttpResponsetest" />
-      <item itemvalue="Makefile Application.cleandoc" />
-      <item itemvalue="Makefile Application.CURLtest" />
+      <item itemvalue="Makefile Application.Doxyfile" />
       <item itemvalue="Makefile Application.Makefile" />
-      <item itemvalue="Makefile Application.webdownloader" />
       <item itemvalue="Makefile Target.clean" />
       <item itemvalue="Makefile Target.CURLtest" />
       <item itemvalue="Makefile Target.all" />
@@ -277,7 +264,8 @@
       <workItem from="1650994665775" duration="1618000" />
       <workItem from="1650996312252" duration="951000" />
       <workItem from="1650997308841" duration="14744000" />
-      <workItem from="1651076527730" duration="21030000" />
+      <workItem from="1651076527730" duration="21173000" />
+      <workItem from="1651164136599" duration="4377000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems...">
       <created>1650655685448</created>
@@ -398,7 +386,21 @@
       <option name="project" value="LOCAL" />
       <updated>1651096452930</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="SEM - CHttpResponse&#10;&#10;- Corrected parsing - empty line could contain '\r' !">
+      <created>1651098165214</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1651098165214</updated>
+    </task>
+    <task id="LOCAL-00019" summary="SEM - Polymorphism description change.">
+      <created>1651165576406</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1651165576406</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -433,6 +435,8 @@
     <MESSAGE value="SEM - CDownloader.cpp&#10;&#10;- Added catch for filesystem exceptions and unknown exceptions." />
     <MESSAGE value="SEM - CFile and childs&#10;&#10;- Saving is working. Briefly tested. Problem with parsing content occurred." />
     <MESSAGE value="SEM - CHttpResponse_test.cpp&#10;&#10;- More tests added. Class works without problems nad passed all." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - CHttpResponse_test.cpp&#10;&#10;- More tests added. Class works without problems nad passed all." />
+    <MESSAGE value="SEM - CHttpResponse&#10;&#10;- Corrected parsing - empty line could contain '\r' !" />
+    <MESSAGE value="SEM - Polymorphism description change." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Polymorphism description change." />
   </component>
 </project>

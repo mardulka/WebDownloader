@@ -1,42 +1,67 @@
 CXX=g++
 LD=g++
 AR=ar
+SDIR=src
 BDIR=build
 TDIR=test
+DDIR=doc
+GDIR=debug
 CXXFLAGS=-std=c++17 -Wall -pedantic -O2
 SHELL:=/bin/bash
 
+#lists -----------------------------------------------------------------------------------------------------------------
 
-all: webdownloader
+HEADERS = $(wildcard $(SDIR)/*.h)
+SOURCES = $(wildcard $(SDIR)/*.cpp)
+OBJECTS = $(SOURCES:$(SDIR)/%.cpp=$(BDIR)/%.o)
+TESTS = $(wildcard $(TDIR)/*.test.cpp)
 
-.PHONY: doc deps
+#general targets -------------------------------------------------------------------------------------------------------
 
+.PHONY: all
+all: compile doc
+
+.PHONY: compile
+compile: deps $(BDIR)/webdownloader
+
+#compilations ----------------------------------------------------------------------------------------------------------
+
+.PHONY: deps
 deps:
-	$(CXX) -MM */*.cpp > $(BDIR)/Makefile.d
+	mkdir -p $(BDIR)
+	$(CXX) -MM $(SDIR)/*.cpp > $(BDIR)/Makefile.src.d
+	$(CXX) -MM $(TDIR)/*.cpp > $(BDIR)/Makefile.test.d
 
-webdownloader: $(BDIR)/CDownloader.o $(BDIR)/CCli.o $(BDIR)/CConnection.o $(BDIR)/CDownEngine.o $(BDIR)/CFile.o $(BDIR)/CFileHtml.o $(BDIR)/CFileCss.o $(BDIR)/CFilePicture.o $(BDIR)/CUrl.o $(BDIR)/CHttpResponse.o
-	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $^
+$(BDIR)/webdownloader: $(OBJECTS)
+	mkdir -p $(@D)
+	g++ $^ -o $@
 
-$(BDIR)/%.o: */%.cpp
-	$(CXX) $(CXXFLAGS) -g -c -o $@ $<
+$(BDIR)/%.o: $(SDIR)/%.cpp
+	mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $< -g -c -o $@
 
+$(GDIR)/%.o: $(TDIR)/%.cpp
+	mkdir -p $(@D)
+	$(CXX) $(CXXFLAGS) $< -g -c -o $@
+
+.PHONY: clean
 clean:
-	rm -f $(BDIR)/Makefile.d $(BDIR)/*.o $(BDIR)/webdownloader
+	rm -rf $(BDIR) $(DDIR)
 
 #include deps ----------------------------------------------------------------------------------------------------------
 
--include $(BDIR)/Makefile.d
+-include $(BDIR)/Makefile.src.d
+-include $(BDIR)/Makefile.test.d
 
 #documentation ---------------------------------------------------------------------------------------------------------
-doc:
-	@doxygen
+.PHONY: doc
+doc: Doxyfile $(HEADERS)
+	doxygen Doxyfile
 
-cleandoc:
-	rm -rf ./doc/*
 
 #tests -----------------------------------------------------------------------------------------------------------------
-CURLtest: $(BDIR)/CURL_test.o $(BDIR)/CUrl.o
-	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $^
+CUrl.test: $(GDIR)/CUrl.test.o $(BDIR)/CUrl.o
+	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
 
-CHttpResponsetest: $(BDIR)/CHttpResponse_test.o $(BDIR)/CHttpResponse.o
-	$(CXX) $(CXXFLAGS) -o $(BDIR)/$@ $^
+CHttpResponse.test: $(GDIR)/CHttpResponse.test.o $(BDIR)/CHttpResponse.o
+	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
