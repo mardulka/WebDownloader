@@ -63,14 +63,14 @@ CUrl::CUrl(string url){
     for (auto character: m_host){
         if (isalnum(character) || character == '_' || character == '-' || character == '~' || character == '.')
             continue;
-        throw invalid_argument("Given URL Host contains characters there are not valid!");
+        throw invalid_argument("Given URL contains characters there are not valid!");
     }
 
     for (auto character: m_path){
         if (isalnum(character) || character == '_' || character == '-' || character == '~' || character == '/' ||
             character == '.')
             continue;
-        throw invalid_argument("Given URL Path contains characters there are not valid!");
+        throw invalid_argument("Given URL contains characters there are not valid!");
     }
 
 
@@ -106,8 +106,8 @@ std::string CUrl::getUrl() const{
     //host - MANDATORY
     url.append(m_host);
 
-    //port - if defined
-    if (m_port)
+    //port - if not default
+    if (!m_default_port)
         url.append(":").append(to_string(m_port));
 
     //path - if defined

@@ -27,9 +27,15 @@ class CUrl{
     std::string m_host;
 
     /**
-     * Port number, default value is 80
+     * Port number
      */
     unsigned int m_port = 80;
+
+    /**
+     * Indicates if port is default - default port is not printed into url string
+     */
+    bool m_default_port = true;
+
 
     /**
      * Resource path - mustn't start with "/" symbol - it is here only as delimiter between host and path
