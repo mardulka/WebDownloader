@@ -4,8 +4,8 @@
 
 using namespace std;
 
-CFileHtml::CFileHtml(CUrl url,const string & name, const string & relative_path)
-        : CFile(std::move(url), name, relative_path, "html", CFileType::HTML){}
+CFileHtml::CFileHtml(CUrl url, const string & relative_path)
+        : CFile(std::move(url), relative_path, "html", CFileType::HTML){}
 
 void CFileHtml::replaceLinks(){
     //TODO parse html to get links

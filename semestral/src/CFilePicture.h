@@ -5,7 +5,7 @@
 
 class CFilePicture : public CFile{
 public:
-    CFilePicture(CUrl url, const std::string & name, const std::string & file_ending, const std::string & relative_path = "pictures");
+    CFilePicture(CUrl url, const std::string & file_ending, const std::string & relative_path = "pictures");
 
     /**
      * In Picture file are no links at all. Override PURE VIRTUAL method.

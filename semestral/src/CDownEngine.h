@@ -56,7 +56,7 @@ public:
      * @param settings
      * @param connection
      */
-    CDownEngine(const std::shared_ptr<CSettings> & settings);
+    explicit CDownEngine(const std::shared_ptr<CSettings> & settings);
 
     /**
      * Method starting downloading process;

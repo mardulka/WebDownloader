@@ -20,12 +20,10 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - Minor changes">
+    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - Complete Downloading logic change&#10;&#10;- All file download, parsing file links, processing files is called in CDownEngine class in queues. It allows implement paralel processes in future.&#10;&#10;- Accordingly changed CFile class and their child classes.&#10;&#10;TODO:&#10;* hash function for CUrl for Unordered map usage&#10;* Parsing and replacing links methods in all files.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDownEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownEngine.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CDownEngine.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownEngine.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CDownloader.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownloader.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CFile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFile.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CFile.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFile.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CFileCss.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileCss.cpp" afterDir="false" />
@@ -34,6 +32,7 @@
       <change beforePath="$PROJECT_DIR$/src/CFileHtml.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileHtml.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CFilePicture.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CFilePicture.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,20 +101,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Programming/CVUT/PA2/semestral&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
-    &quot;structure.view.defaults.are.configured&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "last_opened_file_path": "C:/Programming/CVUT/PA2/semestral",
+    "nodejs_package_manager_path": "npm",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.pluginManager",
+    "structure.view.defaults.are.configured": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Programming\CVUT\PA2\semestral" />
@@ -273,7 +273,7 @@
       <workItem from="1650997308841" duration="14744000" />
       <workItem from="1651076527730" duration="21173000" />
       <workItem from="1651164136599" duration="20643000" />
-      <workItem from="1651212058854" duration="8263000" />
+      <workItem from="1651212058854" duration="9169000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems...">
       <created>1650655685448</created>
@@ -436,7 +436,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651176035153</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="SEM - Complete Downloading logic change&#10;&#10;- All file download, parsing file links, processing files is called in CDownEngine class in queues. It allows implement paralel processes in future.&#10;&#10;- Accordingly changed CFile class and their child classes.&#10;&#10;TODO:&#10;* hash function for CUrl for Unordered map usage&#10;* Parsing and replacing links methods in all files.">
+      <created>1651223617211</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1651223617211</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -477,6 +484,8 @@
     <MESSAGE value="SEM - Minor changes&#10;&#10;- CFile - save only in parent class and always binary output&#10;- CFileHtml - added attribute for level, added to constructor as well &#10;- CHttpResponse - trim \r from row end while parsing header&#10;- CDownEngine - added check for initial URL to be a html file" />
     <MESSAGE value="SEM - CHttpResponse - split constructor into more methods" />
     <MESSAGE value="SEM - Minor changes" />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Minor changes" />
+    <MESSAGE value="SEM - Complete Downloading logic change&#10;&#10;- All file download, parsing file links, processing files is called in CDownEngine class in queues. It allows implement paralel processes in future.&#10;&#10;- Accordingly changed CFile class and their child classes." />
+    <MESSAGE value="SEM - Complete Downloading logic change&#10;&#10;- All file download, parsing file links, processing files is called in CDownEngine class in queues. It allows implement paralel processes in future.&#10;&#10;- Accordingly changed CFile class and their child classes.&#10;&#10;TODO:&#10;* hash function for CUrl for Unordered map usage&#10;* Parsing and replacing links methods in all files." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - Complete Downloading logic change&#10;&#10;- All file download, parsing file links, processing files is called in CDownEngine class in queues. It allows implement paralel processes in future.&#10;&#10;- Accordingly changed CFile class and their child classes.&#10;&#10;TODO:&#10;* hash function for CUrl for Unordered map usage&#10;* Parsing and replacing links methods in all files." />
   </component>
 </project>

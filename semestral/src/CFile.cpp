@@ -8,7 +8,7 @@
 
 using namespace std;
 
-CFileType CFile::getType(){
+CFileType CFile::getType() const{
     return m_type;
 }
 
@@ -44,10 +44,6 @@ void CFile::setContent(std::string content){
     m_content = std::move(content);
 }
 
-CFileType CFile::getType() const{
-    return m_type;
-}
-
 void CFile::process(const std::unordered_map<CUrl, std::filesystem::path> & links_paths){
     try{
         replaceLinks();
@@ -61,7 +57,7 @@ void CFile::generateName(const filesystem::path & targetFolder, set<filesystem::
 
     //generate filename
     m_file_name = m_url.getPath();
-    for (auto item: m_file_name){
+    for (auto & item: m_file_name){
         if (item == '/')
             item = '_';
     }

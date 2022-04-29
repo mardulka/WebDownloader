@@ -7,7 +7,7 @@ class CFileHtml: public CFile{
 
 
 public:
-    CFileHtml(CUrl url, const std::string & name, const std::string & relative_path = "subpages");
+    explicit CFileHtml(CUrl url, const std::string & relative_path = "subpages");
 
     /**
      * Go through file and read all links..

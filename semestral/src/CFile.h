@@ -39,7 +39,6 @@ protected:
      */
     std::string m_file_ending;
 
-
     /**
      * Absolute filesystem path of file
      */
@@ -61,21 +60,21 @@ public:
      * Constructor
      * @param url Url of
      */
-    CFile(CUrl m_url, std::string name, const std::string & relative_path, std::string file_ending, const CFileType & type = CFileType::NO_TYPE)
+    CFile(CUrl m_url, const std::string & relative_path, std::string file_ending, const CFileType & type = CFileType::NO_TYPE)
             : m_type(type), m_url(std::move(m_url)), m_relative_path(relative_path),
-              m_file_name(std::move(name)), m_file_ending(std::move(file_ending)){}
+              m_file_ending(std::move(file_ending)){}
 
     /**
      * Getter for type attribute.
      * @return File type.
      */
-    CFileType getType();
+    [[nodiscard]] virtual CFileType getType() const;
 
     /**
      * Getter for getting file name - compound of name and ending
      * @return
      */
-    std::string getFileName() const;
+    [[nodiscard]] std::string getFileName() const;
 
     /**
      * Method for assigning content. If any is present, is deleted.
@@ -113,12 +112,6 @@ protected:
      * Method providing file saving. VIRTUAL
      */
     virtual void save();
-
-    /**
-     * Getter for file type
-     * @return CFileType enum value
-     */
-    [[nodiscard]] virtual CFileType getType() const;
 
     /**
      * Checking if directory exists, if no it is created, it exists and is not a directory, throws INVALID ARGUMENT EXCEPTION.

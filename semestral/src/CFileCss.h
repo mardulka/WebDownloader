@@ -5,7 +5,7 @@
 
 class CFileCss : public CFile{
 public:
-    CFileCss(CUrl url, const std::string & name, const std::string & relative_path = "css");
+    explicit CFileCss(CUrl url, const std::string & relative_path = "css");
 
     /**
      * Go through file and read all links.

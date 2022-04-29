@@ -4,8 +4,8 @@
 
 using namespace std;
 
-CFileCss::CFileCss(CUrl url, const string & name, const string & relative_path)
-        : CFile(std::move(url), name, relative_path, "css", CFileType::CSS){}
+CFileCss::CFileCss(CUrl url,  const string & relative_path)
+        : CFile(std::move(url), relative_path, "css", CFileType::CSS){}
 
 void CFileCss::replaceLinks(){
     //TODO parse html to get links

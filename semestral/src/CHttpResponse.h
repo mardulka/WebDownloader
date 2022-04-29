@@ -18,7 +18,7 @@ class CHttpResponse{
     /**
      * Response status (200)
      */
-    unsigned short m_status;
+    unsigned short m_status{};
 
     /**
      * Response status text (OK)
@@ -58,39 +58,39 @@ public:
      * Throws INVALID_ARGUMENT on parsing error.
      * @param response
      */
-    CHttpResponse(const std::string & response);
+    explicit CHttpResponse(const std::string & response);
 
 
     /**
      * Getter on content
      * @return String of content
      */
-    std::string getProtocol() const;
+    [[nodiscard]] std::string getProtocol() const;
 
     /**
      * Getter on response status
      * @return String of status code
      */
-    unsigned short getStatus() const;
+    [[nodiscard]] unsigned short getStatus() const;
 
     /**
      * Getter on content type
      * @return String of status code
      */
-    std::string getContentType() const;
+    [[nodiscard]] std::string getContentType() const;
 
     /**
      * Getter on content format
      * @return String of status code
      */
-    std::string getContentFormat() const;
+    [[nodiscard]] std::string getContentFormat() const;
 
 
     /**
      * Getter on content
      * @return String of content
      */
-    std::string getContent() const;
+    [[nodiscard]] std::string getContent() const;
 
 private:
 
