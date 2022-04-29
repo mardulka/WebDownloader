@@ -84,8 +84,8 @@ public:
     [[nodiscard]] unsigned int getPort() const;
 
     /**
-     * Getter on path / resource
-     * @return String of resource path
+     * Getter on path
+     * @return String of path
      */
     [[nodiscard]] std::string getPath() const;
 
@@ -100,6 +100,12 @@ public:
      * @return String of URL.
      */
     [[nodiscard]] std::string getUrl() const;
+
+    /**
+     * Getter on path?resource
+     * @return String of resource path
+     */
+    [[nodiscard]] std::string getResource() const;
 
     /**
      * Method returning information if url is empty. Empty URL is when HOST is empty
