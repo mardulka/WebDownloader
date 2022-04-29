@@ -25,7 +25,7 @@ int main(int argc, char ** argv){
     } catch (const invalid_argument & e){
         Cli.write(e.what());
         return 2;
-    } catch(const filesystem::filesystem_error &fe){
+    } catch (const filesystem::filesystem_error & fe){
         cout << fe.what() << endl;
         return 5;
     } catch (...){
@@ -34,4 +34,7 @@ int main(int argc, char ** argv){
 
     //TODO print downloading stats
     //engine.printStats();
+
+    cout << "Konec programu!" << endl;
+    return 0;
 }

@@ -32,6 +32,9 @@ void CDownEngine::start(){
 
     //process all files in process queue
     processFiles();
+
+    //TODO log of CLI output
+    cout << "All processed!" << endl;
 }
 
 void CDownEngine::downloadFiles(){
@@ -71,6 +74,7 @@ void CDownEngine::processFiles(){
         m_queue_process.pop();
 
         //call process method in file
+        //TODO exception?
         file->process(m_links_to_paths);
     }
 }

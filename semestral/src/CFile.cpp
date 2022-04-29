@@ -23,10 +23,10 @@ void CFile::save(){
     }
 
     //TODO Message to CLI or log
-    cout << "Saving file: " << m_file_path.string() << endl;
+    cout << "Saving file: " << absolute(m_file_path).string() << setw(10) << setfill('.') << "" << flush;
     output << m_content;
     output.close();
-
+    cout << "File saved." << endl;
 }
 
 void CFile::checkDirectory(const std::filesystem::path & targetPath){
