@@ -90,8 +90,8 @@ optional<std::string> CFile::makeLinkAbsolute(const string & link){
         return m_url.getScheme().append(":").append(link);
     if (*iter == '/' && isalnum(*(iter + 1)))
         return m_url.getScheme().append(":").append(m_url.getHost()).append(link);
-    if ((link.size() >= 6 && string(iter, iter + 6) == "http://")
-        || (link.size() >= 7 && string(iter, iter + 7) == "https://"))
+    if ((link.size() >= 7 && string(iter, iter + 7) == "http://")
+        || (link.size() >= 8 && string(iter, iter + 8) == "https://"))
         return link;
 
     return nullopt;
