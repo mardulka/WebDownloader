@@ -5,10 +5,22 @@
 
 class CFileHtml: public CFile{
 
-    int m_level{};
 
 public:
-    CFileHtml(const std::string & name, int level, const std::string & relative_path = "subpages");
+    CFileHtml(CUrl url, const std::string & name, const std::string & relative_path = "subpages");
+
+    /**
+     * Go through file and read all links..
+     * @return
+     */
+    std::list<CUrl> readLinks() override;
+
+protected:
+
+    /**
+     * Go through file and replace all links with path from map.
+     */
+    void replaceLinks() override;
 };
 
 

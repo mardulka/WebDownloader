@@ -5,7 +5,20 @@
 
 class CFileCss : public CFile{
 public:
-    CFileCss(const std::string & name, const std::string & relative_path = "css");
+    CFileCss(CUrl url, const std::string & name, const std::string & relative_path = "css");
+
+    /**
+     * Go through file and read all links.
+     * @return list of all links
+     */
+    std::list<CUrl> readLinks() override;
+
+protected:
+
+    /**
+     * Go through file and replace all links with path from map.
+     */
+    void replaceLinks() override;
 };
 
 

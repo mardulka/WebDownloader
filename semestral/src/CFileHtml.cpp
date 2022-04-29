@@ -1,10 +1,17 @@
 #include "CFileHtml.h"
 
+#include <utility>
+
 using namespace std;
 
-CFileHtml::CFileHtml(const string & name, int level, const string & relative_path)
-        : CFile(name, relative_path, "html", CFileType::HTML){
-    if(level <=0){
-        m_relative_path = "";
-    }
+CFileHtml::CFileHtml(CUrl url,const string & name, const string & relative_path)
+        : CFile(std::move(url), name, relative_path, "html", CFileType::HTML){}
+
+void CFileHtml::replaceLinks(){
+    //TODO parse html to get links
+    //TODO for every link replace from map with path (absolute / relative?)
+}
+
+list<CUrl> CFileHtml::readLinks(){
+    return std::list<CUrl>();
 }

@@ -29,7 +29,7 @@ int main(int argc, char ** argv){
         cout << fe.what() << endl;
         return 5;
     } catch (...){
-        cout << "Unknown ERROR occured." << endl;
+        cout << "Unknown ERROR occurred." << endl;
     }
 
     //TODO print downloading stats

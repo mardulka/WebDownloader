@@ -6,24 +6,64 @@
 #include <filesystem>
 #include <fstream>
 #include <utility>
+#include <list>
+#include <set>
+#include <unordered_map>
 #include "CFileType.h"
+#include "CUrl.h"
 
 class CFile{
 protected:
+    /**
+     * File type represented by enum class value
+     */
     CFileType m_type;
+
+    /**
+     * File URL where was downloaded from
+     */
+    CUrl m_url;
+
+    /**
+     * Relative filesystem path in folder for download
+     */
     std::filesystem::path m_relative_path;
+
+    /**
+     * File name
+     */
     std::string m_file_name;
+
+    /**
+     * File type extension
+     */
     std::string m_file_ending;
+
+
+    /**
+     * Absolute filesystem path of file
+     */
+    std::filesystem::path m_file_path;
+
+    /**
+     * File content
+     */
     std::string m_content;
 
 public:
+
+    /**
+     * File level in links from starting URL
+     */
+    int m_level = 0;
+
     /**
      * Constructor
      * @param url Url of
      */
-    CFile(std::string name, const std::string & relative_path, std::string file_ending, const CFileType & type = CFileType::NO_TYPE)
-            : m_type(type), m_relative_path(relative_path), m_file_name(std::move(name)),
-              m_file_ending(std::move(file_ending)){}
+    CFile(CUrl m_url, std::string name, const std::string & relative_path, std::string file_ending, const CFileType & type = CFileType::NO_TYPE)
+            : m_type(type), m_url(std::move(m_url)), m_relative_path(relative_path),
+              m_file_name(std::move(name)), m_file_ending(std::move(file_ending)){}
 
     /**
      * Getter for type attribute.
@@ -38,17 +78,41 @@ public:
     std::string getFileName() const;
 
     /**
-     * Method providing file saving. VIRTUAL
-     */
-    virtual void save(const std::filesystem::path & targetFolder);
-
-    /**
      * Method for assigning content. If any is present, is deleted.
      * @param content
      */
     void setContent(std::string content);
 
+    /**
+     * Method for start process on file = parse for links and replace with file + save to FS
+     * @param links_paths map providing info which URL should be replace by which path
+     */
+    virtual void process(const std::unordered_map<CUrl, std::filesystem::path> & links_paths);
+
+    /**
+     * Method for parsing links in content. PURE VIRTUAL
+     * @return list of all links
+     */
+    virtual std::list<CUrl> readLinks() = 0;
+
+    /**
+     * Method for reserving names
+     * @param targetFolder
+     * @param used_names
+     */
+    virtual void generateName(const std::filesystem::path & targetFolder, std::set<std::filesystem::path> & used_names);
+
 protected:
+
+    /**
+     * Method for replacing links in content. PURE VIRTUAL
+     */
+    virtual void replaceLinks() = 0;
+
+    /**
+     * Method providing file saving. VIRTUAL
+     */
+    virtual void save();
 
     /**
      * Getter for file type

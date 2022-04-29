@@ -7,9 +7,10 @@
 #include "CFile.h"
 #include "CFileHtml.h"
 #include <queue>
-#include <map>
+#include <unordered_map>
 #include <algorithm>
 #include <memory>
+#include <set>
 
 
 /**
@@ -18,19 +19,29 @@
 class CDownEngine{
 
     /**
-     * Map for indexing files by their original resource url
+     * Map for indexing file paths by their original resource url
      */
-    std::map <std::string, std::shared_ptr<CFile>> m_files;
+    std::unordered_map<CUrl, std::filesystem::path> m_links_to_paths;
 
     /**
-     * Queue of files for further download and save
+     * Set of the used filenames represented by absolute filesystem path
      */
-    std::queue <std::shared_ptr<CFile>> m_queue;
+    std::set<std::filesystem::path> m_used_filenames;
+
+    /**
+     * Queue of links for downloading file and parse for other links
+     */
+    std::queue<std::pair<CUrl, int>> m_queue_download;
+
+    /**
+     * Queue of links for replacing links in files and save = process files
+     */
+    std::queue<std::shared_ptr<CFile>> m_queue_process;
 
     /**
      * Saved settings
      */
-    std::shared_ptr <CSettings> m_settings;
+    std::shared_ptr<CSettings> m_settings;
 
     /**
      * Class which providing communication
@@ -45,12 +56,24 @@ public:
      * @param settings
      * @param connection
      */
-    CDownEngine(const std::shared_ptr <CSettings> & settings);
+    CDownEngine(const std::shared_ptr<CSettings> & settings);
 
     /**
      * Method starting downloading process;
      */
     void start();
+
+private:
+    /**
+     * Method downloads files from queue links, parse them for links.
+     * Links are stored back in link queue, files in process queue.
+     */
+    void downloadFiles();
+
+    /**
+     * Method for processing files = replace links and save.
+     */
+    void processFiles();
 };
 
 
