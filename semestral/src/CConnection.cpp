@@ -52,8 +52,9 @@ optional<CHttpResponse> CConnection::getServerResponse() const{
     memset(buffer, 0, m_bufferSize);
 
     //read
-    while (read(m_socket, buffer, m_bufferSize) > 0){
-        output.append(buffer);
+    size_t bytes = 0;
+    while ((bytes = read(m_socket, buffer, m_bufferSize)) > 0){
+        output.append(buffer, bytes);
         memset(buffer, 0, m_bufferSize);
     }
 
