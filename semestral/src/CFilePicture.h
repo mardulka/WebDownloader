@@ -5,7 +5,18 @@
 
 class CFilePicture : public CFile{
 public:
+    /**
+     * Constructor
+     * @param url File URL
+     * @param file_ending extension for filename representing picture format
+     * @param relative_path File relative path for saving
+     */
     CFilePicture(CUrl url, const std::string & file_ending, const std::string & relative_path = "pictures");
+
+    /**
+     * Destructor
+     */
+    virtual ~CFilePicture() = default;
 
     /**
      * In Picture file are no links at all. Override PURE VIRTUAL method.
@@ -21,7 +32,6 @@ protected:
     void replaceLinks() override;
 
 };
-
 
 
 #endif //SEMESTRAL_CFILEPICTURE_H

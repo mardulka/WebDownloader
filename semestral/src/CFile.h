@@ -75,13 +75,13 @@ public:
      * Getter for getting file name - compound of name and ending
      * @return
      */
-    [[nodiscard]] std::string getFileName() const;
+    [[nodiscard]] virtual std::string getFileName() const;
 
     /**
      * Method for assigning content. If any is present, is deleted.
      * @param content
      */
-    void setContent(std::string content);
+    virtual void setContent(std::string content);
 
     /**
      * Method for start process on file = parse for links and replace with file + save to FS

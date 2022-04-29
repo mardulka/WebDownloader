@@ -5,9 +5,19 @@
 
 class CFileHtml: public CFile{
 
-
 public:
+
+    /**
+     * Constructor
+     * @param url File URL
+     * @param relative_path File relative path for saving
+     */
     explicit CFileHtml(CUrl url, const std::string & relative_path = "subpages");
+
+    /**
+     * Destructor
+     */
+    virtual ~CFileHtml() = default;
 
     /**
      * Go through file and read all links..

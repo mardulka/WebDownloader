@@ -65,3 +65,6 @@ CUrl.test: $(GDIR)/CUrl.test.o $(BDIR)/CUrl.o
 
 CHttpResponse.test: $(GDIR)/CHttpResponse.test.o $(BDIR)/CHttpResponse.o
 	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
+
+CFileHtml.test: $(GDIR)/CFileHtml.test.o $(BDIR)/CFileHtml.o $(BDIR)/CFile.o $(BDIR)/CUrl.o
+	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
