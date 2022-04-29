@@ -75,7 +75,7 @@ optional<CHttpResponse> CConnection::getServerResponse() const{
 
 std::optional<shared_ptr<CFile>> CConnection::getFile(const CUrl & url){
     connect(url.getHost());
-    sendGetRequest(url.getPath());
+    sendGetRequest(url.getResource());
 
     auto response = getServerResponse();
 
