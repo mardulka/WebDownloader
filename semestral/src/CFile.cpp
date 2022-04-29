@@ -80,3 +80,19 @@ void CFile::generateName(const filesystem::path & targetFolder, set<filesystem::
     used_names.insert(m_file_path);
 
 }
+
+optional<std::string> CFile::makeLinkAbsolute(const string & link){
+    auto iter = link.begin();
+    if (link.front() == '.')
+        ++iter;
+
+    if (*iter == '/' && *(iter + 1) == '/')
+        return m_url.getScheme().append(":").append(link);
+    if (*iter == '/' && isalnum(*(iter + 1)))
+        return m_url.getScheme().append(":").append(m_url.getHost()).append(link);
+    if ((link.size() >= 6 && string(iter, iter + 6) == "http://")
+        || (link.size() >= 7 && string(iter, iter + 7) == "https://"))
+        return link;
+
+    return nullopt;
+}

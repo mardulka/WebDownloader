@@ -119,6 +119,14 @@ protected:
      * @param targetPath Path which should be checked for existence and being directory.
      */
     void checkDirectory(const std::filesystem::path & targetPath);
+
+    /**
+     * Method for complete link to absolute based on the file URL
+     * @param link link to be made absolute
+     * @return Link if is absolute or was converted, nullopt for another link types
+     */
+    std::optional<std::string> makeLinkAbsolute(const std::string & link);
+
 };
 
 
