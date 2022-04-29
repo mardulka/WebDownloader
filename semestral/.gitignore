@@ -1,7 +1,6 @@
 build/*
 doc/*
 debug/*
-.idea/*
 
 ### C++ template
 # Prerequisites
