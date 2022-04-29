@@ -22,6 +22,7 @@ void CFile::save(){
         throw invalid_argument("FILE: File cannot be created.");
     }
 
+    //TODO Message to CLI or log
     cout << "Saving file: " << m_file_path.string() << endl;
     output << m_content;
     output.close();
@@ -44,7 +45,7 @@ void CFile::setContent(std::string content){
     m_content = std::move(content);
 }
 
-void CFile::process(const std::unordered_map<CUrl, std::filesystem::path> & links_paths){
+void CFile::process(const std::unordered_map<std::string, std::filesystem::path> & links_paths){
     try{
         replaceLinks();
         save();
@@ -55,15 +56,19 @@ void CFile::process(const std::unordered_map<CUrl, std::filesystem::path> & link
 
 void CFile::generateName(const filesystem::path & targetFolder, set<filesystem::path> & used_names){
 
-    //generate filename
-    m_file_name = m_url.getPath();
+    //generate filename from path with cut first "/"
+    m_file_name = m_url.getPath().substr(1, m_url.getPath().size() - 1);
     for (auto & item: m_file_name){
         if (item == '/')
             item = '_';
     }
 
-    auto tmp_path = targetFolder / m_relative_path / (m_file_name + '.' + m_file_ending);
+    // if file is top level, it shouldn't be in sub-folder
+    if (m_level == 0)
+        m_relative_path = "";
 
+    //create path, check if exists, if so give first free number behind name
+    auto tmp_path = targetFolder / m_relative_path / (m_file_name + '.' + m_file_ending);
     for (int dist = 0 ; used_names.find(tmp_path) != used_names.end() ; ++dist){
         tmp_path = targetFolder / m_relative_path / (m_file_name + to_string(dist) + '.' + m_file_ending);
     }
@@ -73,6 +78,5 @@ void CFile::generateName(const filesystem::path & targetFolder, set<filesystem::
 
     //reserve name
     used_names.insert(m_file_path);
-
 
 }

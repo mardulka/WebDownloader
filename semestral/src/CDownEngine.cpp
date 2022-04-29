@@ -17,6 +17,9 @@ void CDownEngine::start(){
         throw invalid_argument("Starting URL must be a web page, not resource.");
     }
 
+    //generate filename and reserve it in given set
+    start_file->generateName(m_settings->targetFolder, m_used_filenames);
+
     //parse links from first file
     auto links_list = start_file->readLinks();
     for (const auto & link: links_list)
@@ -52,7 +55,7 @@ void CDownEngine::downloadFiles(){
         //get links from file and save back into queue - only if same link is not already done
         auto links_list = downloaded_file->readLinks();
         for (const auto & new_link: links_list)
-            if (m_links_to_paths.find(new_link) == m_links_to_paths.end())
+            if (m_links_to_paths.find(new_link.getUrl()) == m_links_to_paths.end())
                 m_queue_download.push({new_link, downloaded_file->m_level + 1});
 
         //put file in process queue

@@ -20,19 +20,12 @@
     </configurations>
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - Complete Downloading logic change&#10;&#10;- All file download, parsing file links, processing files is called in CDownEngine class in queues. It allows implement paralel processes in future.&#10;&#10;- Accordingly changed CFile class and their child classes.&#10;&#10;TODO:&#10;* hash function for CUrl for Unordered map usage&#10;* Parsing and replacing links methods in all files.">
+    <list default="true" id="3471fcfd-9157-4cb8-a1dd-fa4efc282538" name="Changes" comment="SEM - CFile removed name from constructor&#10;&#10;- Removed name from constructor since the name is generated from URL.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CConnection.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CConnection.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/CDownEngine.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownEngine.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CDownEngine.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CDownEngine.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CFile.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFile.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/CFile.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFile.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFileCss.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileCss.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFileCss.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileCss.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFileHtml.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileHtml.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFileHtml.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFileHtml.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFilePicture.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CFilePicture.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CFilePicture.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/CHttpResponse.h" beforeDir="false" afterPath="$PROJECT_DIR$/src/CHttpResponse.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -273,7 +266,7 @@
       <workItem from="1650997308841" duration="14744000" />
       <workItem from="1651076527730" duration="21173000" />
       <workItem from="1651164136599" duration="20643000" />
-      <workItem from="1651212058854" duration="9169000" />
+      <workItem from="1651212058854" duration="11865000" />
     </task>
     <task id="LOCAL-00001" summary="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems...">
       <created>1650655685448</created>
@@ -443,7 +436,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651223617211</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="SEM - CFile removed name from constructor&#10;&#10;- Removed name from constructor since the name is generated from URL.">
+      <created>1651224376396</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1651224376396</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -461,7 +461,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="SEM - Socket communication works for http.&#10;&#10;* Responses from http-only sites works.&#10;* SSL library in progress - lack of documentation!&#10;* Address translation problems..." />
     <MESSAGE value="SEM - Little code cleanup" />
     <MESSAGE value="SEM - Restrured classes and code.&#10;&#10;* Created CDownEngine class which would run download and save.&#10;* Move some code inside it." />
     <MESSAGE value="SEM - Cleaned structure" />
@@ -486,6 +485,7 @@
     <MESSAGE value="SEM - Minor changes" />
     <MESSAGE value="SEM - Complete Downloading logic change&#10;&#10;- All file download, parsing file links, processing files is called in CDownEngine class in queues. It allows implement paralel processes in future.&#10;&#10;- Accordingly changed CFile class and their child classes." />
     <MESSAGE value="SEM - Complete Downloading logic change&#10;&#10;- All file download, parsing file links, processing files is called in CDownEngine class in queues. It allows implement paralel processes in future.&#10;&#10;- Accordingly changed CFile class and their child classes.&#10;&#10;TODO:&#10;* hash function for CUrl for Unordered map usage&#10;* Parsing and replacing links methods in all files." />
-    <option name="LAST_COMMIT_MESSAGE" value="SEM - Complete Downloading logic change&#10;&#10;- All file download, parsing file links, processing files is called in CDownEngine class in queues. It allows implement paralel processes in future.&#10;&#10;- Accordingly changed CFile class and their child classes.&#10;&#10;TODO:&#10;* hash function for CUrl for Unordered map usage&#10;* Parsing and replacing links methods in all files." />
+    <MESSAGE value="SEM - CFile removed name from constructor&#10;&#10;- Removed name from constructor since the name is generated from URL." />
+    <option name="LAST_COMMIT_MESSAGE" value="SEM - CFile removed name from constructor&#10;&#10;- Removed name from constructor since the name is generated from URL." />
   </component>
 </project>
