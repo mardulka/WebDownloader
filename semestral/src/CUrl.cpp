@@ -61,16 +61,16 @@ CUrl::CUrl(string url){
 
     //check content for host and path
     for (auto character: m_host){
-        if (isalpha(character) || character == '_' || character == '-' || character == '~' || character == '.')
+        if (isalnum(character) || character == '_' || character == '-' || character == '~' || character == '.')
             continue;
-        throw invalid_argument("Given URL contains characters there are not valid!");
+        throw invalid_argument("Given URL Host contains characters there are not valid!");
     }
 
     for (auto character: m_path){
-        if (isalpha(character) || character == '_' || character == '-' || character == '~' || character == '/' ||
+        if (isalnum(character) || character == '_' || character == '-' || character == '~' || character == '/' ||
             character == '.')
             continue;
-        throw invalid_argument("Given URL contains characters there are not valid!");
+        throw invalid_argument("Given URL Path contains characters there are not valid!");
     }
 
 

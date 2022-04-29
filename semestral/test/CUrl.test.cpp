@@ -227,3 +227,14 @@ TEST_CASE("18# Real URL from application test"){
 
     CHECK_FALSE(url18.empty());
 }
+
+TEST_CASE("19# Real URL from application test"){
+    CUrl url18 = CUrl("http://www.uro-care.cz/remote/imgprev.php?id=dXBsb2FkL2ZvdG8vbXVkcl9zbWVoaWxfbWFydGluLmpwZw%3D%3D&c&h=280");
+    CHECK(url18.getScheme() == "http");
+    CHECK(url18.getHost() == "www.uro-care.cz");
+    CHECK(url18.getPort() == 80);
+    CHECK(url18.getPath() == "/remote/imgprev.php");
+    CHECK(url18.getQuery() == "id=dXBsb2FkL2ZvdG8vbXVkcl9zbWVoaWxfbWFydGluLmpwZw%3D%3D&c&h=280");
+
+    CHECK_FALSE(url18.empty());
+}
