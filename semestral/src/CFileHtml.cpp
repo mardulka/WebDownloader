@@ -36,12 +36,10 @@ list<CUrl> CFileHtml::readLinks(){
         optional<pair<size_t, size_t >> link_limits = nullopt;
         if (tag_name == "a"){
             link_limits = findLinkA(pos2, pos3);
-        } else if (tag_name == "img"){
+        } else if (tag_name == "img" || tag_name == "script"){
             link_limits = findLinkSrc(pos2, pos3);
         } else if (tag_name == "link"){
             link_limits = findLinkCss(pos2, pos3);
-        } else if (tag_name == "script"){
-            link_limits = findLinkSrc(pos2, pos3);
         }
 
         //make absolute + replace + add to links
@@ -56,9 +54,7 @@ list<CUrl> CFileHtml::readLinks(){
 
             //insert into list for further return
             links.emplace_back(absolute_link.value());
-
         }
-
     }
 
     return links;
@@ -126,42 +122,39 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkSrc(const size_t & s
     size_t link_end;
 
     while (attr_start < end){
-        //skip first space
+        //skip first spaces
         while (m_content[attr_start] == ' ' && attr_start < end)
             ++attr_start;
 
-        //read one attribute
-        auto attr_end = attr_start; //attr_end = attr_end
-        while (m_content[attr_end] != ' ' && attr_end < end)
-            ++attr_end;
-
         //read attribute name
         auto attr_name_end = attr_start;
-        while (m_content[attr_name_end] != '=' && attr_name_end < attr_end){
+        while (m_content[attr_name_end] != '='){
             ++attr_name_end;
         }
         string attr_name = m_content.substr(attr_start, attr_name_end - attr_start);
 
-
         //check if attribute name is src, if not, skip attribute and go to next tag
         if (attr_name != "src"){
-            attr_start = attr_end;
+            attr_start = attr_name_end + 2;
+            while (m_content[attr_start] != '"')
+                ++attr_start;
+            ++attr_start;
             continue;
         }
 
+        cout << "Attribute SRC found" << endl; //TODO debug
+
         //move attr_name_end behind '"' with check
-        if ((attr_name_end + 2) < attr_end)
-            link_start = attr_name_end + 2;
-        else
-            break;
+        link_start = attr_name_end + 2;
 
         //find ending '"'
         link_end = link_start;
-        while (m_content[link_end] != '"' && link_end < attr_end){
+        while (m_content[link_end] != '"'){
             ++link_end;
         }
 
         //return limits
+        cout << "Link in SRC has indexes : [" << link_start << ", " << link_end << "]" << endl; //TODO debug
         return make_pair(link_start, link_end);
     }
 

@@ -2,7 +2,7 @@
 
 using namespace std;
 
-CConnectionHttp::CConnectionHttp(): m_host_ptr(nullptr){
+CConnectionHttp::CConnectionHttp() : m_host_ptr(nullptr){
     //Socket creation
     m_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (m_socket < 0)
@@ -77,6 +77,8 @@ std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
     connect(url.getHost());
     sendGetRequest(url.getResource());
 
+    cout << "Downloaded from: " << url.getUrl() << " " << setw(10) << setfill('.') << " "; //TODO log
+
     auto response = getServerResponse();
 
     //no response - no file
@@ -87,17 +89,20 @@ std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
         if (response.value().getContentFormat() == "html"){
             auto file = make_shared<CFileHtml>(url);
             file->setContent(response->getContent());
+            cout << "HTML file downloaded" << endl;//TODO log
             return {file};
         } else if (response.value().getContentFormat() == "css"){
             auto file = make_shared<CFileCss>(url);
             file->setContent(response->getContent());
+            cout << "CSS file downloaded" << endl; //TODO log
             return {file};
         }
     } else if (response.value().getContentType() == "image"){
         auto file = make_shared<CFilePicture>(url, response.value().getContentFormat());
         file->setContent(response->getContent());
+        cout << "IMG file downloaded" << endl; //TODO log
         return {file};
     }
-
+    cout << "Download error." << endl; //TODO log
     return nullopt;
 }

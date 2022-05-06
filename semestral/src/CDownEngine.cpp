@@ -7,6 +7,7 @@ CDownEngine::CDownEngine(const shared_ptr<CSettings> & settings) : m_settings(se
 void CDownEngine::start(){
 
     //Create starting file
+    cout << ">> Downloading starting file." << endl; //TODO log
     auto optFile = m_connection->getFile(m_settings->url);
     if (!optFile.has_value())
         throw invalid_argument("URL is not valid.");
@@ -16,6 +17,8 @@ void CDownEngine::start(){
     if (start_file->getType() != CFileType::HTML){
         throw invalid_argument("Starting URL must be a web page, not resource.");
     }
+
+    cout << ">> Starting file downloaded" << endl; //TODO log
 
     //generate filename and reserve it in given set
     start_file->generateName(m_settings->targetFolder, m_used_filenames);
@@ -34,10 +37,11 @@ void CDownEngine::start(){
     processFiles();
 
     //TODO log of CLI output
-    cout << "All processed!" << endl;
+    cout << "All done!" << endl; //TODO log
 }
 
 void CDownEngine::downloadFiles(){
+    cout << ">> Starting downloading linked files." << endl; //TODO log
     while (!m_queue_download.empty()){
 
         //get URL from queue
@@ -64,9 +68,11 @@ void CDownEngine::downloadFiles(){
         //put file in process queue
         m_queue_process.push(downloaded_file);
     }
+    cout << ">> All linked files downloaded." << endl; //TODO log
 }
 
 void CDownEngine::processFiles(){
+    cout << ">> Starting processing downloaded files." << endl; //TODO log
     while (!m_queue_process.empty()){
 
         //get file from queue
@@ -77,4 +83,5 @@ void CDownEngine::processFiles(){
         //TODO exception?
         file->process(m_links_to_paths);
     }
+    cout << ">> All downloaded files processed." << endl; //TODO log
 }
