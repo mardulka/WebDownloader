@@ -1,10 +1,10 @@
-# Popis Aplikace
+# Popis Aplikace (specifikované zadání)
 
 Název:      Web Downloader
 
 Popis:      Aplikace umožňuje stahovat internetové stránky včetně stránek na které se odkazuje. Odkazované stránky
             se stahují pouze ze stejné domény, volitelně lze omezit počet úrovní odkazů.
-            Se stránkami se defaultně stahují i CSS soubory, obrázky a JS soubory se kvůli velikosti souborů nestahují
+            Se stránkami se defaultně stahují i CSS soubory, ale obrázky a JS soubory se kvůli velikosti souborů nestahují
             a link zůstává na původní online soubory. Stahování těchto souborů lze nastavit přepínači.
             Odkazy, které vedou mimo doménu nebo by překročily nastavený limit úrovní v základu vedou také na původní
             online stránky. Také zde je možné toto chování upravit přepínačem, který takové odkazy nahradí odkazem
@@ -50,9 +50,11 @@ Struktura:  Pojmenováni je převzato z URL na doméně, kde jsou '/' nahrazeny 
 ************************************************************************************************************************
 # Popis polymorfismu
 
+## Soubory
+
 Polymorfizmus je využit pro ukládání souborů a parsování obsahu. Abstraktní společný předek implementuje obecnou funkci
 pro ukládání a abstraktní pro parsování. Ukládací funkce zároveň volá parsování které je už implementované u konkrétního
-potomka dle jeho potřeb.
+potomka dle jeho potřeb (cesty, specifika linků,..).
 
 Polymorfismus pro funkci stahování použit nebude, protože rozhodovat o formátu souborů pouze na základě tagů v HTML souboru
 nepovažuji za dostatečné a typ souboru vždy beru až z informace uvedené v hlavičce response serveru na GET request .
@@ -70,6 +72,7 @@ nepovažuji za dostatečné a typ souboru vždy beru až z informace uvedené v 
 | +CFile(<attr>)        |
 | +getType()            |
 | +getFileName()        |
+| +readLinks()          |
 | +save(): virtual      |
 +-----------------------+
             |
@@ -81,25 +84,46 @@ nepovažuji za dostatečné a typ souboru vždy beru až z informace uvedené v 
 |                       |   |                       |   |                       |   |                       |
 +-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
 | +CFileHtml(<attr>)    |   | +CFileCss(<attr>)     |   | +CFileJs(<attr>)      |   | +CFilePicture(<attr>) |
+| +readLinks()          |   | +readLinks()          |   | +readLinks()          |   | +readLinks()          |
 +-----------------------+   +-----------------------+   +-----------------------+   | +save(): override     |
                                                                                     +-----------------------+
 
-************************************************************************************************************************
-#Případné další použití polymorfismu - Rozšíření o HTTPS
-NEBUDE IMPLEMENTOVÁNO!
 
-Další využití polymorfismu je vidět například u třídy CConnection, která by byla abstraktní třídou možných spojení
-pro stahování odkazů. Aktuálně je stahování realizováno pouze pro http stránky. Pro https stránky je třeba implementovat
-spojení pomocí SSL. Tato nová třída by byla potomkem současné třídy, sdílela stejný interface a proto změna stahování
-z omezení http na https by byla pouze v přídání této nové třídy a jejím nahrazení v konstruktoru CDownEngine.
+## Typ připojení
+
+Další využití polymorfismu je vidět například u třídy CConnection, která je abstraktní třídou možných spojení
+pro stahování odkazů . Aktuálně je stahování realizováno pouze pro http stránky. Pro https stránky je třeba implementovat
+spojení pomocí SSL. Tato nová třída by byla potomkem stejné abstraktní třídy, sdílela stejný interface a proto změna
+stahování z omezení http na https by byla pouze v přídání této nové třídy a jejím nahrazení v konstruktoru CDownEngine.
+Případně je pak možné implementovat tak0 možnost výběru způsobu stahování (SSL, http).
+
+
++-----------------------+
+|      CConnection      |
++-----------------------+
+|                       |
++-----------------------+
+| +getFile(Url)         |
++-----------------------+
+            |
+            +---------------------------+
+            |                           |
++-----------------------+   +-----------------------+
+|    CConnectionHttp    |   |    CConnectionSsl     |
++-----------------------+   +-----------------------+
+|                       |   |                       |
++-----------------------+   +-----------------------+
+| +getFile(Url)         |   | +getFile(Url)         |
++-----------------------+   +-----------------------+
 
 ************************************************************************************************************************
 #Případné využití vícevláknového stahování
 NEBUDE IMPLEMENTOVÁNO!
 
 S ohledem na sdílení zdrojů bych přínos vícevláknového zpracování viděl v možnosti, kdy by jedno vlákno provádělo stahování
-obsahů souborů, druhé vlákno provádělo ukládání na disk, další jedno nebo více vláken by ideálně provádělo parsování HTML
-souborů pro získání dalších odkazů a jejich nahrazování.
+obsahů souborů, druhé vlákno provádělo ukládání na disk, další jedno nebo více vláken by provádělo parsování HTML souborů
+pro získání dalších odkazů a jejich nahrazování. Toto řešení nejspíše nebude implementováno, pouze bude připraven vhodný
+algoritmus pro stahování a parsování souborů pomocí front tak, aby se vlákna v budoucnu snadno implementovala.
 
 ************************************************************************************************************************
 # Originální zadání z Progtestu
