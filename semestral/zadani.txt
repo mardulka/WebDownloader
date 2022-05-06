@@ -95,7 +95,7 @@ Další využití polymorfismu je vidět například u třídy CConnection, kter
 pro stahování odkazů . Aktuálně je stahování realizováno pouze pro http stránky. Pro https stránky je třeba implementovat
 spojení pomocí SSL. Tato nová třída by byla potomkem stejné abstraktní třídy, sdílela stejný interface a proto změna
 stahování z omezení http na https by byla pouze v přídání této nové třídy a jejím nahrazení v konstruktoru CDownEngine.
-Případně je pak možné implementovat tak0 možnost výběru způsobu stahování (SSL, http).
+Případně je pak možné implementovat také možnost výběru způsobu stahování (SSL, http).
 
 
 +-----------------------+

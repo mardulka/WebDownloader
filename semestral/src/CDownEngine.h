@@ -1,11 +1,11 @@
 #ifndef SEMESTRAL_CDOWNENGINE_H
 #define SEMESTRAL_CDOWNENGINE_H
 
-#include "CConnection.h"
+#include "CConnectionHttp.h"
 #include "CSettings.h"
-#include "CConnection.h"
 #include "CFile.h"
 #include "CFileHtml.h"
+#include "CConnection.h"
 #include <queue>
 #include <unordered_map>
 #include <algorithm>
@@ -46,7 +46,7 @@ class CDownEngine{
     /**
      * Class which providing communication
      */
-    CConnection m_connection;
+    std::shared_ptr<CConnection> m_connection;
 
 
 public:

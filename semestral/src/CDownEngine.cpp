@@ -2,12 +2,12 @@
 
 using namespace std;
 
-CDownEngine::CDownEngine(const shared_ptr<CSettings> & settings) : m_settings(settings){}
+CDownEngine::CDownEngine(const shared_ptr<CSettings> & settings) : m_settings(settings), m_connection(make_shared<CConnectionHttp>()){}
 
 void CDownEngine::start(){
 
     //Create starting file
-    auto optFile = m_connection.getFile(m_settings->url);
+    auto optFile = m_connection->getFile(m_settings->url);
     if (!optFile.has_value())
         throw invalid_argument("URL is not valid.");
     auto start_file = optFile.value();
@@ -45,7 +45,7 @@ void CDownEngine::downloadFiles(){
         m_queue_download.pop();
 
         //download file for given URL
-        auto optFile = m_connection.getFile(link.first);
+        auto optFile = m_connection->getFile(link.first);
         if (!optFile.has_value())
             continue; //Error or is behind defined boundaries, therefore skipped.
         auto downloaded_file = optFile.value();

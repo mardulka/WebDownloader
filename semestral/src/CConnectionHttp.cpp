@@ -1,8 +1,8 @@
-#include "CConnection.h"
+#include "CConnectionHttp.h"
 
 using namespace std;
 
-CConnection::CConnection(){
+CConnectionHttp::CConnectionHttp(): m_host_ptr(nullptr){
     //Socket creation
     m_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (m_socket < 0)
@@ -17,7 +17,7 @@ CConnection::CConnection(){
     m_serverAddress.sin_port = htons(m_port);
 }
 
-void CConnection::connect(const string & hostName){
+void CConnectionHttp::connect(const string & hostName){
     //Get address, check if any address has been returned.
     m_host_ptr = gethostbyname(hostName.c_str());
     if (m_host_ptr == nullptr) throw invalid_argument("Url is not valid.");
@@ -32,11 +32,11 @@ void CConnection::connect(const string & hostName){
     }
 }
 
-CConnection::~CConnection(){
+CConnectionHttp::~CConnectionHttp(){
     close(m_socket);
 }
 
-void CConnection::sendGetRequest(const string & resource){
+void CConnectionHttp::sendGetRequest(const string & resource){
     string request;
     request.append("GET ").append(resource).append(" HTTP/1.1").append("\r\n");
     request.append("Host: ").append(m_host_ptr->h_name).append("\r\n");
@@ -45,7 +45,7 @@ void CConnection::sendGetRequest(const string & resource){
     send(m_socket, request.c_str(), request.length(), MSG_NOSIGNAL);
 }
 
-optional<CHttpResponse> CConnection::getServerResponse() const{
+optional<CHttpResponse> CConnectionHttp::getServerResponse() const{
     string output;
     //prepared buffer;
     char * buffer = new char[m_bufferSize];
@@ -73,7 +73,7 @@ optional<CHttpResponse> CConnection::getServerResponse() const{
     }
 }
 
-std::optional<shared_ptr<CFile>> CConnection::getFile(const CUrl & url){
+std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
     connect(url.getHost());
     sendGetRequest(url.getResource());
 

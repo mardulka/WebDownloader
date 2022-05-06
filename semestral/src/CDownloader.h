@@ -2,7 +2,7 @@
 #define SEMESTRAL_CDOWNLOADER_H
 
 #include "CCli.h"
-#include "CConnection.h"
+#include "CConnectionHttp.h"
 #include "CDownEngine.h"
 #include "CFile.h"
 #include "CFileHtml.h"
