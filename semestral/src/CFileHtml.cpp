@@ -30,9 +30,9 @@ list<CUrl> CFileHtml::readLinks(){
             ++pos3;
 
         //find link in tags as position limits <a, b)
-        optional<pair<size_t, size_t >> link_limits = nullopt;
+        optional<pair<size_t, size_t >> link_limits;
         if (tag_name == "a"){
-            link_limits = findLinkA(pos2, pos3);
+            link_limits = findLinkHref(pos2, pos3);
         } else if (tag_name == "img" || tag_name == "script"){
             link_limits = findLinkSrc(pos2, pos3);
         } else if (tag_name == "link"){
@@ -49,21 +49,31 @@ list<CUrl> CFileHtml::readLinks(){
             if (!absolute_link.has_value())
                 continue;
             m_content.replace(link_limits->first, link_limits->second - link_limits->first, absolute_link.value());
-            cout << "New tag: " << m_content << endl;
 
             //insert into list for further return
-            links.emplace_back(absolute_link.value());
+            try{
+                CUrl newlink(absolute_link.value());
+                links.push_back(newlink);
+                cout << "Stored link for download: " << newlink.getUrl() << endl; //TODO log
+            } catch (const invalid_argument & e){
+                continue;
+            }
         }
         pos1 = pos3;
     }
 
+    //TODO log
+    cout << "Got links: " << endl;
+    for(const auto & item: links){
+        cout << item.getUrl() << endl;
+    }
     return links;
 }
 
-std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkA(const size_t & start, const size_t & end){
+std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkHref(const size_t & start, const size_t & end){
 
     //TODO debug
-    cout << "A-TAG: " << m_content.substr(start, end - start) << endl;
+    cout << "HREF-TAG: " << m_content.substr(start, end - start) << endl;
 
     auto attr_start = start;
 
@@ -91,8 +101,6 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkA(const size_t & sta
             continue;
         }
 
-        cout << "Attribute HREF found" << endl; //TODO debug
-
         //move attr_name_end behind '"' with check
         link_start = attr_name_end + 2;
 
@@ -103,7 +111,6 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkA(const size_t & sta
         }
 
         //return limits
-        cout << "Link in HREF has indexes : [" << link_start << ", " << link_end << "]" << endl; //TODO debug
         return make_pair(link_start, link_end);
     }
 
@@ -142,8 +149,6 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkSrc(const size_t & s
             continue;
         }
 
-        cout << "Attribute SRC found" << endl; //TODO debug
-
         //move attr_name_end behind '"' with check
         link_start = attr_name_end + 2;
 
@@ -154,7 +159,6 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkSrc(const size_t & s
         }
 
         //return limits
-        cout << "Link in SRC has indexes : [" << link_start << ", " << link_end << "]" << endl; //TODO debug
         return make_pair(link_start, link_end);
     }
 
@@ -190,8 +194,6 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkCss(const size_t & s
 
 
         if (attr_name == "href"){
-            cout << "Attribute HREF found" << endl; //TODO debug
-
             //move attr_name_end behind '"' with check
             link_start = attr_name_end + 2;
 
@@ -201,8 +203,9 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkCss(const size_t & s
                 ++link_end;
             }
             href = true;
+            attr_start = link_end + 1;
+            continue;
         } else if (attr_name == "rel"){
-            cout << "Attribute REL found" << endl; //TODO debug
             size_t rel_start = attr_name_end + 2;
             //find ending '"'
             size_t rel_end = rel_start;
@@ -212,8 +215,11 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkCss(const size_t & s
             string rel_attr = m_content.substr(rel_start, rel_end - rel_start);
             if (rel_attr == "stylesheet"){
                 rel = true;
-                cout << "Attribute REL is STYLESHEET" << endl; //TODO debug
+            } else{
+                break;
             }
+            attr_start = rel_end + 1;
+            continue;
         }
 
         //skip attribute
@@ -224,12 +230,11 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkCss(const size_t & s
 
     }
 
-    if (!href && !rel){
-        //no src found, therefore empty optional returned
+    if (!href || !rel){
+        //no href found, therefore empty optional returned
         return {};
     }
 
     //return limits
-    cout << "Link in HREF has indexes : [" << link_start << ", " << link_end << "]" << endl; //TODO debug
     return make_pair(link_start, link_end);
 }

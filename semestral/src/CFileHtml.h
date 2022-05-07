@@ -39,7 +39,7 @@ private:
      * @param end position of > at end of tag
      * @return optional pair of link limits, empty if no link is present
      */
-    std::optional<std::pair<size_t , size_t>> findLinkA (const size_t & start, const size_t & end);
+    std::optional<std::pair<size_t , size_t>> findLinkHref (const size_t & start, const size_t & end);
 
     /**
      * Finds link in string of <img> or <script> html tag given by <) limits of file content.

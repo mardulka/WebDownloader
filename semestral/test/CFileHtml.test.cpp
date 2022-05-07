@@ -66,18 +66,23 @@ TEST_CASE("3# Parse LINK tag - simple"){
 <a href="https://www.w3schools.com" target="target">Visit W3Schools.com!</a>
 <img src="img_girl.jpg" alt="Girl in the jacket" width="500" height="600">
 <link rel="stylesheet" href="/lib/w3schools40.css">)";
+    string content3 = R"(<link rel="canonical" href="http://niszp.westeurope.cloudapp.azure.com/cs">)";
 
     auto file1 = make_unique<CFileHtml>(url);
     auto file2 = make_unique<CFileHtml>(url);
+    auto file3 = make_unique<CFileHtml>(url);
     file1->setContent(content1);
     file2->setContent(content2);
+    file3->setContent(content3);
 
 
     auto list1 = file1->readLinks();
     auto list2 = file2->readLinks();
+    auto list3 = file3->readLinks();
 
     REQUIRE(list1.size() == 1);
     REQUIRE(list2.size() == 3);
+    REQUIRE(list3.size() == 0);
 
     REQUIRE(list1.front().getUrl() == "http://www.fit.cvut.cz/img_girl.jpg");
 
