@@ -14,7 +14,7 @@ using namespace std;
 
 // ---------------------------------------------------------------------------------------------------------------------
 
-//Include tested file
+//Include tested file since no header is allowed for PROGTEST
 #include "../../homework/04/test.cpp"
 
 
@@ -41,8 +41,6 @@ bool readTest(CFile & x, const initializer_list<uint8_t> & data, uint32_t rdLen)
 
 TEST_CASE("Default predefined tests." "[PREDEFINED]"){
     CFile f0;
-
-    SECTION(""){
 
         REQUIRE (writeTest(f0, {10, 20, 30}, 3));
         REQUIRE (f0.fileSize() == 3);
@@ -78,8 +76,6 @@ TEST_CASE("Default predefined tests." "[PREDEFINED]"){
         REQUIRE (readTest(f1, {4, 70, 80}, 20));
         REQUIRE (!f1.undoVersion());
 
-
-    }
 }
 
 
