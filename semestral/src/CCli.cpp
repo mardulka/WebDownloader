@@ -77,7 +77,7 @@ void CCli::readDirectory(const string & strPath){
     m_settings->targetFolder.swap(tmpPath);
 }
 
-void CCli::write(const string & text){
+void CCli::write(const string & text) const{
     cout << text << endl;
 }
 
@@ -104,7 +104,7 @@ void CCli::printHelp(){
     cout << level2 << left << setw(optionsNameWidth) << "-d FOLDER" << "Sets folder for website download." << endl;
 }
 
-void CCli::printSettings(){
+void CCli::printSettings() const{
     //Header
     cout << setw(16) << setfill('-') << " ";
     cout << "Download settings:";

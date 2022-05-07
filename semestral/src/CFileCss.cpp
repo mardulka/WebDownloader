@@ -13,5 +13,5 @@ void CFileCss::replaceLinks(){
 }
 
 list<CUrl> CFileCss::readLinks(){
-    return std::list<CUrl>();
+    return {};
 }

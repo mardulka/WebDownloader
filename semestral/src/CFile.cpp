@@ -12,7 +12,7 @@ CFileType CFile::getType() const{
     return m_type;
 }
 
-void CFile::save(){
+void CFile::save() const{
     checkDirectory(m_file_path.parent_path()); //throws exception for not being a directory
 
     //saving by stream from content
@@ -29,7 +29,7 @@ void CFile::save(){
     cout << "File saved." << endl;
 }
 
-void CFile::checkDirectory(const std::filesystem::path & targetPath){
+void CFile::checkDirectory(const std::filesystem::path & targetPath) const{
     if (!filesystem::exists(targetPath)){
         create_directory(targetPath);
     } else if (!filesystem::is_directory(targetPath)){

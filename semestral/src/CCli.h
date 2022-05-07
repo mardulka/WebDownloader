@@ -30,13 +30,13 @@ public:
     /**
      * Method for printing settings.
      */
-    void printSettings();
+    void printSettings() const;
 
     /**
      * Method for printing simple text line to CLI
      * @param text
      */
-    void write(const std::string& text);
+    void write(const std::string& text) const;
 
     /**
      * Method validate given string as system path and tore it into settings class if ok.

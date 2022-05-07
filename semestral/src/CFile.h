@@ -87,7 +87,7 @@ public:
      * Method for start process on file = parse for links and replace with file + save to FS
      * @param links_paths map providing info which URL should be replace by which path
      */
-    virtual void process(const std::unordered_map<std::string , std::filesystem::path> & links_paths);
+    virtual void process(const std::unordered_map<std::string, std::filesystem::path> & links_paths);
 
     /**
      * Method for parsing links in content. PURE VIRTUAL
@@ -112,13 +112,13 @@ protected:
     /**
      * Method providing file saving. VIRTUAL
      */
-    virtual void save();
+    virtual void save() const;
 
     /**
      * Checking if directory exists, if no it is created, it exists and is not a directory, throws INVALID ARGUMENT EXCEPTION.
      * @param targetPath Path which should be checked for existence and being directory.
      */
-    void checkDirectory(const std::filesystem::path & targetPath);
+    void checkDirectory(const std::filesystem::path & targetPath) const;
 
     /**
      * Method for complete link to absolute based on the file URL
