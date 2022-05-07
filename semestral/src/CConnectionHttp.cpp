@@ -2,7 +2,9 @@
 
 using namespace std;
 
-CConnectionHttp::CConnectionHttp() : m_host_ptr(nullptr){
+CConnectionHttp::CConnectionHttp() : m_host_ptr(nullptr){}
+
+void CConnectionHttp::connect(const string & hostName){
     //Socket creation
     m_socket = socket(AF_INET, SOCK_STREAM, 0);
     if (m_socket < 0)
@@ -15,9 +17,7 @@ CConnectionHttp::CConnectionHttp() : m_host_ptr(nullptr){
     bzero(&m_serverAddress, sizeof m_serverAddress);
     m_serverAddress.sin_family = AF_INET;
     m_serverAddress.sin_port = htons(m_port);
-}
 
-void CConnectionHttp::connect(const string & hostName){
     //Get address, check if any address has been returned.
     m_host_ptr = gethostbyname(hostName.c_str());
     if (m_host_ptr == nullptr) throw invalid_argument("Url is not valid.");
@@ -73,13 +73,31 @@ optional<CHttpResponse> CConnectionHttp::getServerResponse() const{
     }
 }
 
+void CConnectionHttp::closeConnection() const{
+    ::close(m_socket);
+}
+
 std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
-    connect(url.getHost());
+    cout << "Downloading from: " << url.getUrl() << flush; //TODO log
+
+    try{
+        connect(url.getHost());
+    } catch (const logic_error & e){
+        cout << " ........ connection error: " << e.what() << endl; //TODO log
+        return nullopt;
+    }
+
     sendGetRequest(url.getResource());
-
-    cout << "Downloaded from: " << url.getUrl() << " " << setw(10) << setfill('.') << " "; //TODO log
-
     auto response = getServerResponse();
+
+    try{
+        closeConnection();
+    } catch (...){
+        cout << " ........ response error" << endl; //TODO log
+        return nullopt;
+    }
+
+    cout << " " << setw(10) << setfill('.') << " " << " " << flush; //TODO log
 
     //no response - no file
     if (!response.has_value())
@@ -103,6 +121,7 @@ std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
         cout << "IMG file downloaded" << endl; //TODO log
         return {file};
     }
-    cout << "Download error." << endl; //TODO log
+
+    cout << "Unsupported file type." << endl; //TODO log
     return nullopt;
 }

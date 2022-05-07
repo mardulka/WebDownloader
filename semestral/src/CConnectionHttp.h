@@ -82,6 +82,10 @@ private:
      */
     void connect(const std::string & hostName);
 
+    /**
+     * Closing connection with remote server
+     */
+    void closeConnection() const;
 
     /**
      * Method for sending requests to server.

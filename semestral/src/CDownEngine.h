@@ -29,7 +29,8 @@ class CDownEngine{
     std::set<std::filesystem::path> m_used_filenames;
 
     /**
-     * Queue of links for downloading file and parse for other links
+     * Queue of links for downloading file and parse for other links.
+     * Second value stores information which level this file would be.
      */
     std::queue<std::pair<CUrl, int>> m_queue_download;
 

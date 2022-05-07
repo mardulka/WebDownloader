@@ -2,7 +2,8 @@
 
 using namespace std;
 
-CDownEngine::CDownEngine(const shared_ptr<CSettings> & settings) : m_settings(settings), m_connection(make_shared<CConnectionHttp>()){}
+CDownEngine::CDownEngine(const shared_ptr<CSettings> & settings) : m_settings(settings),
+                                                                   m_connection(make_shared<CConnectionHttp>()){}
 
 void CDownEngine::start(){
 
@@ -18,15 +19,16 @@ void CDownEngine::start(){
         throw invalid_argument("Starting URL must be a web page, not resource.");
     }
 
-    cout << ">> Starting file downloaded" << endl; //TODO log
-
     //generate filename and reserve it in given set
     start_file->generateName(m_settings->targetFolder, m_used_filenames);
+
+    //store in map of downloaded files
+    m_links_to_paths.insert({m_settings->url.getUrl(), "Filename"}); //TODO filename
 
     //parse links from first file
     auto links_list = start_file->readLinks();
     for (const auto & link: links_list)
-        m_queue_download.push({link, 0});
+        m_queue_download.push({link, 1});
     //put first file into queue for processing
     m_queue_process.push(start_file);
 
@@ -48,11 +50,28 @@ void CDownEngine::downloadFiles(){
         auto link = m_queue_download.front();
         m_queue_download.pop();
 
+        //Check https - not supported, check host, check level
+        if (link.first.getScheme() == "https" ||
+            link.first.getHost() != m_settings->url.getHost() ||
+            (m_settings->levels >= 0 && link.second > m_settings->levels)){
+            continue;
+        }
+
+        /*
+        //Check already downloaded
+        if (){
+
+        }
+*/
+
         //download file for given URL
         auto optFile = m_connection->getFile(link.first);
         if (!optFile.has_value())
             continue; //Error or is behind defined boundaries, therefore skipped.
         auto downloaded_file = optFile.value();
+
+        //store in map of downloaded files
+        m_links_to_paths.insert({m_settings->url.getUrl(), "Filename"}); //TODO filename
 
         //set level
         downloaded_file->m_level = link.second;

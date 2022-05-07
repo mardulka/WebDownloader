@@ -82,7 +82,7 @@ void CFile::generateName(const filesystem::path & targetFolder, set<filesystem::
 }
 
 optional<std::string> CFile::makeLinkAbsolute(const string & link){
-    cout << "Making absolut link from link: " << link << endl; //TODO debug
+    //cout << "Making absolut link from link: " << link << endl; //TODO debug
 
     if (link.empty())
         return nullopt;

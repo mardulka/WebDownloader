@@ -35,6 +35,6 @@ int main(int argc, char ** argv){
     //TODO print downloading stats
     //engine.printStats();
 
-    cout << "Konec programu!" << endl;
+    cout << "Program quit!" << endl;
     return 0;
 }

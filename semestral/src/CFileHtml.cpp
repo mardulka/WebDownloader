@@ -54,7 +54,7 @@ list<CUrl> CFileHtml::readLinks(){
             try{
                 CUrl newlink(absolute_link.value());
                 links.push_back(newlink);
-                cout << "Stored link for download: " << newlink.getUrl() << endl; //TODO log
+                //cout << "Stored link for download: " << newlink.getUrl() << endl; //TODO log
             } catch (const invalid_argument & e){
                 continue;
             }
@@ -63,17 +63,19 @@ list<CUrl> CFileHtml::readLinks(){
     }
 
     //TODO log
+    /*
     cout << "Got links: " << endl;
     for(const auto & item: links){
         cout << item.getUrl() << endl;
     }
+     */
     return links;
 }
 
 std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkHref(const size_t & start, const size_t & end){
 
     //TODO debug
-    cout << "HREF-TAG: " << m_content.substr(start, end - start) << endl;
+    //cout << "HREF-TAG: " << m_content.substr(start, end - start) << endl;
 
     auto attr_start = start;
 
@@ -121,7 +123,7 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkHref(const size_t & 
 std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkSrc(const size_t & start, const size_t & end){
 
     //TODO debug
-    cout << "SRC-TAG: " << m_content.substr(start, end - start) << endl;
+    //cout << "SRC-TAG: " << m_content.substr(start, end - start) << endl;
 
     auto attr_start = start;
 
@@ -170,7 +172,7 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkSrc(const size_t & s
 std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkCss(const size_t & start, const size_t & end){
 
     //TODO debug
-    cout << "LINK-TAG: " << m_content.substr(start, end - start) << endl;
+    //cout << "LINK-TAG: " << m_content.substr(start, end - start) << endl;
 
     auto attr_start = start;
 
