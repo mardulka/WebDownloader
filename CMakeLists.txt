@@ -9,3 +9,8 @@ add_subdirectory(homework)
 add_subdirectory(practice)
 add_subdirectory(test)
 
+add_executable(PR03 practice/03/test.cpp)
+add_executable(PR04 practice/04/test.cpp)
+
+add_executable(HW01 homework/01/test.cpp)
+add_executable(HW02 homework/02/test.cpp)
