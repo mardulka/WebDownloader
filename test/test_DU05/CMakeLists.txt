@@ -1,0 +1,1 @@
+add_executable(HW05_test HW05_test.cpp)
