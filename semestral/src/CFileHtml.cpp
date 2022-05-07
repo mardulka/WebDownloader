@@ -15,9 +15,6 @@ void CFileHtml::replaceLinks(){
 list<CUrl> CFileHtml::readLinks(){
     list<CUrl> links;
 
-    //Using size_t pos instead of iterators.
-    //Iterators may become invalid after replace some part of content.
-
     for (size_t pos1 = 0 ; pos1 < m_content.size() ; ++pos1){
         //check if tag starts
         if (m_content[pos1] != '<' || m_content[pos1 + 1] == '/')
@@ -40,21 +37,24 @@ list<CUrl> CFileHtml::readLinks(){
             link_limits = findLinkSrc(pos2, pos3);
         } else if (tag_name == "link"){
             link_limits = findLinkCss(pos2, pos3);
+        } else{
+            pos1 = pos3;
+            continue;
         }
 
-        //make absolute + replace + add to links
+        //make absolute + add to links
         if (link_limits.has_value()){
             auto absolute_link = makeLinkAbsolute(
                     m_content.substr(link_limits->first, link_limits->second - link_limits->first));
             if (!absolute_link.has_value())
                 continue;
             m_content.replace(link_limits->first, link_limits->second - link_limits->first, absolute_link.value());
-
             cout << "New tag: " << m_content << endl;
 
             //insert into list for further return
             links.emplace_back(absolute_link.value());
         }
+        pos1 = pos3;
     }
 
     return links;
@@ -62,52 +62,52 @@ list<CUrl> CFileHtml::readLinks(){
 
 std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkA(const size_t & start, const size_t & end){
 
+    //TODO debug
+    cout << "A-TAG: " << m_content.substr(start, end - start) << endl;
+
     auto attr_start = start;
 
     size_t link_start;
     size_t link_end;
 
     while (attr_start < end){
-        //skip first space
+        //skip first spaces
         while (m_content[attr_start] == ' ' && attr_start < end)
             ++attr_start;
 
-        //read one attribute
-        auto attr_end = attr_start; //attr_end = attr_end
-        while (m_content[attr_end] != ' ' && attr_end < end)
-            ++attr_end;
-
         //read attribute name
         auto attr_name_end = attr_start;
-        while (m_content[attr_name_end] != '=' && attr_name_end < attr_end){
+        while (m_content[attr_name_end] != '='){
             ++attr_name_end;
         }
         string attr_name = m_content.substr(attr_start, attr_name_end - attr_start);
 
-
         //check if attribute name is href, if not, skip attribute and go to next tag
         if (attr_name != "href"){
-            attr_start = attr_end;
+            attr_start = attr_name_end + 2;
+            while (m_content[attr_start] != '"')
+                ++attr_start;
+            ++attr_start;
             continue;
         }
 
+        cout << "Attribute HREF found" << endl; //TODO debug
+
         //move attr_name_end behind '"' with check
-        if ((attr_name_end + 2) < attr_end)
-            link_start = attr_name_end + 2;
-        else
-            break;
+        link_start = attr_name_end + 2;
 
         //find ending '"'
         link_end = link_start;
-        while (m_content[link_end] != '"' && link_end < attr_end){
+        while (m_content[link_end] != '"'){
             ++link_end;
         }
 
         //return limits
+        cout << "Link in HREF has indexes : [" << link_start << ", " << link_end << "]" << endl; //TODO debug
         return make_pair(link_start, link_end);
     }
 
-    //no href found, therefore empty optional returned
+    //no src found, therefore empty optional returned
     return {};
 }
 
@@ -164,80 +164,72 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkSrc(const size_t & s
 }
 
 std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkCss(const size_t & start, const size_t & end){
-    auto pos1 = start;
 
-    size_t link_start = 0;
-    size_t link_end = 0;
+    //TODO debug
+    cout << "LINK-TAG: " << m_content.substr(start, end - start) << endl;
 
-    bool rel = false;
+    auto attr_start = start;
+
+    size_t link_start;
+    size_t link_end;
+
     bool href = false;
+    bool rel = false;
 
-    while (pos1 < end){
-        //skip first space
-        if (pos1 == ' ' && pos1 < end)
-            ++pos1;
+    while (attr_start < end || (!href && !rel)){
+        //skip first spaces
+        while (m_content[attr_start] == ' ' && attr_start < end)
+            ++attr_start;
 
-        //read one attribute
-        auto pos2 = pos1; //pos2 = attr_end
-        while (pos2 < end && m_content[pos1] != ' ')
-            ++pos2;
-
-        //read tag
-        auto pos3 = pos1; //pos3 = tag_end
-        string attribute(m_content, pos1, pos3);
-        while (m_content[pos3] != '=' || pos3 < pos2){
-            attribute.append(1, m_content[pos1]);
+        //read attribute name
+        auto attr_name_end = attr_start;
+        while (m_content[attr_name_end] != '='){
+            ++attr_name_end;
         }
+        string attr_name = m_content.substr(attr_start, attr_name_end - attr_start);
 
-        //check if is href, if not, skip attribute and go to next tag
-        if (attribute == "href"){
-            //move pos3 behind '"' with check
-            if ((pos3 + 2) < pos2)
-                link_start = pos3 + 2;
-            else
-                break;
+
+        if (attr_name == "href"){
+            cout << "Attribute HREF found" << endl; //TODO debug
+
+            //move attr_name_end behind '"' with check
+            link_start = attr_name_end + 2;
 
             //find ending '"'
             link_end = link_start;
-            while (m_content[link_end] != '"' || link_end < pos2){
+            while (m_content[link_end] != '"'){
                 ++link_end;
             }
-
-            //if rel done, loop can end
             href = true;
-            if (rel)
-                break;
-
-        } else if (attribute == "rel"){
-            //move pos3 behind '"' with check
-            if ((pos3 + 2) < pos2)
-                pos3 += 2;
-            else
-                break;
-
+        } else if (attr_name == "rel"){
+            cout << "Attribute REL found" << endl; //TODO debug
+            size_t rel_start = attr_name_end + 2;
             //find ending '"'
-            auto pos4 = pos3;
-            while (m_content[pos4] != '"' || pos4 < pos2){
-                ++pos4;
+            size_t rel_end = rel_start;
+            while (m_content[rel_end] != '"'){
+                ++rel_end;
             }
-            //if rel is stylesheet, can go to next tag
-            if (string(m_content, pos3, pos4) == "stylesheet")
+            string rel_attr = m_content.substr(rel_start, rel_end - rel_start);
+            if (rel_attr == "stylesheet"){
                 rel = true;
-
-            //if href done, loop can end
-            if (href)
-                break;
-
-        } else{
-            pos1 = pos2;
-            continue;
+                cout << "Attribute REL is STYLESHEET" << endl; //TODO debug
+            }
         }
+
+        //skip attribute
+        attr_start = attr_name_end + 2;
+        while (m_content[attr_start] != '"')
+            ++attr_start;
+        ++attr_start;
+
     }
 
-    //no href found or no rel therefore empty optional returned
-    if (!rel || (link_start == 0 && link_end == 0))
+    if (!href && !rel){
+        //no src found, therefore empty optional returned
         return {};
-    else
-        return make_pair(link_start, link_end);
+    }
 
+    //return limits
+    cout << "Link in HREF has indexes : [" << link_start << ", " << link_end << "]" << endl; //TODO debug
+    return make_pair(link_start, link_end);
 }
