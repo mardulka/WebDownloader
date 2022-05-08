@@ -32,6 +32,15 @@ protected:
      */
     void replaceLinks() override;
 
+public:
+
+    /**
+     * Generates filename. HTML files unlike others must have added file extension.
+     * @param targetFolder
+     * @param used_names
+     */
+    void generateName(const std::filesystem::path & targetFolder, std::set<std::filesystem::path> & used_names) override;
+
 private:
     /**
      * Finds link in string of <a> html tag given by <) limits of file content.

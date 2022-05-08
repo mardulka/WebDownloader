@@ -240,3 +240,38 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkCss(const size_t & s
     //return limits
     return make_pair(link_start, link_end);
 }
+
+void CFileHtml::generateName(const filesystem::path & targetFolder, set<std::filesystem::path> & used_names){
+    //generate filename from host
+    string filename_host = m_url.getHost();
+    for (auto & item: filename_host){
+        if (item == '.')
+            item = '_';
+    }
+
+    //generate filename from path with cut first "/"
+    auto filename_path = m_url.getPath().substr(1, m_url.getPath().size() - 1);
+    for (auto & item: filename_path){
+        if (item == '/')
+            item = '_';
+    }
+
+    m_file_name = filename_host + "_" + filename_path;
+
+    // if file is top level, it shouldn't be in sub-folder
+    if (m_level == 0)
+        m_relative_path = "";
+
+    //create path, check if exists, if so give first free number behind name
+    auto tmp_path = targetFolder / m_relative_path / (m_file_name + '.' + m_file_ending);
+    for (int dist = 0 ; used_names.find(tmp_path) != used_names.end() ; ++dist){
+        tmp_path = targetFolder / m_relative_path / (m_file_name + to_string(dist) + '.' + m_file_ending);
+    }
+
+    //save path in file
+    m_file_path = tmp_path;
+
+    //reserve name
+    used_names.insert(m_file_path);
+
+}

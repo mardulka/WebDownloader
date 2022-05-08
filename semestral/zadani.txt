@@ -71,6 +71,7 @@ nepovažuji za dostatečné a typ souboru vždy beru až z informace uvedené v 
 +-----------------------+
 | +CFile(<attr>)        |
 | +getType()            |
+| +generateName()       |
 | +getFileName()        |
 | +readLinks()          |
 | +save(): virtual      |
@@ -85,8 +86,8 @@ nepovažuji za dostatečné a typ souboru vždy beru až z informace uvedené v 
 +-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
 | +CFileHtml(<attr>)    |   | +CFileCss(<attr>)     |   | +CFileJs(<attr>)      |   | +CFilePicture(<attr>) |
 | +readLinks()          |   | +readLinks()          |   | +readLinks()          |   | +readLinks()          |
-+-----------------------+   +-----------------------+   +-----------------------+   | +save(): override     |
-                                                                                    +-----------------------+
+| +generateName()       |   +-----------------------+   +-----------------------+   +-----------------------+
++-----------------------+
 
 
 ## Typ připojení

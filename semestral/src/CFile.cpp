@@ -81,9 +81,9 @@ void CFile::generateName(const filesystem::path & targetFolder, set<filesystem::
         m_relative_path = "";
 
     //create path, check if exists, if so give first free number behind name
-    auto tmp_path = targetFolder / m_relative_path / (m_file_name + '.' + m_file_ending);
+    auto tmp_path = targetFolder / m_relative_path / m_file_name;
     for (int dist = 0 ; used_names.find(tmp_path) != used_names.end() ; ++dist){
-        tmp_path = targetFolder / m_relative_path / (m_file_name + to_string(dist) + '.' + m_file_ending);
+        tmp_path = targetFolder / m_relative_path / (m_file_name + to_string(dist));
     }
 
     //save path in file
