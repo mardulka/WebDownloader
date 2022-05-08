@@ -60,10 +60,8 @@ void CDownEngine::downloadFiles(){
         auto level = m_queue_download.front().second;
         m_queue_download.pop();
 
-        //Check https - not supported, check host, check level
-        if (link.getScheme() == "https" ||
-            link.getHost() != m_settings->url.getHost() ||
-            (m_settings->levels >= 0 && level > m_settings->levels)){
+        //Check https - not supported, check host
+        if (link.getScheme() == "https" || link.getHost() != m_settings->url.getHost()){
             if (m_settings->errorPage)
                 m_links_to_paths.insert({link.getUrl(), errorPage->getFilePath()});
             continue;
@@ -84,6 +82,13 @@ void CDownEngine::downloadFiles(){
         if ((!m_settings->pictures && downloaded_file->getType() == CFileType::PICTURE) ||
             (!m_settings->scripts && downloaded_file->getType() == CFileType::JS))
             continue;
+
+        //check level only for HTML file
+        if (downloaded_file->getType() == CFileType::HTML && m_settings->levels >= 0 && level > m_settings->levels){
+            if (m_settings->errorPage)
+                m_links_to_paths.insert({link.getUrl(), errorPage->getFilePath()});
+            continue;
+        }
 
         //set level
         downloaded_file->m_level = level;
