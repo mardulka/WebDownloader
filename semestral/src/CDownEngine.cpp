@@ -44,6 +44,14 @@ void CDownEngine::start(){
 
 void CDownEngine::downloadFiles(){
     cout << ">> Starting downloading linked files." << endl; //TODO log
+
+    //create error page - if is required save
+    auto errorPage = createErrorPage();
+    if (m_settings->errorPage){
+        errorPage->generateName(m_settings->targetFolder, m_used_filenames);
+        errorPage->process(m_links_to_paths);
+    }
+
     while (!m_queue_download.empty()){
 
         //get URL from queue
@@ -55,7 +63,8 @@ void CDownEngine::downloadFiles(){
         if (link.getScheme() == "https" ||
             link.getHost() != m_settings->url.getHost() ||
             (m_settings->levels >= 0 && level > m_settings->levels)){
-            //TODO if error page true - set link to error page
+            if (m_settings->errorPage)
+                m_links_to_paths.insert({link.getUrl(), errorPage->getFilePath()});
             continue;
         }
 
@@ -107,4 +116,37 @@ void CDownEngine::processFiles(){
         file->process(m_links_to_paths);
     }
     cout << ">> All downloaded files processed." << endl; //TODO log
+}
+
+shared_ptr<CFileHtml> CDownEngine::createErrorPage(){
+    CUrl errorUrl(m_settings->url.getHost() + "/web_downloader/error_page");
+    auto file = make_shared<CFileHtml>(errorUrl);
+    file->setContent(R"(
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body{
+            background-color: black;
+            vertical-align: center;
+        }
+        div {
+            margin: auto;
+            width: 50%;
+            text-align: center;
+        }
+        h1   {color: white;}
+        p    {color: red;}
+    </style>
+</head>
+<body>
+    <div>
+        <h1>Link lead to external address or outside specified limits.</h1>
+        <p>If you want to see this link to original site, make download again without error page switch on.</p>
+    </div>
+</body>
+</html>
+)");
+
+    return file;
 }

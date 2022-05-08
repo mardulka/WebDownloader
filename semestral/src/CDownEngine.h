@@ -75,6 +75,7 @@ private:
      * Method for processing files = replace links and save.
      */
     void processFiles();
+    std::shared_ptr<CFileHtml> createErrorPage();
 };
 
 
