@@ -23,7 +23,7 @@ void CDownEngine::start(){
     start_file->generateName(m_settings->targetFolder, m_used_filenames);
 
     //store in map of downloaded files
-    m_links_to_paths.insert({m_settings->url.getUrl(), "Filename"}); //TODO filename
+    m_links_to_paths.insert({m_settings->url.getUrl(), start_file->getFilePath()}); //TODO filename
 
     //parse links from first file
     auto links_list = start_file->readLinks();

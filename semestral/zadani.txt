@@ -127,6 +127,18 @@ pro získání dalších odkazů a jejich nahrazování. Toto řešení nejspí�
 algoritmus pro stahování a parsování souborů pomocí front tak, aby se vlákna v budoucnu snadno implementovala.
 
 ************************************************************************************************************************
+#Testování
+##Testování tříd
+Unit testing je proveden s využitím CATCH2 frameworku.
+
+##Pomocný tool pro síťovou komunikaci
+Pro testování spojení a kontrole hlaviček a obsahů byl využit tool "https://reqbin.com/req/nfilsyk5/get-request-example".
+
+##Reálné testování
+Reálné tstování je provedeno na stránce "http://www.niszp.cz/", která je pouze na http schématu a obsahuje velké
+množství linků, což pro testování bylo vhodné.
+
+************************************************************************************************************************
 # Originální zadání z Progtestu
 
 Jednoduchý downloader

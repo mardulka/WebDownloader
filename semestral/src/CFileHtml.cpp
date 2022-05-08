@@ -57,19 +57,48 @@ list<CUrl> CFileHtml::readLinks(){
         pos1 = pos3;
     }
 
-    //TODO log
-    /*
-    cout << "Got links: " << endl;
-    for(const auto & item: links){
-        cout << item.getUrl() << endl;
-    }
-     */
     return links;
 }
 
 void CFileHtml::replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map){
-    //TODO parse html to get links
-    //TODO for every link replace from map with path (absolute / relative?)
+    for (size_t pos1 = 0 ; pos1 < m_content.size() ; ++pos1){
+        //check if tag starts
+        if (m_content[pos1] != '<' || m_content[pos1 + 1] == '/')
+            continue;
+
+        auto pos2 = ++pos1;
+        for (; m_content[pos2] != ' ' ; ++pos2){}
+        string tag_name = m_content.substr(pos1, pos2 - pos1);
+
+        //find ending '>' tag
+        auto pos3 = pos1;
+        while (m_content[pos3] != '>')
+            ++pos3;
+
+        //find link in tags as position limits <a, b)
+        optional<pair<size_t, size_t >> link_limits;
+        if (tag_name == "a"){
+            link_limits = findLinkHref(pos2, pos3);
+        } else if (tag_name == "img" || tag_name == "script"){
+            link_limits = findLinkSrc(pos2, pos3);
+        } else if (tag_name == "link"){
+            link_limits = findLinkCss(pos2, pos3);
+        } else{
+            pos1 = pos3;
+            continue;
+        }
+
+        //find in map and replace
+        if (link_limits.has_value()){
+            auto link = m_content.substr(link_limits->first, link_limits->second - link_limits->first);
+            auto path = replacing_map.find(link);
+            if (path != replacing_map.end()){
+                m_content.replace(link_limits->first, link_limits->second - link_limits->first,
+                                  filesystem::relative(path->second.parent_path(), m_file_path.parent_path()).generic_string() / path->second.filename());
+            }
+        }
+        pos1 = pos3;
+    }
 }
 
 std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkHref(const size_t & start, const size_t & end){
