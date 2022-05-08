@@ -48,6 +48,7 @@ void CDownEngine::downloadFiles(){
     //create error page - if is required save
     auto errorPage = createErrorPage();
     if (m_settings->errorPage){
+        errorPage->m_level = numeric_limits<int>::max();
         errorPage->generateName(m_settings->targetFolder, m_used_filenames);
         errorPage->process(m_links_to_paths);
     }
