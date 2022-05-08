@@ -84,12 +84,6 @@ public:
     virtual void setContent(std::string content);
 
     /**
-     * Method for start process on file = parse for links and replace with file + save to FS
-     * @param links_paths map providing info which URL should be replace by which path
-     */
-    virtual void process(const std::unordered_map<std::string, std::filesystem::path> & links_paths);
-
-    /**
      * Method for reserving names
      * @param targetFolder
      * @param used_names
