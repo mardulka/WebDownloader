@@ -47,42 +47,49 @@ void CDownEngine::downloadFiles(){
     while (!m_queue_download.empty()){
 
         //get URL from queue
-        auto link = m_queue_download.front();
+        auto link = m_queue_download.front().first;
+        auto level = m_queue_download.front().second;
         m_queue_download.pop();
 
         //Check https - not supported, check host, check level
-        if (link.first.getScheme() == "https" ||
-            link.first.getHost() != m_settings->url.getHost() ||
-            (m_settings->levels >= 0 && link.second > m_settings->levels)){
+        if (link.getScheme() == "https" ||
+            link.getHost() != m_settings->url.getHost() ||
+            (m_settings->levels >= 0 && level > m_settings->levels)){
+            //TODO if error page true - set link to error page
             continue;
         }
 
-        /*
         //Check already downloaded
-        if (){
-
+        if (m_links_to_paths.find(link.getUrl()) != m_links_to_paths.end()){
+            continue;
         }
-*/
 
         //download file for given URL
-        auto optFile = m_connection->getFile(link.first);
+        auto optFile = m_connection->getFile(link);
         if (!optFile.has_value())
             continue; //Error or is behind defined boundaries, therefore skipped.
         auto downloaded_file = optFile.value();
 
+        //check settings for downloading pictures and scripts
+        if ((!m_settings->pictures && downloaded_file->getType() == CFileType::PICTURE) ||
+            (!m_settings->scripts && downloaded_file->getType() == CFileType::JS))
+            continue;
+
         //store in map of downloaded files
-        m_links_to_paths.insert({m_settings->url.getUrl(), "Filename"}); //TODO filename
+        //TODO generate name
+        m_links_to_paths.insert({link.getUrl(), downloaded_file->getFileName()}); //TODO filename
+        cout << "New file {URL, FILENAME}: {" << link.getUrl() << " , " << downloaded_file->getFileName() << "}"
+             << endl;
 
         //set level
-        downloaded_file->m_level = link.second;
+        downloaded_file->m_level = level;
         //generate filename and reserve it in given set
         downloaded_file->generateName(m_settings->targetFolder, m_used_filenames);
 
-        //get links from file and save back into queue - only if same link is not already done
+        //get links from file and save back into queue
         auto links_list = downloaded_file->readLinks();
         for (const auto & new_link: links_list)
-            if (m_links_to_paths.find(new_link.getUrl()) == m_links_to_paths.end())
-                m_queue_download.push({new_link, downloaded_file->m_level + 1});
+            m_queue_download.push({new_link, downloaded_file->m_level + 1});
 
         //put file in process queue
         m_queue_process.push(downloaded_file);

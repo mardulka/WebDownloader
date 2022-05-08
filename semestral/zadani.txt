@@ -12,7 +12,7 @@ Popis:      Aplikace umožňuje stahovat internetové stránky včetně stránek
             Soubory jsou ukládány do definované struktury na disku do složky kde je program zavolán. Cílovou složku lze
             změnit pomocí přepínače.
 
-Rozhraní:   Aplikaci lze volat pouze z CLI s níže popsaným přehledem příkazů. Alplikace je kompilovaná jak pro použití
+Rozhraní:   Aplikaci lze volat pouze z CLI s níže popsaným přehledem příkazů. Aplikace je kompilovaná jak pro použití
             na architektuře x86-64 pro Windows a Debian Linux.
 
 CLI volání: webdownloader <URL> [-l levels_no] [-p] [-j] [-e] [-d target_folder]
