@@ -50,7 +50,7 @@ void CDownEngine::downloadFiles(){
     if (m_settings->errorPage){
         errorPage->m_level = numeric_limits<int>::max();
         errorPage->generateName(m_settings->targetFolder, m_used_filenames);
-        errorPage->process(m_links_to_paths);
+        errorPage->save();
     }
 
     while (!m_queue_download.empty()){
@@ -113,8 +113,14 @@ void CDownEngine::processFiles(){
         m_queue_process.pop();
 
         //call process method in file
-        //TODO exception?
-        file->process(m_links_to_paths);
+        file->replaceLinks(m_links_to_paths);
+
+        //save
+        try{
+            file->save();
+        } catch (...){
+            cout << "File cannot be saved." << endl;
+        }
     }
     cout << ">> All downloaded files processed." << endl; //TODO log
 }

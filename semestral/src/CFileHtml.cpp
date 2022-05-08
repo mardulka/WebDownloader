@@ -7,11 +7,6 @@ using namespace std;
 CFileHtml::CFileHtml(CUrl url, const string & relative_path)
         : CFile(std::move(url), relative_path, "html", CFileType::HTML){}
 
-void CFileHtml::replaceLinks(){
-    //TODO parse html to get links
-    //TODO for every link replace from map with path (absolute / relative?)
-}
-
 list<CUrl> CFileHtml::readLinks(){
     list<CUrl> links;
 
@@ -70,6 +65,11 @@ list<CUrl> CFileHtml::readLinks(){
     }
      */
     return links;
+}
+
+void CFileHtml::replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map){
+    //TODO parse html to get links
+    //TODO for every link replace from map with path (absolute / relative?)
 }
 
 std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkHref(const size_t & start, const size_t & end){

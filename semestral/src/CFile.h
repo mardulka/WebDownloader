@@ -90,12 +90,6 @@ public:
     virtual void process(const std::unordered_map<std::string, std::filesystem::path> & links_paths);
 
     /**
-     * Method for parsing links in content. PURE VIRTUAL
-     * @return list of all links
-     */
-    virtual std::list<CUrl> readLinks() = 0;
-
-    /**
      * Method for reserving names
      * @param targetFolder
      * @param used_names
@@ -106,19 +100,25 @@ public:
      * Method returns file path including filename
      * @return file name with path
      */
-    const std::filesystem::path & getFilePath() const;
+    [[nodiscard]] const std::filesystem::path & getFilePath() const;
 
-protected:
+    /**
+     * Method for parsing links in content. PURE VIRTUAL
+     * @return list of all links
+     */
+    virtual std::list<CUrl> readLinks() = 0;
 
     /**
      * Method for replacing links in content. PURE VIRTUAL
      */
-    virtual void replaceLinks() = 0;
+    virtual void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) = 0;
 
     /**
      * Method providing file saving. VIRTUAL
      */
     virtual void save() const;
+
+protected:
 
     /**
      * Checking if directory exists, if no it is created, it exists and is not a directory, throws INVALID ARGUMENT EXCEPTION.

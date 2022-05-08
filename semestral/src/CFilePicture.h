@@ -24,12 +24,10 @@ public:
      */
     std::list<CUrl> readLinks() override;
 
-protected:
-
     /**
      * In Picture file are no links at all. Override PURE VIRTUAL method.
      */
-    void replaceLinks() override;
+    void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) override;
 
 };
 

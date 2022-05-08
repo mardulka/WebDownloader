@@ -25,12 +25,11 @@ public:
      */
     std::list<CUrl> readLinks() override;
 
-protected:
 
     /**
      * Go through file and replace all links with path from map.
      */
-    void replaceLinks() override;
+    void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) override;
 
 public:
 
