@@ -102,6 +102,12 @@ public:
      */
     virtual void generateName(const std::filesystem::path & targetFolder, std::set<std::filesystem::path> & used_names);
 
+    /**
+     * Method returns file path including filename
+     * @return file name with path
+     */
+    const std::filesystem::path & getFilePath() const;
+
 protected:
 
     /**

@@ -75,16 +75,15 @@ void CDownEngine::downloadFiles(){
             (!m_settings->scripts && downloaded_file->getType() == CFileType::JS))
             continue;
 
-        //store in map of downloaded files
-        //TODO generate name
-        m_links_to_paths.insert({link.getUrl(), downloaded_file->getFileName()}); //TODO filename
-        cout << "New file {URL, FILENAME}: {" << link.getUrl() << " , " << downloaded_file->getFileName() << "}"
-             << endl;
-
         //set level
         downloaded_file->m_level = level;
         //generate filename and reserve it in given set
         downloaded_file->generateName(m_settings->targetFolder, m_used_filenames);
+
+        //store in map of downloaded files
+        m_links_to_paths.insert({link.getUrl(), downloaded_file->getFilePath()});
+        cout << "New file {URL, FILENAME}: {" << link.getUrl() << " , " << downloaded_file->getFilePath() << "}"
+             << endl; //TODO log
 
         //get links from file and save back into queue
         auto links_list = downloaded_file->readLinks();

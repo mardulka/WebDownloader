@@ -41,6 +41,10 @@ string CFile::getFileName() const{
     return m_file_path.filename();
 }
 
+const filesystem::path & CFile::getFilePath() const{
+    return m_file_path;
+}
+
 void CFile::setContent(std::string content){
     m_content = std::move(content);
 }
@@ -56,12 +60,21 @@ void CFile::process(const std::unordered_map<std::string, std::filesystem::path>
 
 void CFile::generateName(const filesystem::path & targetFolder, set<filesystem::path> & used_names){
 
+    //generate filename from host
+    string filename_host = m_url.getHost();
+    for (auto & item: filename_host){
+        if (item == '.')
+            item = '_';
+    }
+
     //generate filename from path with cut first "/"
-    m_file_name = m_url.getPath().substr(1, m_url.getPath().size() - 1);
-    for (auto & item: m_file_name){
+    auto filename_path = m_url.getPath().substr(1, m_url.getPath().size() - 1);
+    for (auto & item: filename_path){
         if (item == '/')
             item = '_';
     }
+
+    m_file_name = filename_host + "_" + filename_path;
 
     // if file is top level, it shouldn't be in sub-folder
     if (m_level == 0)
