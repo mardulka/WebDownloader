@@ -120,6 +120,11 @@ std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
         file->setContent(response->getContent());
         cout << "IMG file downloaded" << endl; //TODO log
         return {file};
+    } else if (response.value().getContentType() == "application" && response.value().getContentFormat() == "javascript"){
+        auto file = make_shared<CFileScript>(url);
+        file->setContent(response->getContent());
+        cout << "JS file downloaded" << endl; //TODO log
+        return {file};
     }
 
     cout << "Unsupported file type." << endl; //TODO log

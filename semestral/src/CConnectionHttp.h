@@ -20,6 +20,7 @@
 #include "CFileHtml.h"
 #include "CFileCss.h"
 #include "CFilePicture.h"
+#include "CFileScript.h"
 #include "CUrl.h"
 #include "CHttpResponse.h"
 #include "CConnection.h"

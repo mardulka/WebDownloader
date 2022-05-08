@@ -82,8 +82,6 @@ void CDownEngine::downloadFiles(){
 
         //store in map of downloaded files
         m_links_to_paths.insert({link.getUrl(), downloaded_file->getFilePath()});
-        cout << "New file {URL, FILENAME}: {" << link.getUrl() << " , " << downloaded_file->getFilePath() << "}"
-             << endl; //TODO log
 
         //get links from file and save back into queue
         auto links_list = downloaded_file->readLinks();
