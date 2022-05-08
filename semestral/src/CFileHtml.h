@@ -31,6 +31,8 @@ public:
      */
     void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) override;
 
+    void setContent(std::string content) override;
+
 public:
 
     /**

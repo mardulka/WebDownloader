@@ -304,3 +304,16 @@ void CFileHtml::generateName(const filesystem::path & targetFolder, set<std::fil
     used_names.insert(m_file_path);
 
 }
+
+void CFileHtml::setContent(std::string content){
+    m_content = std::move(content);
+
+    //skip possible starting bytes
+    auto iter = m_content.begin();
+    while(*iter != '<')
+        ++iter;
+
+    //skip first
+    if (iter != m_content.begin())
+        m_content = string(iter, m_content.end());
+}
