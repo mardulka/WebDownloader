@@ -115,8 +115,11 @@ std::string CUrl::getUrl() const{
         url.append("/").append(m_path);
 
     //query - if defined
-    if (!m_query.empty())
+    if (!m_query.empty()){
+        if (m_path.empty())
+            url.append("/");
         url.append("?").append(m_query);
+    }
 
     return url;
 }

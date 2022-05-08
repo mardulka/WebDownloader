@@ -238,3 +238,14 @@ TEST_CASE("19# Real URL from application test"){
 
     CHECK_FALSE(url18.empty());
 }
+
+TEST_CASE("20# Real URL from application test"){
+    CUrl url18 = CUrl("http://www.niszp.cz/?page=1");
+    CHECK(url18.getScheme() == "http");
+    CHECK(url18.getHost() == "www.niszp.cz");
+    CHECK(url18.getPort() == 80);
+    CHECK(url18.getPath() == "/");
+    CHECK(url18.getQuery() == "page=1");
+
+    CHECK_FALSE(url18.empty());
+}
