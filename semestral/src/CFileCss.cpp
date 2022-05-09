@@ -27,6 +27,9 @@ list<CUrl> CFileCss::readLinks(){
         if (*iter_link_start == '"'){
             ending_char = '"';
             content_new.push_back(*(iter_link_start++));
+        } else if (*iter_link_start == '\''){
+            ending_char = '\'';
+            content_new.push_back(*(iter_link_start++));
         }
         auto iter_link_end = iter_link_start;
         while (*iter_link_end != ending_char){
@@ -85,6 +88,9 @@ void CFileCss::replaceLinks(const std::unordered_map<std::string, std::filesyste
         char ending_char = ')';
         if (*iter_link_start == '"'){
             ending_char = '"';
+            content_new.push_back(*(iter_link_start++));
+        } else if (*iter_link_start == '\''){
+            ending_char = '\'';
             content_new.push_back(*(iter_link_start++));
         }
         auto iter_link_end = iter_link_start;
