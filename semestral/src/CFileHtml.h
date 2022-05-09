@@ -17,7 +17,7 @@ public:
     /**
      * Destructor
      */
-    virtual ~CFileHtml() = default;
+    ~CFileHtml() override = default;
 
     /**
      * Go through file and read all links..
@@ -43,29 +43,21 @@ public:
     void generateName(const std::filesystem::path & targetFolder, std::set<std::filesystem::path> & used_names) override;
 
 private:
-    /**
-     * Finds link in string of <a> html tag given by <) limits of file content.
-     * @param start first position behind <a tag start
-     * @param end position of > at end of tag
-     * @return optional pair of link limits, empty if no link is present
-     */
-    std::optional<std::pair<size_t , size_t>> findLinkHref (const size_t & start, const size_t & end);
 
     /**
-     * Finds link in string of <img> or <script> html tag given by <) limits of file content.
-     * @param start first position behind "<img" or "<script" tag start
-     * @param end position of > at end of tag
+     * Finds link in string of tag with given expected attr name with link (href / src).
+     * @param tag string of tag content without <,>, and tag name
+     * @param attr_name_check string of expected attr name with link
      * @return optional pair of link limits, empty if no link is present
      */
-    std::optional<std::pair<size_t , size_t>> findLinkSrc (const size_t & start, const size_t & end);
+    std::optional<std::pair<size_t , size_t>> findLinkInTag (const std::string & tag, const std::string & attr_name_check);
 
     /**
-     * Finds link in string of <link> html tag given by <) limits of file content.
-     * @param start first position behind <link tag start
-     * @param end position of > at end of tag
-     * @return optional pair of link limits, empty if no link is present or is not type "stylesheet"
+     * Finds link in string of tag for linking css (link tag + href + rel="stylesheet").
+     * @param tag string of tag content without <,>, and tag name
+     * @return optional pair of link limits, empty if no link is present
      */
-    std::optional<std::pair<size_t , size_t>> findLinkCss (const size_t & start, const size_t & end);
+    std::optional<std::pair<size_t , size_t>> findLinkCss (const std::string & tag);
 
 
 };

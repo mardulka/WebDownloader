@@ -10,264 +10,228 @@ CFileHtml::CFileHtml(CUrl url, const string & relative_path)
 list<CUrl> CFileHtml::readLinks(){
     list<CUrl> links;
 
-    for (size_t pos1 = 0 ; pos1 < m_content.size() ; ++pos1){
+    string content_new;
+    content_new.reserve(m_content.size() * 2);
+
+    for (auto iter_str = m_content.begin() ; iter_str != m_content.end() ; content_new.push_back(*iter_str++)){
         //check if tag starts
-        if (m_content[pos1] != '<' || m_content[pos1 + 1] == '/')
+        if (*iter_str != '<' || *(iter_str + 1) == '/')
             continue;
 
-        auto pos2 = ++pos1;
-        for (; m_content[pos2] != ' ' ; ++pos2){}
-        string tag_name = m_content.substr(pos1, pos2 - pos1);
+        //iterator on tag start
+        auto iter_tag_start = iter_str + 1;
 
         //find ending '>' tag
-        auto pos3 = pos1;
-        while (m_content[pos3] != '>')
-            ++pos3;
+        auto iter_tag_end = iter_tag_start;
+        while (*iter_tag_end != '>')
+            ++iter_tag_end;
+
+        //find tag name
+        auto iter_tag_name_end = iter_tag_start;
+        while (*iter_tag_name_end != ' ' && *iter_tag_name_end != '>')
+            ++iter_tag_name_end;
+        string tag_name = string(iter_tag_start, iter_tag_name_end);
+
+        //find tag attributes
+        optional<pair<size_t, size_t >> link_limits;
+        string tag_attributes = string(iter_tag_name_end, iter_tag_end);
 
         //find link in tags as position limits <a, b)
-        optional<pair<size_t, size_t >> link_limits;
         if (tag_name == "a"){
-            link_limits = findLinkHref(pos2, pos3);
+            link_limits = findLinkInTag(tag_attributes, "href"s);
         } else if (tag_name == "img" || tag_name == "script"){
-            link_limits = findLinkSrc(pos2, pos3);
+            link_limits = findLinkInTag(tag_attributes, "src"s);
         } else if (tag_name == "link"){
-            link_limits = findLinkCss(pos2, pos3);
+            link_limits = findLinkCss(tag_attributes);
         } else{
-            pos1 = pos3;
+            content_new.append(string(iter_str, iter_tag_end));
+            iter_str = iter_tag_end;
             continue;
         }
 
         //make absolute + add to links
         if (link_limits.has_value()){
+            //cout << "Link is {" << tag_attributes.substr(link_limits->first, link_limits->second - link_limits->first) << "}" << endl; //TODO log
             auto absolute_link = makeLinkAbsolute(
-                    m_content.substr(link_limits->first, link_limits->second - link_limits->first));
+                    tag_attributes.substr(link_limits->first, link_limits->second - link_limits->first));
             if (!absolute_link.has_value())
                 continue;
-            m_content.replace(link_limits->first, link_limits->second - link_limits->first, absolute_link.value());
+            //cout << "Link limits are <" << link_limits->first << "," << link_limits->second << ">" << endl;//TODO log
+            //cout << "Absolute link is {" << absolute_link.value() << "}" << endl; //TODO log
+            tag_attributes.replace(link_limits->first, link_limits->second - link_limits->first, absolute_link.value());
+            //cout << "Replaced tag {" << tag_attributes << "}" << endl; //TODO log
 
             //insert into list for further return
             try{
                 CUrl newlink(absolute_link.value());
                 links.push_back(newlink);
-                //cout << "Stored link for download: " << newlink.getUrl() << endl; //TODO log
+                //cout << "Stored link for download {" << newlink.getUrl() << "}" << endl; //TODO log
             } catch (const invalid_argument & e){
                 continue;
             }
         }
-        pos1 = pos3;
+
+        //append modified tag
+        content_new.append(string(iter_str, iter_tag_name_end)).append(tag_attributes);
+        iter_str = iter_tag_end;
     }
+
+    //swap content to new
+    swap(m_content, content_new);
 
     return links;
 }
 
 void CFileHtml::replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map){
-    for (size_t pos1 = 0 ; pos1 < m_content.size() ; ++pos1){
+    string content_new = string();
+    content_new.reserve(m_content.size() * 2);
+
+    for (auto iter_str = m_content.begin() ; iter_str != m_content.end() ; content_new.push_back(*iter_str++)){
         //check if tag starts
-        if (m_content[pos1] != '<' || m_content[pos1 + 1] == '/')
+        if (*iter_str != '<' || *(iter_str + 1) == '/')
             continue;
 
-        auto pos2 = ++pos1;
-        for (; m_content[pos2] != ' ' ; ++pos2){}
-        string tag_name = m_content.substr(pos1, pos2 - pos1);
+        //iterator on tag start
+        auto iter_tag_start = iter_str + 1;
 
         //find ending '>' tag
-        auto pos3 = pos1;
-        while (m_content[pos3] != '>')
-            ++pos3;
+        auto iter_tag_end = iter_tag_start;
+        while (*iter_tag_end != '>')
+            ++iter_tag_end;
+
+        //find tag name
+        auto iter_tag_name_end = iter_tag_start;
+        while (*iter_tag_name_end != ' ' && *iter_tag_name_end != '>')
+            ++iter_tag_name_end;
+        string tag_name = string(iter_tag_start, iter_tag_name_end);
+
+        //find tag attributes
+        optional<pair<size_t, size_t >> link_limits;
+        string tag_attributes = string(iter_tag_name_end, iter_tag_end);
 
         //find link in tags as position limits <a, b)
-        optional<pair<size_t, size_t >> link_limits;
         if (tag_name == "a"){
-            link_limits = findLinkHref(pos2, pos3);
+            link_limits = findLinkInTag(tag_attributes, "href"s);
         } else if (tag_name == "img" || tag_name == "script"){
-            link_limits = findLinkSrc(pos2, pos3);
+            link_limits = findLinkInTag(tag_attributes, "src"s);
         } else if (tag_name == "link"){
-            link_limits = findLinkCss(pos2, pos3);
+            link_limits = findLinkCss(tag_attributes);
         } else{
-            pos1 = pos3;
+            content_new.append(string(iter_str, iter_tag_end));
+            iter_str = iter_tag_end;
             continue;
         }
 
         //find in map and replace
         if (link_limits.has_value()){
-            auto link = m_content.substr(link_limits->first, link_limits->second - link_limits->first);
+            auto link = tag_attributes.substr(link_limits->first, link_limits->second - link_limits->first);
             auto path = replacing_map.find(link);
             if (path != replacing_map.end()){
-                m_content.replace(link_limits->first, link_limits->second - link_limits->first,
-                                  filesystem::relative(path->second.parent_path(), m_file_path.parent_path()).generic_string() / path->second.filename());
+                tag_attributes.replace(link_limits->first, link_limits->second - link_limits->first,
+                                       filesystem::relative(path->second.parent_path(),
+                                                            m_file_path.parent_path()).generic_string() /
+                                       path->second.filename());
             }
         }
-        pos1 = pos3;
+        //append modified tag
+        content_new.append(string(iter_str, iter_tag_name_end)).append(tag_attributes);
+        iter_str = iter_tag_end;
     }
+
+    //swap content to new
+    swap(m_content, content_new);
 }
 
-std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkHref(const size_t & start, const size_t & end){
-
-    //TODO debug
-    //cout << "HREF-TAG: " << m_content.substr(start, end - start) << endl;
-
-    auto attr_start = start;
-
-    size_t link_start;
-    size_t link_end;
-
-    while (attr_start < end){
+std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkInTag(const string & tag, const string & attr_name_check){
+    for (auto iter_str = tag.begin() ; iter_str != tag.end() ; ++iter_str){
         //skip first spaces
-        while (m_content[attr_start] == ' ' && attr_start < end)
-            ++attr_start;
-
-        //read attribute name
-        auto attr_name_end = attr_start;
-        while (m_content[attr_name_end] != '='){
-            ++attr_name_end;
-        }
-        string attr_name = m_content.substr(attr_start, attr_name_end - attr_start);
-
-        //check if attribute name is href, if not, skip attribute and go to next tag
-        if (attr_name != "href"){
-            attr_start = attr_name_end + 2;
-            while (m_content[attr_start] != '"')
-                ++attr_start;
-            ++attr_start;
+        if (*iter_str == ' '){
             continue;
         }
 
-        //move attr_name_end behind '"' with check
-        link_start = attr_name_end + 2;
+        //read attribute name
+        auto iter_attr_name_end = iter_str;
+        while (*iter_attr_name_end != '=')
+            ++iter_attr_name_end;
+        string attr_name = string(iter_str, iter_attr_name_end);
 
-        //find ending '"'
-        link_end = link_start;
-        while (m_content[link_end] != '"'){
-            ++link_end;
+        //read attr content
+        auto iter_attr_cont_start = iter_attr_name_end;
+        while (*iter_attr_cont_start != '"')
+            ++iter_attr_cont_start;
+        ++iter_attr_cont_start; //move to first attr content letter
+
+        auto iter_attr_cont_end = iter_attr_cont_start;
+        while (*iter_attr_cont_end != '"')
+            ++iter_attr_cont_end;
+        string attr_content = string(iter_attr_cont_start, iter_attr_cont_end);
+
+        //check attribute name - if found return limits
+        if (attr_name == attr_name_check){
+            //cout << "Found link {" << attr_content << "}" << endl;
+            return make_pair(iter_attr_cont_start - tag.begin(), iter_attr_cont_end - tag.begin());
         }
 
-        //return limits
-        return make_pair(link_start, link_end);
+        // no link found, move iterator to attribute end and try next attribute
+        iter_str = iter_attr_cont_end;
     }
 
     //no src found, therefore empty optional returned
     return {};
 }
 
-std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkSrc(const size_t & start, const size_t & end){
+std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkCss(const string & tag){
 
-    //TODO debug
-    //cout << "SRC-TAG: " << m_content.substr(start, end - start) << endl;
-
-    auto attr_start = start;
-
-    size_t link_start;
-    size_t link_end;
-
-    while (attr_start < end){
-        //skip first spaces
-        while (m_content[attr_start] == ' ' && attr_start < end)
-            ++attr_start;
-
-        //read attribute name
-        auto attr_name_end = attr_start;
-        while (m_content[attr_name_end] != '='){
-            ++attr_name_end;
-        }
-        string attr_name = m_content.substr(attr_start, attr_name_end - attr_start);
-
-        //check if attribute name is src, if not, skip attribute and go to next tag
-        if (attr_name != "src"){
-            attr_start = attr_name_end + 2;
-            while (m_content[attr_start] != '"')
-                ++attr_start;
-            ++attr_start;
-            continue;
-        }
-
-        //move attr_name_end behind '"' with check
-        link_start = attr_name_end + 2;
-
-        //find ending '"'
-        link_end = link_start;
-        while (m_content[link_end] != '"'){
-            ++link_end;
-        }
-
-        //return limits
-        return make_pair(link_start, link_end);
-    }
-
-    //no src found, therefore empty optional returned
-    return {};
-
-}
-
-std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkCss(const size_t & start, const size_t & end){
-
-    //TODO debug
-    //cout << "LINK-TAG: " << m_content.substr(start, end - start) << endl;
-
-    auto attr_start = start;
-
-    size_t link_start;
-    size_t link_end;
-
-    bool href = false;
+    bool link = false;
     bool rel = false;
+    pair<size_t, size_t> link_limits;
 
-    while (attr_start < end || (!href && !rel)){
+    for (auto iter_str = tag.begin() ; iter_str != tag.end() && (!link || !rel) ; ++iter_str){
         //skip first spaces
-        while (m_content[attr_start] == ' ' && attr_start < end)
-            ++attr_start;
+        if (*iter_str == ' '){
+            continue;
+        }
 
         //read attribute name
-        auto attr_name_end = attr_start;
-        while (m_content[attr_name_end] != '='){
-            ++attr_name_end;
-        }
-        string attr_name = m_content.substr(attr_start, attr_name_end - attr_start);
+        auto iter_attr_name_end = iter_str;
+        while (*iter_attr_name_end != '=')
+            ++iter_attr_name_end;
+        string attr_name = string(iter_str, iter_attr_name_end);
 
+        //read attr content
+        auto iter_attr_cont_start = iter_attr_name_end;
+        while (*iter_attr_cont_start != '"')
+            ++iter_attr_cont_start;
+        ++iter_attr_cont_start; //move to first attr content letter
 
-        if (attr_name == "href"){
-            //move attr_name_end behind '"' with check
-            link_start = attr_name_end + 2;
+        auto iter_attr_cont_end = iter_attr_cont_start;
+        while (*iter_attr_cont_end != '"')
+            ++iter_attr_cont_end;
+        string attr_content = string(iter_attr_cont_start, iter_attr_cont_end);
 
-            //find ending '"'
-            link_end = link_start;
-            while (m_content[link_end] != '"'){
-                ++link_end;
-            }
-            href = true;
-            attr_start = link_end + 1;
-            continue;
-        } else if (attr_name == "rel"){
-            size_t rel_start = attr_name_end + 2;
-            //find ending '"'
-            size_t rel_end = rel_start;
-            while (m_content[rel_end] != '"'){
-                ++rel_end;
-            }
-            string rel_attr = m_content.substr(rel_start, rel_end - rel_start);
-            if (rel_attr == "stylesheet"){
+        //check attribute names
+        if (attr_name == "href"s){
+            link_limits = make_pair(iter_attr_cont_start - tag.begin(), iter_attr_cont_end - tag.begin());
+            link = true;
+        } else if (attr_name == "rel"s){
+            if (attr_content == "stylesheet"s){
                 rel = true;
             } else{
                 break;
             }
-            attr_start = rel_end + 1;
-            continue;
         }
 
-        //skip attribute
-        attr_start = attr_name_end + 2;
-        while (m_content[attr_start] != '"')
-            ++attr_start;
-        ++attr_start;
-
+        // no link or rel found, move iterator to attribute end and try next attribute
+        iter_str = iter_attr_cont_end;
     }
 
-    if (!href || !rel){
-        //no href found, therefore empty optional returned
-        return {};
+    //found link and correct rel
+    if (rel && link){
+        return link_limits;
     }
 
-    //return limits
-    return make_pair(link_start, link_end);
+    //link not found or rel not correct
+    return {};
 }
 
 void CFileHtml::generateName(const filesystem::path & targetFolder, set<std::filesystem::path> & used_names){
@@ -310,10 +274,11 @@ void CFileHtml::setContent(std::string content){
 
     //skip possible starting bytes
     auto iter = m_content.begin();
-    while(*iter != '<')
+    while (*iter != '<')
         ++iter;
 
     //skip first
     if (iter != m_content.begin())
         m_content = string(iter, m_content.end());
+
 }

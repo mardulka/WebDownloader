@@ -66,6 +66,11 @@ public:
               m_file_ending(std::move(file_ending)){}
 
     /**
+     * Destructor
+     */
+    virtual ~CFile() = default;
+
+    /**
      * Getter for type attribute.
      * @return File type.
      */
