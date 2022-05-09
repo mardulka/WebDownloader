@@ -100,8 +100,10 @@ std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
     cout << " " << setw(10) << setfill('.') << " " << " " << flush; //TODO log
 
     //no response - no file
-    if (!response.has_value())
+    if (!response.has_value()){
+        cout << "empty response" << endl; //TODO log
         return nullopt;
+    }
 
     if (response.value().getContentType() == "text"){
         if (response.value().getContentFormat() == "html"){

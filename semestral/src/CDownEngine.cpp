@@ -74,10 +74,11 @@ void CDownEngine::downloadFiles(){
 
         //download file for given URL and record into downloaded links set
         auto optFile = m_connection->getFile(link);
-        if (!optFile.has_value())
-            continue; //Error or is behind defined boundaries, therefore skipped.
-        auto downloaded_file = optFile.value();
         m_downloaded_links.insert(link.getUrl());
+        if (!optFile.has_value()){
+            continue;
+        } //Error or is behind defined boundaries, therefore skipped.
+        auto downloaded_file = optFile.value();
 
         //check settings for downloading pictures and scripts
         if ((!m_settings->pictures && downloaded_file->getType() == CFileType::PICTURE) ||
