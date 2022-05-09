@@ -83,12 +83,22 @@ public:
     [[nodiscard]] virtual std::string getFileName() const;
 
     /**
+     * Method returns file path including filename
+     * @return file name with path
+     */
+    [[nodiscard]] const std::filesystem::path & getFilePath() const;
+
+    /**
+     * Helping method for getting content. Used only for testing now.
+     * @return reference on string of content
+     */
+    [[nodiscard]] const std::string & getContent() const;
+
+    /**
      * Method for assigning content. If any is present, is deleted.
      * @param content
      */
     virtual void setContent(std::string content);
-
-
 
     /**
      * Method for reserving names
@@ -96,12 +106,6 @@ public:
      * @param used_names
      */
     virtual void generateName(const std::filesystem::path & targetFolder, std::set<std::filesystem::path> & used_names);
-
-    /**
-     * Method returns file path including filename
-     * @return file name with path
-     */
-    [[nodiscard]] const std::filesystem::path & getFilePath() const;
 
     /**
      * Method for parsing links in content. PURE VIRTUAL
@@ -118,12 +122,6 @@ public:
      * Method providing file saving. VIRTUAL
      */
     virtual void save() const;
-
-    /**
-     * Helping method for getting content. Used only for testing now.
-     * @return reference on string of content
-     */
-    [[nodiscard]] const std::string & getContent() const;
 
 protected:
 
