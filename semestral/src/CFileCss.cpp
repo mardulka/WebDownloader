@@ -26,7 +26,7 @@ list<CUrl> CFileCss::readLinks(){
         char ending_char = ')';
         if (*iter_link_start == '"'){
             ending_char = '"';
-            ++iter_link_start;
+            content_new.push_back(*(iter_link_start++));
         }
         auto iter_link_end = iter_link_start;
         while (*iter_link_end != ending_char){
@@ -36,7 +36,11 @@ list<CUrl> CFileCss::readLinks(){
 
         //make absolute
         auto absolute_link = makeLinkAbsolute(link);
-        if (!absolute_link.has_value()){
+
+        //check for "data:" link start, or no value of absolute link
+        if (link.substr(0, 5) == "data:"s){
+            content_new.append(link);
+        } else if (!absolute_link.has_value()){
             content_new.append(link);
         } else{
             content_new.append(absolute_link.value());
@@ -81,7 +85,7 @@ void CFileCss::replaceLinks(const std::unordered_map<std::string, std::filesyste
         char ending_char = ')';
         if (*iter_link_start == '"'){
             ending_char = '"';
-            ++iter_link_start;
+            content_new.push_back(*(iter_link_start++));
         }
         auto iter_link_end = iter_link_start;
         while (*iter_link_end != ending_char){

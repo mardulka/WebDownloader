@@ -102,3 +102,7 @@ optional <std::string> CFile::makeLinkAbsolute(const string & link){
         return m_url.getScheme().append("://").append(m_url.getHost()).append("/").append(link);
 
 }
+
+const string & CFile::getContent() const{
+    return m_content;
+}

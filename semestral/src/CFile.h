@@ -88,6 +88,8 @@ public:
      */
     virtual void setContent(std::string content);
 
+
+
     /**
      * Method for reserving names
      * @param targetFolder
@@ -116,6 +118,12 @@ public:
      * Method providing file saving. VIRTUAL
      */
     virtual void save() const;
+
+    /**
+     * Helping method for getting content. Used only for testing now.
+     * @return reference on string of content
+     */
+    [[nodiscard]] const std::string & getContent() const;
 
 protected:
 
