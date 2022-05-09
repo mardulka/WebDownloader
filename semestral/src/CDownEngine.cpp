@@ -61,7 +61,7 @@ void CDownEngine::downloadFiles(){
         m_queue_download.pop();
 
         //Check https - not supported, check host
-        if (link.getScheme() == "https" || link.getHost() != m_settings->url.getHost()){
+        if (link.getHost() != m_settings->url.getHost()){
             if (m_settings->errorPage)
                 m_links_to_paths.insert({link.getUrl(), errorPage->getFilePath()});
             continue;
