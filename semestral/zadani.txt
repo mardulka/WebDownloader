@@ -3,12 +3,13 @@
 Název:      Web Downloader
 
 Popis:      Aplikace umožňuje stahovat internetové stránky včetně stránek na které se odkazuje. Odkazované stránky
-            se stahují pouze ze stejné domény, volitelně lze omezit počet úrovní odkazů.
-            Se stránkami se defaultně stahují i CSS soubory, ale obrázky a JS soubory se kvůli velikosti souborů nestahují
-            a link zůstává na původní online soubory. Stahování těchto souborů lze nastavit přepínači.
+            se stahují pouze ze stejné domény, volitelně lze omezit počet úrovní odkazů. Úrovně se plikují pouze na html
+            soubory, ostatní zdrojové soubory se stahují vždy pokud jsou ze stejné domény.
+            Se stránkami se defaultně stahují i CSS soubory, ale obrázky a JS soubory se v základu nestahují a link tak
+            zůstává na původní online soubory. Stahování těchto souborů lze nastavit přepínači.
             Odkazy, které vedou mimo doménu nebo by překročily nastavený limit úrovní v základu vedou také na původní
             online stránky. Také zde je možné toto chování upravit přepínačem, který takové odkazy nahradí odkazem
-            na vytvořenou chybovou stránku.
+            na programem vytvořenou chybovou stránku.
             Soubory jsou ukládány do definované struktury na disku do složky kde je program zavolán. Cílovou složku lze
             změnit pomocí přepínače.
 
@@ -47,6 +48,13 @@ Struktura:  Pojmenováni je převzato z URL na doméně, kde jsou '/' nahrazeny 
               |- <URLjs2>.html
               \- <URLjs3>.html
 
+Stahování
+odkazů:     1)  Pro HTML soubory se v základu stahují odkazy na stejné doméně nebo do definované hloubky. Stahování obrázků,
+                css a js souborů lze natavit přepínači.
+            2)  Pro CSS soubory, pokud jsou nastaveny jako stahované, se dále stahují odkazy definované pomocí: url(~~)
+                tagů. Nezohledňují se linky definované pomocí: @import "~~" tagů, ani: url("data:~~") tagů.
+            3)  Pro obrázky a JS soubory se další vnitřní linky nezohledňují ani v případě stahování těchto samotných souborů.
+
 ************************************************************************************************************************
 # Popis polymorfismu
 
@@ -64,17 +72,24 @@ nepovažuji za dostatečné a typ souboru vždy beru až z informace uvedené v 
 |         CFile         |
 +-----------------------+
 | -m_type:CFileType     |
+| -m_url:CUrl           |
 | -m_relative_path:path |
 | -m_file_name:string   |
 | -m_file_ending:string |
+| -m_file_path:path     |
 | -m_content:string     |
+| +m_level:int          |
 +-----------------------+
-| +CFile(<attr>)        |
+| +CFile()              |
+| +~CFile(): virtual    |
 | +getType()            |
-| +setContent()         |
-| +generateName()       |
 | +getFileName()        |
-| +readLinks()          |
+| +getFilePath()        |
+| +getContent()         |
+| +setContent(): virtual|
+| +generateName(): virt.|
+| +readLinks(): virtual |
+| +replaceLinks(): virt.|
 | +save(): virtual      |
 +-----------------------+
             |
@@ -85,8 +100,9 @@ nepovažuji za dostatečné a typ souboru vždy beru až z informace uvedené v 
 +-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
 |                       |   |                       |   |                       |   |                       |
 +-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
-| +CFileHtml(<attr>)    |   | +CFileCss(<attr>)     |   | +CFileJs(<attr>)      |   | +CFilePicture(<attr>) |
+| +CFileHtml()          |   | +CFileCss()           |   | +CFileJs()            |   | +CFilePicture()       |
 | +readLinks()          |   | +readLinks()          |   | +readLinks()          |   | +readLinks()          |
+| +replaceLinks()       |   | +replaceLinks()       |   | +replaceLinks()       |   | +replaceLinks()       |
 | +generateName()       |   +-----------------------+   +-----------------------+   +-----------------------+
 | +setContent()         |
 +-----------------------+
@@ -100,6 +116,7 @@ spojení pomocí SSL. Tato nová třída by byla potomkem stejné abstraktní t�
 stahování z omezení http na https by byla pouze v přídání této nové třídy a jejím nahrazení v konstruktoru CDownEngine.
 Případně je pak možné implementovat také možnost výběru způsobu stahování (SSL, http).
 
+* Třída CCOnnectionSsl nebude implementována!!
 
 +-----------------------+
 |      CConnection      |
