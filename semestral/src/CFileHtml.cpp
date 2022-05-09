@@ -51,21 +51,16 @@ list<CUrl> CFileHtml::readLinks(){
 
         //make absolute + add to links
         if (link_limits.has_value()){
-            //cout << "Link is {" << tag_attributes.substr(link_limits->first, link_limits->second - link_limits->first) << "}" << endl; //TODO log
             auto absolute_link = makeLinkAbsolute(
                     tag_attributes.substr(link_limits->first, link_limits->second - link_limits->first));
             if (!absolute_link.has_value())
                 continue;
-            //cout << "Link limits are <" << link_limits->first << "," << link_limits->second << ">" << endl;//TODO log
-            //cout << "Absolute link is {" << absolute_link.value() << "}" << endl; //TODO log
             tag_attributes.replace(link_limits->first, link_limits->second - link_limits->first, absolute_link.value());
-            //cout << "Replaced tag {" << tag_attributes << "}" << endl; //TODO log
 
             //insert into list for further return
             try{
                 CUrl newlink(absolute_link.value());
                 links.push_back(newlink);
-                //cout << "Stored link for download {" << newlink.getUrl() << "}" << endl; //TODO log
             } catch (const invalid_argument & e){
                 continue;
             }
@@ -83,7 +78,7 @@ list<CUrl> CFileHtml::readLinks(){
 }
 
 void CFileHtml::replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map){
-    string content_new = string();
+    string content_new;
     content_new.reserve(m_content.size() * 2);
 
     for (auto iter_str = m_content.begin() ; iter_str != m_content.end() ; content_new.push_back(*iter_str++)){

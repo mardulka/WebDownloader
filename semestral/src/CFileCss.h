@@ -15,7 +15,7 @@ public:
     /**
      * Destructor
      */
-    virtual ~CFileCss() = default;
+    ~CFileCss() override = default;
 
     /**
      * Go through file and read all links.

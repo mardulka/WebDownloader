@@ -68,3 +68,6 @@ CHttpResponse.test: $(GDIR)/CHttpResponse.test.o $(BDIR)/CHttpResponse.o
 
 CFileHtml.test: $(GDIR)/CFileHtml.test.o $(BDIR)/CFileHtml.o $(BDIR)/CFile.o $(BDIR)/CUrl.o
 	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
+
+CFileCss.test: $(GDIR)/CFileCss.test.o $(BDIR)/CFileCss.o $(BDIR)/CFile.o $(BDIR)/CUrl.o
+	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
