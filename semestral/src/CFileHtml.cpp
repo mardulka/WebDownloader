@@ -244,7 +244,10 @@ void CFileHtml::generateName(const filesystem::path & targetFolder, set<std::fil
             item = '_';
     }
 
-    m_file_name = filename_host + "_" + filename_path;
+    m_file_name = filename_host;
+    if(!filename_path.empty())
+        m_file_name.append("_" + filename_path);
+
 
     // if file is top level, it shouldn't be in sub-folder
     if (m_level == 0)

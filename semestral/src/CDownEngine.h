@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <memory>
 #include <set>
+#include <unordered_set>
 
 
 /**
@@ -22,6 +23,11 @@ class CDownEngine{
      * Map for indexing file paths by their original resource url
      */
     std::unordered_map<std::string, std::filesystem::path> m_links_to_paths;
+
+    /**
+     * Set of already downloaded links
+     */
+    std::unordered_set<std::string> m_downloaded_links;
 
     /**
      * Set of the used filenames represented by absolute filesystem path

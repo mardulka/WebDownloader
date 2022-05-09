@@ -49,7 +49,7 @@ void CFile::setContent(std::string content){
     m_content = std::move(content);
 }
 
-void CFile::generateName(const filesystem::path & targetFolder, set<filesystem::path> & used_names){
+void CFile::generateName(const filesystem::path & targetFolder, set <filesystem::path> & used_names){
 
     //generate filename from host
     string filename_host = m_url.getHost();
@@ -71,21 +71,15 @@ void CFile::generateName(const filesystem::path & targetFolder, set<filesystem::
     if (m_level == 0)
         m_relative_path = "";
 
-    //create path, check if exists, if so give first free number behind name
-    auto tmp_path = targetFolder / m_relative_path / m_file_name;
-    for (int dist = 0 ; used_names.find(tmp_path) != used_names.end() ; ++dist){
-        tmp_path = targetFolder / m_relative_path / (m_file_name + to_string(dist));
-    }
-
-    //save path in file
-    m_file_path = tmp_path;
+    //create path, not checking if exists
+    m_file_path = targetFolder / m_relative_path / m_file_name;
 
     //reserve name
     used_names.insert(m_file_path);
 
 }
 
-optional<std::string> CFile::makeLinkAbsolute(const string & link){
+optional <std::string> CFile::makeLinkAbsolute(const string & link){
     //cout << "Making absolut link from link: " << link << endl; //TODO debug
 
     if (link.empty())
@@ -95,7 +89,7 @@ optional<std::string> CFile::makeLinkAbsolute(const string & link){
     if (link.front() == '.')
         ++iter;
 
-    if(*iter == '#')
+    if (*iter == '#')
         return m_url.getScheme().append("://").append(m_url.getHost()).append(m_url.getPath()).append(link);
     if (*iter == '/' && *(iter + 1) == '/')
         return m_url.getScheme().append(":").append(link);

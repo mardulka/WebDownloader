@@ -39,7 +39,7 @@ void CDownEngine::start(){
     processFiles();
 
     //TODO log of CLI output
-    cout << "All done!" << endl; //TODO log
+    cout << ">> All done!" << endl; //TODO log
 }
 
 void CDownEngine::downloadFiles(){
@@ -68,15 +68,16 @@ void CDownEngine::downloadFiles(){
         }
 
         //Check already downloaded
-        if (m_links_to_paths.find(link.getUrl()) != m_links_to_paths.end()){
+        if (m_downloaded_links.find(link.getUrl()) != m_downloaded_links.end()){
             continue;
         }
 
-        //download file for given URL
+        //download file for given URL and record into downloaded links set
         auto optFile = m_connection->getFile(link);
         if (!optFile.has_value())
             continue; //Error or is behind defined boundaries, therefore skipped.
         auto downloaded_file = optFile.value();
+        m_downloaded_links.insert(link.getUrl());
 
         //check settings for downloading pictures and scripts
         if ((!m_settings->pictures && downloaded_file->getType() == CFileType::PICTURE) ||
