@@ -2,7 +2,7 @@
 #define SEMESTRAL_CFILECSS_H
 
 #include "CFile.h"
-#include <utility>
+#include "CStats.h"
 
 class CFileCss : public CFile{
 public:
@@ -31,9 +31,8 @@ public:
 
     /**
      * @brief Increment count of downloaded CSS files
-     * @param stats Struct of statistic data.
      */
-    void notch(CStats & stats) override;
+    void notch() override;
 };
 
 

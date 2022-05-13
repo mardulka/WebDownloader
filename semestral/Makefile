@@ -6,7 +6,7 @@ BDIR=build
 TDIR=test
 DDIR=doc
 GDIR=debug
-CXXFLAGS=-std=c++17 -Wall -pedantic -O2
+CXXFLAGS=-std=c++17 -Wall -pedantic -Wno-long-long -O2
 SHELL:=/bin/bash
 
 #lists -----------------------------------------------------------------------------------------------------------------

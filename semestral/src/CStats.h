@@ -8,27 +8,27 @@ struct CStats{
     /**
      * Number of downloaded HTML files
      */
-    int html_files = 0;
+    static int html_files;
 
     /**
      * Number of downloaded CSS files
      */
-    int css_files = 0;
+    static int css_files;
 
     /**
      * Number of downloaded pictures
      */
-    int pictures = 0;
+    static int pictures;
 
     /**
      * Number of downloaded JS files
      */
-    int script_files = 0;
+    static int script_files;
 
     /**
      * Number of max level
      */
-    int levels = 0;
+    static int levels;
 
 };
 

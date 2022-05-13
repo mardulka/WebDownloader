@@ -11,6 +11,6 @@ list<CUrl> CFilePicture::readLinks(){
     return {};
 }
 
-void CFilePicture::notch(CStats & stats){
-    ++stats.pictures;
+void CFilePicture::notch(){
+    ++CStats::pictures;
 }

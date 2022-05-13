@@ -2,28 +2,27 @@
 
 using namespace std;
 
-CDownEngine::CDownEngine(const shared_ptr<CSettings> & settings, const shared_ptr<CStats> & statistics)
-    : m_settings(settings), m_statistics(statistics), m_connection(make_shared<CConnectionHttp>()){}
+CDownEngine::CDownEngine(): m_connection(make_shared<CConnectionHttp>()){}
 
 void CDownEngine::start(){
 
     //Create starting file
-    cout << ">> Downloading starting file." << endl; //TODO log
-    auto optFile = m_connection->getFile(m_settings->url);
+    CCli::logInfoMain("Downloading starting file..."s);
+    auto optFile = m_connection->getFile(CSettings::url);
     if (!optFile.has_value())
-        throw invalid_argument("URL is not valid.");
+        throw invalid_argument("URL is not valid!"s);
     auto start_file = optFile.value();
 
     //check starting file type
     if (start_file->getType() != CFileType::HTML){
-        throw invalid_argument("Starting URL must be a web page, not resource.");
+        throw invalid_argument("Starting URL must be a web page, not resource!"s);
     }
 
     //generate filename and reserve it in given set
-    start_file->generateName(m_settings->targetFolder, m_used_filenames);
+    start_file->generateName(CSettings::targetFolder, m_used_filenames);
 
     //store in map of downloaded files
-    m_links_to_paths.insert({m_settings->url.getUrl(), start_file->getFilePath()});
+    m_links_to_paths.insert({CSettings::url.getUrl(), start_file->getFilePath()});
 
     //parse links from first file
     auto links_list = start_file->readLinks();
@@ -38,17 +37,18 @@ void CDownEngine::start(){
     //process all files in process queue
     processFiles();
 
-    cout << ">> WEB downloading process completed!" << endl; //TODO log
+    CCli::logInfoMain("WEB downloading process completed..."s);
 }
 
 void CDownEngine::downloadFiles(){
-    cout << ">> Starting downloading linked files." << endl; //TODO log
+
+    CCli::logInfoMain("Start downloading linked files..."s);
 
     //create error page - if is required save
     auto errorPage = createErrorPage();
-    if (m_settings->errorPage){
+    if (CSettings::errorPage){
         errorPage->m_level = numeric_limits<int>::max();
-        errorPage->generateName(m_settings->targetFolder, m_used_filenames);
+        errorPage->generateName(CSettings::targetFolder, m_used_filenames);
         errorPage->save();
     }
 
@@ -60,8 +60,8 @@ void CDownEngine::downloadFiles(){
         m_queue_download.pop();
 
         //Check https - not supported, check host
-        if (link.getHost() != m_settings->url.getHost()){
-            if (m_settings->errorPage)
+        if (link.getHost() != CSettings::url.getHost()){
+            if (CSettings::errorPage)
                 m_links_to_paths.insert({link.getUrl(), errorPage->getFilePath()});
             continue;
         }
@@ -81,13 +81,13 @@ void CDownEngine::downloadFiles(){
         auto downloaded_file = optFile.value();
 
         //check settings for downloading pictures and scripts
-        if ((!m_settings->pictures && downloaded_file->getType() == CFileType::PICTURE) ||
-            (!m_settings->scripts && downloaded_file->getType() == CFileType::JS))
+        if ((!CSettings::pictures && downloaded_file->getType() == CFileType::PICTURE) ||
+            (!CSettings::scripts && downloaded_file->getType() == CFileType::JS))
             continue;
 
         //check level only for HTML file
-        if (downloaded_file->getType() == CFileType::HTML && m_settings->levels >= 0 && level > m_settings->levels){
-            if (m_settings->errorPage)
+        if (downloaded_file->getType() == CFileType::HTML && CSettings::levels >= 0 && level > CSettings::levels){
+            if (CSettings::errorPage)
                 m_links_to_paths.insert({link.getUrl(), errorPage->getFilePath()});
             continue;
         }
@@ -95,7 +95,7 @@ void CDownEngine::downloadFiles(){
         //set level
         downloaded_file->m_level = level;
         //generate filename and reserve it in given set
-        downloaded_file->generateName(m_settings->targetFolder, m_used_filenames);
+        downloaded_file->generateName(CSettings::targetFolder, m_used_filenames);
 
         //store in map of downloaded files
         m_links_to_paths.insert({link.getUrl(), downloaded_file->getFilePath()});
@@ -108,11 +108,11 @@ void CDownEngine::downloadFiles(){
         //put file in process queue
         m_queue_process.push(downloaded_file);
     }
-    cout << ">> All linked files downloaded." << endl; //TODO log
 }
 
 void CDownEngine::processFiles(){
-    cout << ">> Starting processing downloaded files." << endl; //TODO log
+
+    CCli::logInfoMain("Start saving downloaded files..."s);
     while (!m_queue_process.empty()){
 
         //get file from queue
@@ -125,16 +125,16 @@ void CDownEngine::processFiles(){
         //save
         try{
             file->save();
-            file->notch(*m_statistics);
+            file->notch();
         } catch (...){
-            cout << "File cannot be saved." << endl;
+            CCli::logError("File cannot be saved!"s);
         }
     }
-    cout << ">> All downloaded files processed." << endl; //TODO log
+
 }
 
 shared_ptr<CFileHtml> CDownEngine::createErrorPage(){
-    CUrl errorUrl(m_settings->url.getHost() + "/web_downloader/error_page");
+    CUrl errorUrl(CSettings::url.getHost() + "/web_downloader/error_page"s);
     auto file = make_shared<CFileHtml>(errorUrl);
     file->setContent(R"(
 <!DOCTYPE html>

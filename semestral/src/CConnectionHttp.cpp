@@ -78,12 +78,13 @@ void CConnectionHttp::closeConnection() const{
 }
 
 std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
-    cout << "Downloading from: " << url.getUrl() << flush; //TODO log
+
+    CCli::logInfoLineStart("Fetch info from"s, url.getUrl());
 
     try{
         connect(url.getHost());
     } catch (const logic_error & e){
-        cout << " ........ connection error: " << e.what() << endl; //TODO log
+        CCli::logInfoLineEnd("connection error"s);
         return nullopt;
     }
 
@@ -93,15 +94,13 @@ std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
     try{
         closeConnection();
     } catch (...){
-        cout << " ........ response error" << endl; //TODO log
+        CCli::logInfoLineEnd("response error"s);
         return nullopt;
     }
 
-    cout << " " << setw(10) << setfill('.') << " " << " " << flush; //TODO log
-
     //no response - no file
     if (!response.has_value()){
-        cout << "empty response" << endl; //TODO log
+        CCli::logInfoLineEnd("empty response"s);
         return nullopt;
     }
 
@@ -109,26 +108,27 @@ std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
         if (response.value().getContentFormat() == "html"){
             auto file = make_shared<CFileHtml>(url);
             file->setContent(response->getContent());
-            cout << "HTML file downloaded" << endl;//TODO log
+            CCli::logInfoLineEnd("HTML file"s);
             return {file};
         } else if (response.value().getContentFormat() == "css"){
             auto file = make_shared<CFileCss>(url);
             file->setContent(response->getContent());
-            cout << "CSS file downloaded" << endl; //TODO log
+            CCli::logInfoLineEnd("CSS file"s);
             return {file};
         }
     } else if (response.value().getContentType() == "image"){
         auto file = make_shared<CFilePicture>(url, response.value().getContentFormat());
         file->setContent(response->getContent());
-        cout << "IMG file downloaded" << endl; //TODO log
+        CCli::logInfoLineEnd("IMG file"s);
         return {file};
     } else if (response.value().getContentType() == "application" && response.value().getContentFormat() == "javascript"){
         auto file = make_shared<CFileScript>(url);
         file->setContent(response->getContent());
-        cout << "JS file downloaded" << endl; //TODO log
+        CCli::logInfoLineEnd("JS file"s);
         return {file};
     }
 
-    cout << "Unsupported file type." << endl; //TODO log
+    CCli::logInfoLineEnd("Unsupported file type"s);
+
     return nullopt;
 }

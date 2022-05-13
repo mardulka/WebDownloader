@@ -11,32 +11,32 @@ struct CSettings{
     /**
      * Defines whether pictures should be downloaded
      */
-    bool pictures;
+    static bool pictures;
 
     /**
      * Defines whether scripts should be downloaded
      */
-    bool scripts;
+    static bool scripts;
 
     /**
      * Defines whether links beyond limits should lead to error page (other option is remain original)
      */
-    bool errorPage;
+    static bool errorPage;
 
     /**
      * Defines number of link levels which should be download. {0} is top, so download only original page. {-1} means no limit.
      */
-    int levels = -1;
+    static int levels;
 
     /**
      * Defines target folder where downloaded files should be stored.
      */
-    std::filesystem::path targetFolder;
+    static std::filesystem::path targetFolder;
 
     /**
      * Defines starting URL from which download should be started.
      */
-    CUrl url;
+    static CUrl url;
 
 };
 

@@ -3,39 +3,38 @@
 using namespace std;
 
 int main(int argc, char ** argv){
-    //Create struct holding settings and statistics
-    auto settings = make_shared<CSettings>();
-    auto statistics = make_shared<CStats>();
 
     //Read CLI information for application RUN into prepared settings struct
-    CCli Cli(settings);
     try{
-        Cli.readSettings(argc, argv);
+        CCli::readSettings(argc, argv);
     } catch (const exception & e){
-        Cli.write(e.what());
+        CCli::logError(e.what());
         return 1;
     }
 
     //Settings output
-    Cli.printSettings();
+    CCli::printSettings();
 
 
     //Give control to download engine and start downloading.
     try{
-        CDownEngine engine(settings, statistics);
+        CDownEngine engine;
         engine.start();
     } catch (const invalid_argument & e){
-        Cli.write(e.what());
+        CCli::logError(e.what());
         return 2;
     } catch (const filesystem::filesystem_error & fe){
-        Cli.write(fe.what());
+        CCli::logError(fe.what());
         return 5;
     } catch (...){
-        Cli.write("Unknown ERROR occurred!");
+        CCli::logError("Unknown ERROR occurred!");
     }
 
     //Print stats at program end
-    Cli.printStatistics(statistics);
+    CCli::printStatistics();
+
+    //Thank
+    CCli::write("Thank you for using our program!");
 
     return 0;
 }

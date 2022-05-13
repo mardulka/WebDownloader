@@ -2,7 +2,7 @@
 #define SEMESTRAL_CFILESCRIPT_H
 
 #include "CFile.h"
-#include <utility>
+#include "CStats.h"
 
 class CFileScript : public CFile{
 public:
@@ -26,9 +26,8 @@ public:
 
     /**
      * @brief Increment count of downloaded JS files
-     * @param stats Struct of statistic data.
      */
-    void notch(CStats & stats) override;
+    void notch() override;
 };
 
 

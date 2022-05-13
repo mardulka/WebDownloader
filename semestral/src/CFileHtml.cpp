@@ -162,7 +162,6 @@ std::optional<std::pair<size_t, size_t>> CFileHtml::findLinkInTag(const string &
 
         //check attribute name - if found return limits
         if (attr_name == attr_name_check){
-            //cout << "Found link {" << attr_content << "}" << endl;
             return make_pair(iter_attr_cont_start - tag.begin(), iter_attr_cont_end - tag.begin());
         }
 
@@ -280,9 +279,9 @@ void CFileHtml::setContent(std::string content){
 
 }
 
-void CFileHtml::notch(CStats & stats){
-    ++stats.html_files;
+void CFileHtml::notch(){
+    ++CStats::html_files;
 
-    if (m_level > stats.levels)
-        stats.levels = m_level;
+    if (m_level > CStats::levels)
+        CStats::levels = m_level;
 }

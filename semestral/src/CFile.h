@@ -13,6 +13,7 @@
 #include "CFileType.h"
 #include "CUrl.h"
 #include "CStats.h"
+#include "CCli.h"
 
 class CFile{
 protected:
@@ -126,9 +127,8 @@ public:
 
     /**
      * @brief Increase count of downloaded file into proper field in statistics.
-     * @param stats Struct of statistic data.
      */
-    virtual void notch(CStats & stats) = 0;
+    virtual void notch() = 0;
 
 protected:
 

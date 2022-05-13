@@ -2,7 +2,7 @@
 #define SEMESTRAL_CFILEPICTURE_H
 
 #include "CFile.h"
-#include <utility>
+#include "CStats.h"
 
 class CFilePicture : public CFile{
 public:
@@ -27,9 +27,8 @@ public:
 
     /**
      * @brief Increment count of downloaded pictures
-     * @param stats Struct of statistic data.
      */
-    void notch(CStats & stats) override;
+    void notch() override;
 };
 
 

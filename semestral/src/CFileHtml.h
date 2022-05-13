@@ -2,7 +2,7 @@
 #define SEMESTRAL_CFILEHTML_H
 
 #include "CFile.h"
-#include <utility>
+#include "CStats.h"
 
 class CFileHtml: public CFile{
 
@@ -40,9 +40,8 @@ public:
 
     /**
      * @brief Increment count of downloaded HTML files. Check max level.
-     * @param stats Struct of statistic data.
      */
-    void notch(CStats & stats) override;
+    void notch() override;
 
 public:
 

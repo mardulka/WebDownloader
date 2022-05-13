@@ -47,16 +47,6 @@ class CDownEngine{
     std::queue<std::shared_ptr<CFile>> m_queue_process;
 
     /**
-     * Saved settings
-     */
-    std::shared_ptr<CSettings> m_settings;
-
-    /**
-     * Saved settings
-     */
-    std::shared_ptr<CStats> m_statistics;
-
-    /**
      * Class which providing communication
      */
     std::shared_ptr<CConnection> m_connection;
@@ -66,10 +56,8 @@ public:
 
     /**
      * Contructor. Creates instance of engine and place starting URL into queue.
-     * @param settings
-     * @param connection
      */
-    explicit CDownEngine(const std::shared_ptr<CSettings> & settings, const std::shared_ptr<CStats> & statistics);
+    explicit CDownEngine();
 
     /**
      * Method starting downloading process;

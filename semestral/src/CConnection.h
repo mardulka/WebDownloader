@@ -1,6 +1,7 @@
 #ifndef SEMESTRAL_CCONNECTION_H
 #define SEMESTRAL_CCONNECTION_H
 
+
 /**
  * Virtual class as interface for
  */

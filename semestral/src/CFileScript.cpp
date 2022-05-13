@@ -9,6 +9,6 @@ list<CUrl> CFileScript::readLinks(){
     return {};
 }
 
-void CFileScript::notch(CStats & stats){
-    ++stats.script_files;
+void CFileScript::notch(){
+    ++CStats::script_files;
 }

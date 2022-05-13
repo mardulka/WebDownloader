@@ -21,11 +21,10 @@ void CFile::save() const{
     if (!output.is_open()){
         throw invalid_argument("FILE: File cannot be created.");
     }
-
-    cout << "Saving file: " << absolute(m_file_path).string() << setw(10) << setfill('.') << "" << flush; //TODO log
+    CCli::logInfoLineStart("Saving file"s, absolute(m_file_path).string());
     output << m_content;
     output.close();
-    cout << "File saved." << endl; // TODO log
+    CCli::logInfoLineEnd("File saved"s);
 }
 
 void CFile::checkDirectory(const std::filesystem::path & targetPath) const{

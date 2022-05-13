@@ -119,6 +119,6 @@ void CFileCss::replaceLinks(const unordered_map<string, filesystem::path> & repl
 
 }
 
-void CFileCss::notch(CStats & stats){
-    ++stats.css_files;
+void CFileCss::notch(){
+    ++CStats::css_files;
 }
