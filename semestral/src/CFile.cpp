@@ -22,11 +22,10 @@ void CFile::save() const{
         throw invalid_argument("FILE: File cannot be created.");
     }
 
-    //TODO Message to CLI or log
-    cout << "Saving file: " << absolute(m_file_path).string() << setw(10) << setfill('.') << "" << flush;
+    cout << "Saving file: " << absolute(m_file_path).string() << setw(10) << setfill('.') << "" << flush; //TODO log
     output << m_content;
     output.close();
-    cout << "File saved." << endl;
+    cout << "File saved." << endl; // TODO log
 }
 
 void CFile::checkDirectory(const std::filesystem::path & targetPath) const{
@@ -80,7 +79,6 @@ void CFile::generateName(const filesystem::path & targetFolder, set <filesystem:
 }
 
 optional <std::string> CFile::makeLinkAbsolute(const string & link){
-    //cout << "Making absolut link from link: " << link << endl; //TODO debug
 
     if (link.empty())
         return nullopt;

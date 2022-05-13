@@ -26,11 +26,6 @@ public:
     std::list<CUrl> readLinks() override;
 
     /**
-     * In Picture file are no links at all. Override PURE VIRTUAL method.
-     */
-    void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) override;
-
-    /**
      * @brief Increment count of downloaded pictures
      * @param stats Struct of statistic data.
      */

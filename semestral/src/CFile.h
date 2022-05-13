@@ -117,7 +117,7 @@ public:
     /**
      * Method for replacing links in content. PURE VIRTUAL
      */
-    virtual void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) = 0;
+    virtual void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map){};
 
     /**
      * Method providing file saving. VIRTUAL

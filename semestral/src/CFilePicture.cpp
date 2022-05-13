@@ -11,8 +11,6 @@ list<CUrl> CFilePicture::readLinks(){
     return {};
 }
 
-void CFilePicture::replaceLinks(const unordered_map<string, filesystem::path> & replacing_map){}
-
 void CFilePicture::notch(CStats & stats){
     ++stats.pictures;
 }
