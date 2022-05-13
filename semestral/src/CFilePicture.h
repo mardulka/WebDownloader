@@ -2,6 +2,7 @@
 #define SEMESTRAL_CFILEPICTURE_H
 
 #include "CFile.h"
+#include <utility>
 
 class CFilePicture : public CFile{
 public:
@@ -29,6 +30,11 @@ public:
      */
     void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) override;
 
+    /**
+     * @brief Increment count of downloaded pictures
+     * @param stats Struct of statistic data.
+     */
+    void notch(CStats & stats) override;
 };
 
 

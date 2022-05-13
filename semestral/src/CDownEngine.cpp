@@ -125,7 +125,7 @@ void CDownEngine::processFiles(){
         //save
         try{
             file->save();
-            //TODO file->notch(m_statistics);
+            file->notch(*m_statistics);
         } catch (...){
             cout << "File cannot be saved." << endl;
         }

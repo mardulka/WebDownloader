@@ -12,6 +12,7 @@
 #include <unordered_map>
 #include "CFileType.h"
 #include "CUrl.h"
+#include "CStats.h"
 
 class CFile{
 protected:
@@ -122,6 +123,12 @@ public:
      * Method providing file saving. VIRTUAL
      */
     virtual void save() const;
+
+    /**
+     * @brief Increase count of downloaded file into proper field in statistics.
+     * @param stats Struct of statistic data.
+     */
+    virtual void notch(CStats & stats) = 0;
 
 protected:
 

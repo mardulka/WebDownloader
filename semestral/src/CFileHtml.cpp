@@ -1,6 +1,5 @@
 #include "CFileHtml.h"
 
-#include <utility>
 
 using namespace std;
 
@@ -279,4 +278,11 @@ void CFileHtml::setContent(std::string content){
     if (iter != m_content.begin())
         m_content = string(iter, m_content.end());
 
+}
+
+void CFileHtml::notch(CStats & stats){
+    ++stats.html_files;
+
+    if (m_level > stats.levels)
+        stats.levels = m_level;
 }

@@ -1,11 +1,9 @@
 #include "CFileCss.h"
 
-#include <utility>
-
 using namespace std;
 
 CFileCss::CFileCss(CUrl url, const string & relative_path)
-        : CFile(std::move(url), relative_path, "css", CFileType::CSS){}
+        : CFile(move(url), relative_path, "css", CFileType::CSS){}
 
 list<CUrl> CFileCss::readLinks(){
     list<CUrl> links;
@@ -70,7 +68,7 @@ list<CUrl> CFileCss::readLinks(){
     return links;
 }
 
-void CFileCss::replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map){
+void CFileCss::replaceLinks(const unordered_map<string, filesystem::path> & replacing_map){
 
     string content_new;
     content_new.reserve(m_content.size());
@@ -119,4 +117,8 @@ void CFileCss::replaceLinks(const std::unordered_map<std::string, std::filesyste
 
     swap(m_content, content_new);
 
+}
+
+void CFileCss::notch(CStats & stats){
+    ++stats.css_files;
 }

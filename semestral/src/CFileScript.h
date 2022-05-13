@@ -2,6 +2,7 @@
 #define SEMESTRAL_CFILESCRIPT_H
 
 #include "CFile.h"
+#include <utility>
 
 class CFileScript : public CFile{
 public:
@@ -23,11 +24,16 @@ public:
      */
     std::list<CUrl> readLinks() override;
 
-
     /**
      * Go through file and replace all links with path from map.
      */
     void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) override;
+
+    /**
+     * @brief Increment count of downloaded JS files
+     * @param stats Struct of statistic data.
+     */
+    void notch(CStats & stats) override;
 };
 
 

@@ -2,6 +2,7 @@
 #define SEMESTRAL_CFILEHTML_H
 
 #include "CFile.h"
+#include <utility>
 
 class CFileHtml: public CFile{
 
@@ -31,7 +32,17 @@ public:
      */
     void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) override;
 
+    /**
+     * @brief Setting content into file. Used mostly for testing.
+     * @param content String of new content.
+     */
     void setContent(std::string content) override;
+
+    /**
+     * @brief Increment count of downloaded HTML files. Check max level.
+     * @param stats Struct of statistic data.
+     */
+    void notch(CStats & stats) override;
 
 public:
 
