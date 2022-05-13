@@ -8,6 +8,7 @@
 #include "CFileHtml.h"
 #include "CFileCss.h"
 #include "CFilePicture.h"
+#include "CStats.h"
 
 int main(int argc, char ** argv);
 

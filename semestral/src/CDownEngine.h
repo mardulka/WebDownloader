@@ -6,6 +6,7 @@
 #include "CFile.h"
 #include "CFileHtml.h"
 #include "CConnection.h"
+#include "CStats.h"
 #include <queue>
 #include <unordered_map>
 #include <algorithm>
@@ -51,6 +52,11 @@ class CDownEngine{
     std::shared_ptr<CSettings> m_settings;
 
     /**
+     * Saved settings
+     */
+    std::shared_ptr<CStats> m_statistics;
+
+    /**
      * Class which providing communication
      */
     std::shared_ptr<CConnection> m_connection;
@@ -63,7 +69,7 @@ public:
      * @param settings
      * @param connection
      */
-    explicit CDownEngine(const std::shared_ptr<CSettings> & settings);
+    explicit CDownEngine(const std::shared_ptr<CSettings> & settings, const std::shared_ptr<CStats> & statistics);
 
     /**
      * Method starting downloading process;

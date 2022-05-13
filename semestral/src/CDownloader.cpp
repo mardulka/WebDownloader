@@ -3,8 +3,9 @@
 using namespace std;
 
 int main(int argc, char ** argv){
-    //Create struct holding settings together
+    //Create struct holding settings and statistics
     auto settings = make_shared<CSettings>();
+    auto statistics = make_shared<CStats>();
 
     //Read CLI information for application RUN into prepared settings struct
     CCli Cli(settings);
@@ -18,23 +19,23 @@ int main(int argc, char ** argv){
     //Settings output
     Cli.printSettings();
 
+
     //Give control to download engine and start downloading.
     try{
-        CDownEngine engine(settings);
-        engine.start(); //TODO stats as input-output value
+        CDownEngine engine(settings, statistics);
+        engine.start();
     } catch (const invalid_argument & e){
         Cli.write(e.what());
         return 2;
     } catch (const filesystem::filesystem_error & fe){
-        cout << fe.what() << endl;
+        Cli.write(fe.what());
         return 5;
     } catch (...){
-        cout << "Unknown ERROR occurred." << endl;
+        Cli.write("Unknown ERROR occurred!");
     }
 
-    //TODO print downloading stats
-    //engine.printStats();
+    //Print stats at program end
+    Cli.printStatistics(statistics);
 
-    cout << "Program quit!" << endl;
     return 0;
 }

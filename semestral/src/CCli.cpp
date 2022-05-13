@@ -106,7 +106,7 @@ void CCli::printHelp(){
 
 void CCli::printSettings() const{
     //Header
-    cout << setw(16) << setfill('-') << " ";
+    cout << setw(16) << setfill('-') << "";
     cout << "Download settings:";
     cout << setw(16) << setfill('-') << left << " " << endl << setfill(' ');
     //Body
@@ -117,7 +117,22 @@ void CCli::printSettings() const{
     cout << setw(25) << left << "Target folder: " << m_settings->targetFolder << endl;
     cout << setw(25) << left << "Starting URL: " << m_settings->url.getUrl() << endl;
     //Footer
-    cout << setw(25) << left << setw(50) << setfill('-') << "" << endl;
+    cout << setw(50) << setfill('-') << "" << endl;
+}
+
+void CCli::printStatistics(const shared_ptr<CStats> & stats) const{
+    //Header
+    cout << setw(14) << setfill('-') << "";
+    cout << "Download statistics:";
+    cout << setw(14) << setfill('-') << left << " " << endl << setfill(' ');
+    //Body
+    cout << setw(45) << left << "HTML files downloaded: " << setw(5)<< stats->html_files << endl;
+    cout << setw(45) << left << "CSS files download: " << setw(5)<< stats->css_files << endl;
+    cout << setw(45) << left << "Pictures downloaded: " << setw(5)<< stats->pictures << endl;
+    cout << setw(45) << left << "JS files download: " << setw(5)<< stats->script_files << endl;
+    cout << setw(45) << left << "Maximal level for download reached: " << setw(5)<< stats->levels << endl;
+    //Footer
+    cout << setw(48) << setfill('-') << "" << endl;
 }
 
 

@@ -6,6 +6,7 @@
 #include <exception>
 #include <string>
 #include "CSettings.h"
+#include "CStats.h"
 
 class CCli{
 
@@ -31,6 +32,11 @@ public:
      * Method for printing settings.
      */
     void printSettings() const;
+
+    /**
+     * Method for printing statistics.
+     */
+    void printStatistics(const std::shared_ptr<CStats> & stats) const;
 
     /**
      * Method for printing simple text line to CLI

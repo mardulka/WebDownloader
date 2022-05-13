@@ -2,8 +2,8 @@
 
 using namespace std;
 
-CDownEngine::CDownEngine(const shared_ptr<CSettings> & settings) : m_settings(settings),
-                                                                   m_connection(make_shared<CConnectionHttp>()){}
+CDownEngine::CDownEngine(const shared_ptr<CSettings> & settings, const shared_ptr<CStats> & statistics)
+    : m_settings(settings), m_statistics(statistics), m_connection(make_shared<CConnectionHttp>()){}
 
 void CDownEngine::start(){
 
@@ -23,7 +23,7 @@ void CDownEngine::start(){
     start_file->generateName(m_settings->targetFolder, m_used_filenames);
 
     //store in map of downloaded files
-    m_links_to_paths.insert({m_settings->url.getUrl(), start_file->getFilePath()}); //TODO filename
+    m_links_to_paths.insert({m_settings->url.getUrl(), start_file->getFilePath()});
 
     //parse links from first file
     auto links_list = start_file->readLinks();
@@ -38,8 +38,7 @@ void CDownEngine::start(){
     //process all files in process queue
     processFiles();
 
-    //TODO log of CLI output
-    cout << ">> All done!" << endl; //TODO log
+    cout << ">> WEB downloading process completed!" << endl; //TODO log
 }
 
 void CDownEngine::downloadFiles(){
@@ -75,9 +74,10 @@ void CDownEngine::downloadFiles(){
         //download file for given URL and record into downloaded links set
         auto optFile = m_connection->getFile(link);
         m_downloaded_links.insert(link.getUrl());
+        //Error or is behind defined boundaries, therefore skipped.
         if (!optFile.has_value()){
             continue;
-        } //Error or is behind defined boundaries, therefore skipped.
+        }
         auto downloaded_file = optFile.value();
 
         //check settings for downloading pictures and scripts
@@ -125,6 +125,7 @@ void CDownEngine::processFiles(){
         //save
         try{
             file->save();
+            //TODO file->notch(m_statistics);
         } catch (...){
             cout << "File cannot be saved." << endl;
         }
