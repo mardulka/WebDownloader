@@ -125,8 +125,8 @@ public:
     virtual std::list<CUrl> readLinks() = 0;
 
     /**
-     * @brief Replaces links in content.
-     * @param replacing_map
+     * @brief Parses file and replace all links with path from map, if there record exists.
+     * @param replacing_map Map containing information about links and their path replacements
      */
     virtual void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map){};
 

@@ -57,6 +57,8 @@ clean:
 .PHONY: doc
 doc: Doxyfile $(HEADERS)
 	doxygen Doxyfile
+	make -C doc/latex
+	mv doc/latex/refman.pdf build/documentation.pdf
 
 
 #tests -----------------------------------------------------------------------------------------------------------------

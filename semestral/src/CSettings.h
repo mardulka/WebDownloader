@@ -5,7 +5,7 @@
 #include "CUrl.h"
 
 /**
- * @struct CSetting
+ * @struct CSettings
  * @brief Struct for storing application settings
  */
 struct CSettings{

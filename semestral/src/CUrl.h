@@ -13,7 +13,7 @@
  *
  * Provides parsing and validation logic and offers some methods for direct access to URL parts.
  *
- * @example <scheme>://<host>:<port>/<path>?<query>
+ * @note <scheme>://<host>:<port>/<path>?<query>
  */
 class CUrl{
 

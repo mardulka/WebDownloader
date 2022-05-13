@@ -7,44 +7,44 @@
 #include <exception>
 
 /**
- * @class CHttpReponse
+ * @class CHttpResponse
  * @brief Class representing HTTP response obtained from network. It can parse obtained response and provide asses to data.
  */
 class CHttpResponse{
 
     /**
      * @brief Protocol
-     * @example HTTP/1.1
+     * @note HTTP/1.1
      */
     std::string m_protocol;
 
     /**
      * @brief Response status
-     * @example 200
+     * @note 200
      */
     unsigned short m_status{};
 
     /**
      * @brief Response status text
-     * @example OK
+     * @note OK
      */
     std::string m_status_text;
 
     /**
      * @brief Reponse content type
-     * @example text
+     * @note text
      */
     std::string m_content_type;
 
     /**
      * @brief Reponse content type
-     * @example html
+     * @note html
      */
     std::string m_content_format;
 
     /**
      * @brief Response content itself
-     * @example html formatted text, css content, script content, or image binary
+     * @note html formatted text, css content, script content, or image binary
      */
     std::string m_content;
 
