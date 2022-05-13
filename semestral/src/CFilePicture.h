@@ -4,10 +4,15 @@
 #include "CFile.h"
 #include "CStats.h"
 
+/**
+ * @class CFilePicture
+ * @extends CFile
+ * @brief Class representing picture file.
+ */
 class CFilePicture : public CFile{
 public:
     /**
-     * Constructor
+     * @brief Constructor
      * @param url File URL
      * @param file_ending extension for filename representing picture format
      * @param relative_path File relative path for saving
@@ -15,18 +20,19 @@ public:
     CFilePicture(CUrl url, const std::string & file_ending, const std::string & relative_path = "pictures");
 
     /**
-     * Destructor
+     * @brief Destructor
      */
     virtual ~CFilePicture() = default;
 
     /**
-     * In Picture file are no links at all. Override PURE VIRTUAL method.
+     * @brief Read links from file. But for picture does it nothing.
+     * @note Only overrides pure virtual method.
      * @return empty list of links
      */
     std::list<CUrl> readLinks() override;
 
     /**
-     * @brief Increment count of downloaded pictures
+     * @brief Increments count of downloaded pictures in statistics.
      */
     void notch() override;
 };

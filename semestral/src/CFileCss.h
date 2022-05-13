@@ -4,33 +4,41 @@
 #include "CFile.h"
 #include "CStats.h"
 
+/**
+ * @class CFileCss
+ * @extends CFile
+ * @brief Class representing CSS file
+ */
 class CFileCss : public CFile{
 public:
+
     /**
-     * Constructor
+     * @brief Constructor
      * @param url File URL
-     * @param relative_path File relative path for saving
+     * @param relative_path File relative path for saving with default value.
      */
     explicit CFileCss(CUrl url, const std::string & relative_path = "css");
 
     /**
-     * Destructor
+     * @brief Destructor
      */
     ~CFileCss() override = default;
 
     /**
-     * Go through file and read all links.
+     * @brief Parses file and reads all links.
+     * @note All links are also modified to absolute type.
      * @return list of all links
      */
     std::list<CUrl> readLinks() override;
 
     /**
-     * Go through file and replace all links with path from map.
+     * @brief Parses file and replace all links with path from map, if there record exists.
+     * @param replacing_map Map containing information about links and their path replacements.
      */
     void replaceLinks(const std::unordered_map<std::string, std::filesystem::path> & replacing_map) override;
 
     /**
-     * @brief Increment count of downloaded CSS files
+     * @brief Increments count of downloaded CSS files in statistics.
      */
     void notch() override;
 };

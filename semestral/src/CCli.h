@@ -9,78 +9,84 @@
 #include "CStats.h"
 
 /**
+ * @class CCli
  * @brief Class providing communication with UI, CLI as default.
  */
 class CCli{
 
     /**
-     * @brief Defined default input stream
+     * @brief Defined default input stream.
      */
     constexpr static std::istream & m_cin = std::cin;
 
     /**
-     * @brief Defined default output stream
+     * @brief Defined default output stream.
      */
     constexpr static std::ostream & m_cout = std::cout;
 
     /**
-     * @brief Defined default err stream
+     * @brief Defined default err stream.
      */
     constexpr static std::ostream & m_err = std::cerr;
 
     /**
-     * @brief Defined default output stream width
+     * @brief Defined default output stream width.
      */
     constexpr static size_t TERMINAL_WIDTH = 200;
 
     /**
-     * @brief Defined default ending width for log line ending
+     * @brief Defined default ending width for log line ending.
      */
     constexpr static size_t LOG_END_WIDTH = 30;
 
 public:
 
+    /**
+     * @brief Constructor - deleted
+     */
     CCli() = delete;
 
     /**
-     * Method reads given parameters and parse them into application settings.
+     * @brief Reads given parameters and parse them into application settings.
      * @param argc number of parameters
      * @param argv parameters
+     * @throws invalid_argument if there are mistake in program call attributes
      */
     static void readSettings(int argc, char ** argv);
 
     /**
-     * Method printing help for application
+     * @brief Prints help for application
      */
     static void printHelp();
 
     /**
-     * Method for printing settings.
+     * @brief Prints initial settings.
      */
     static void printSettings();
 
     /**
-     * Method for printing statistics.
+     * @brief Prints final statistics.
      */
     static void printStatistics();
 
     /**
-     * Method for printing simple text line to CLI
-     * @param text
+     * @brief Prints simple text line to CLI.
+     * @param text String of simple text to write
      */
     static void write(const std::string & text);
 
     /**
-     * Method validate given string as system path and tore it into settings class if ok.
-     * @param strPath
+     * @brief Validates given string as system path and store it into settings class if is ok.
+     * @param strPath String of path
+     * @throws invalid_argument if given directory path is not valid or not exists
      */
     static void readDirectory(const std::string & strPath);
 
     /**
      * @brief Print main info log
-     * @param string
+     * @param string String of main info body
      */
-    static void logInfoMain(const std::string & string);
+    static void logInfoMain(const std::string & body);
 
     /**
      * @brief Print info line start with defined length. No new line is called, waiting for ending.

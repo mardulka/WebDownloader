@@ -8,42 +8,45 @@
 #include <stdexcept>
 
 /**
- * Immutable class for wrapping http and https URL without fragments.
+ * @class CUrl
+ * @brief Immutable class for wrapping http and https URL without fragments.
+ *
  * Provides parsing and validation logic and offers some methods for direct access to URL parts.
  *
- * <scheme>://<host>:<port>/<path>?<query>
- *
- * Constructor throws INVALID_ARGUMENT exception if syntax error in URL is occurred while is parsed.
+ * @example <scheme>://<host>:<port>/<path>?<query>
  */
 class CUrl{
+
     /**
-     * Scheme (only http, https valid)
+     * @brief Scheme
+     * @note only http and https is valid
      */
     std::string m_scheme;
 
     /**
-     * Host name
+     * @brief Host name
      */
     std::string m_host;
 
     /**
-     * Port number
+     *@brief  Port number
      */
     unsigned int m_port = 80;
 
     /**
-     * Indicates if port is default - default port is not printed into url string
+     * @brief Indicates if port is default - default port is not printed into url string
      */
     bool m_default_port = true;
 
 
     /**
-     * Resource path - mustn't start with "/" symbol - it is here only as delimiter between host and path
+     * @brief Resource path
+     * @note mustn't start with "/" symbol - it is here only as delimiter between host and path
      */
     std::string m_path;
 
     /**
-     * Query
+     * @brief Query
      */
     std::string m_query;
 
@@ -51,83 +54,81 @@ public:
 
 
     /**
-     * Default constructor
+     * @brief Default constructor
      */
     CUrl() = default;
 
     /**
-     * Basic constructor
+     * @brief Basic constructor
      * @param url Url for parsing and storing.
-     *
-     * Throws INVALID_ARGUMENT exception if syntax error in URL is occurred while is parsed.
+     * @throws invalid_argument exception if syntax error in URL is occurred while is parsed.
      */
     explicit CUrl(std::string url);
 
-    /**
-     * Copy and move constructors and operators. Since contents are only strings which has implemented these, defaults are ok.
-     */
+
     CUrl(const CUrl & url) = default;
     CUrl(CUrl && url) = default;
     CUrl & operator =(const CUrl & url) = default;
     CUrl & operator =(CUrl && url) = default;
 
     /**
-     * Getter on scheme
+     * @brief Getter on scheme
      * @return String of scheme
      */
     [[nodiscard]] std::string getScheme() const;
 
     /**
-     * Getter on host
+     * @brief Getter on host
      * @return String of host
      */
     [[nodiscard]] std::string getHost() const;
 
     /**
-     * Getter on port
+     * @brief Getter on port
      * @return port number
      */
     [[nodiscard]] unsigned int getPort() const;
 
     /**
-     * Getter on path
+     * @brief Getter on path
      * @return String of path
      */
     [[nodiscard]] std::string getPath() const;
 
     /**
-     * Getter on query
+     * @brief Getter on query
      * @return String of query
      */
     [[nodiscard]] std::string getQuery() const;
 
     /**
-     * Method returning URL in proper format.
+     * @brief Returns URL in proper format.
      * @return String of URL.
      */
     [[nodiscard]] std::string getUrl() const;
 
     /**
-     * Getter on path?resource
+     * @brief Getter on path?resource
      * @return String of resource path
      */
     [[nodiscard]] std::string getResource() const;
 
     /**
-     * Method returning information if url is empty. Empty URL is when HOST is empty
+     * @brief Returns information if url is empty.
+     * @note Empty URL is when HOST is empty
      * @return true if URL is empty, false otherwise
      */
     bool empty();
 
     /**
-     * Equality operator
+     * @brief Equality operator
      * @param rhs compared URL
      * @return true if same, false otherwise
      */
     bool operator ==(const CUrl & rhs) const;
 
     /**
-     * Inequality operator
+     * @brief Inequality operator
      * @param rhs compared URL
      * @return false if same, true otherwise
      */

@@ -3,16 +3,17 @@
 
 
 /**
- * Virtual class as interface for
+ * @class CConnection
+ * @brief Virtual class as interface for all classes providing network communication.
  */
 class CConnection{
 
 public:
 
     /**
-     * Virtual method for overriding
+     * @brief Try to download file represented by URL. If is downloaded OK, return instance of corresponding file class.
      * @param url Url of given file
-     * @return Optional pointer to downloaded file.
+     * @return Optional shared pointer to downloaded file instance.
      */
     virtual std::optional<std::shared_ptr<CFile>> getFile(const CUrl & url) = 0;
 

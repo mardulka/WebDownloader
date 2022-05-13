@@ -2,31 +2,32 @@
 #define SEMESTRAL_CSTATS_H
 
 /**
+ * @struct CStats
  * @brief Structure for holding statistic information together
  */
 struct CStats{
     /**
-     * Number of downloaded HTML files
+     * @brief Number of downloaded HTML files
      */
     static int html_files;
 
     /**
-     * Number of downloaded CSS files
+     * @brief Number of downloaded CSS files
      */
     static int css_files;
 
     /**
-     * Number of downloaded pictures
+     * @brief Number of downloaded pictures
      */
     static int pictures;
 
     /**
-     * Number of downloaded JS files
+     * @brief Number of downloaded JS files
      */
     static int script_files;
 
     /**
-     * Number of max level
+     * @brief Number of max level
      */
     static int levels;
 

@@ -25,77 +25,84 @@
 #include "CHttpResponse.h"
 #include "CConnection.h"
 
+/**
+ * @class CConnectionHttp
+ * @extends CConnection
+ * @brief Class providing network connection through http protocol only.
+ */
 class CConnectionHttp : public CConnection{
 
     /**
-     * File-descriptor for connection endpoint.
+     * @brief File-descriptor for connection endpoint.
      */
     int m_socket;
 
     /**
-     * Port number - predefined for http.
+     * @brief Port number - predefined for http.
      */
     int m_port = 80;
 
     /**
-     * Buffer size for communication - predefined.
+     * @brief Buffer size for communication - predefined.
      */
     const int m_bufferSize = 1024;
 
     /**
-     * Size of sockaddr_in struct
+     * @brief Size of sockaddr_in struct
      */
     socklen_t m_sockAddrSize;
 
     /**
-     * Socket address struct for server address.
+     * @brief Socket address struct for server address.
      */
     struct sockaddr_in m_serverAddress;
 
     /**
-     * Host pointer for connection
+     * @brief Host pointer for connection
      */
     struct hostent * m_host_ptr;
 
 public:
+
     /**
-     * Nonparametric constructor. Initializes general class attributes.
-     * Throws "logic error" exception if socket cannot be created.
+     * @brief Nonparametric constructor. Initializes general class attributes.
      */
     explicit CConnectionHttp();
 
     /**
-     * Destructor. Implemented to close connection.
+     * @brief Destructor. Implemented to close connection.
      */
     virtual ~CConnectionHttp();
 
     /**
-     * Method returning file from web connection. Overrode from abstract parent class.
+     * @brief Returns file from web connection. Implemented virtual method - main interface.
      * @param url URL of the file
-     * @return OPTIONAL SHARED PTR of the new file.
+     * @return optional shared pointer of the new file.
      */
     std::optional<std::shared_ptr<CFile>> getFile(const CUrl & url) override;
 
 private:
+
     /**
-     * Create connection with defined URL.
-     * Throws "logic error" exception if connection cannot be established.
+     * @brief Creates connection with defined URL.
+     * @throws logic_error exception if connection cannot be established.
+     * @throws invalid_argument exception if hostname is not valid.
      */
     void connect(const std::string & hostName);
 
     /**
-     * Closing connection with remote server
+     * @brief Closes connection with remote server
      */
     void closeConnection() const;
 
     /**
-     * Method for sending requests to server.
+     * @brief Sends requests to server.
      * @param content text of request
      */
     void sendGetRequest(const std::string & content);
 
     /**
-     * Method for reading response from server.
+     * @brief Reads response from server.
      */
     [[nodiscard]] std::optional<CHttpResponse> getServerResponse() const;
 

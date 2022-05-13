@@ -16,38 +16,39 @@
 
 
 /**
- * Class running download and saving
+ * @class CDownEngine
+ * @brief Class which actually running download and saving for files.
  */
 class CDownEngine{
 
     /**
-     * Map for indexing file paths by their original resource url
+     * @brief Map for indexing file paths by their original resource url
      */
     std::unordered_map<std::string, std::filesystem::path> m_links_to_paths;
 
     /**
-     * Set of already downloaded links
+     * @brief Set of already downloaded links
      */
     std::unordered_set<std::string> m_downloaded_links;
 
     /**
-     * Set of the used filenames represented by absolute filesystem path
+     * @brief Set of the used filenames represented by absolute filesystem path
      */
     std::set<std::filesystem::path> m_used_filenames;
 
     /**
-     * Queue of links for downloading file and parse for other links.
-     * Second value stores information which level this file would be.
+     * @brief Queue of links for downloading file and parse for other links.
+     * @note Second value stores information which level this file would be.
      */
     std::queue<std::pair<CUrl, int>> m_queue_download;
 
     /**
-     * Queue of links for replacing links in files and save = process files
+     * @brief Queue of links for replacing links in files and save
      */
     std::queue<std::shared_ptr<CFile>> m_queue_process;
 
     /**
-     * Class which providing communication
+     * @brief Class which providing communication
      */
     std::shared_ptr<CConnection> m_connection;
 
@@ -55,26 +56,33 @@ class CDownEngine{
 public:
 
     /**
-     * Contructor. Creates instance of engine and place starting URL into queue.
+     * @brief Constructor creates instance and initialize CConnection class instance member attribute.
      */
     explicit CDownEngine();
 
     /**
-     * Method starting downloading process;
+     * @brief Starting download process;
+     * @throws invalid_argument if starting URL is not valid or is not HTML file
      */
     void start();
 
 private:
+
     /**
-     * Method downloads files from queue links, parse them for links.
-     * Links are stored back in link queue, files in process queue.
+     * @brief Downloads files from queue links, parse them for links.
+     * @note Links are stored back in link queue, files in process queue.
      */
     void downloadFiles();
 
     /**
-     * Method for processing files = replace links and save.
+     * @brief Processes files = replace links and save.
      */
     void processFiles();
+
+    /**
+     * @brief Creates Error page as HTML file instance if necessary.
+     * @return Shared pointer to HTML file instance representing Error page
+     */
     std::shared_ptr<CFileHtml> createErrorPage();
 };
 

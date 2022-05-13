@@ -5,36 +5,38 @@
 #include "CUrl.h"
 
 /**
- * Struct for storing application settings
+ * @struct CSetting
+ * @brief Struct for storing application settings
  */
 struct CSettings{
+
     /**
-     * Defines whether pictures should be downloaded
+     * @brief Defines whether pictures should be downloaded
      */
     static bool pictures;
 
     /**
-     * Defines whether scripts should be downloaded
+     * @brief Defines whether scripts should be downloaded
      */
     static bool scripts;
 
     /**
-     * Defines whether links beyond limits should lead to error page (other option is remain original)
+     * @brief Defines whether links beyond limits should lead to error page (other option is remain original)
      */
     static bool errorPage;
 
     /**
-     * Defines number of link levels which should be download. {0} is top, so download only original page. {-1} means no limit.
+     * @brief Defines number of link levels which should be download. {0} is top, so download only original page. {-1} means no limit.
      */
     static int levels;
 
     /**
-     * Defines target folder where downloaded files should be stored.
+     * @brief Defines target folder where downloaded files should be stored.
      */
     static std::filesystem::path targetFolder;
 
     /**
-     * Defines starting URL from which download should be started.
+     * @brief Defines starting URL from which download should be started.
      */
     static CUrl url;
 

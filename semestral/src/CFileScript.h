@@ -4,28 +4,34 @@
 #include "CFile.h"
 #include "CStats.h"
 
+/**
+ * @class CFileScript
+ * @extends CFile
+ * @brief Class representing javascript file.
+ */
 class CFileScript : public CFile{
 public:
     /**
-     * Constructor
+     * @brief Constructor
      * @param url File URL
      * @param relative_path File relative path for saving
      */
     explicit CFileScript(CUrl url, const std::string & relative_path = "js");
 
     /**
-     * Destructor
+     * @brief Destructor
      */
     virtual ~CFileScript() = default;
 
     /**
-     * Go through file and read all links.
-     * @return list of all links
+     * @brief Read links from file. Scripts are not intended for obtaining links, so for script does it nothing.
+     * @note Only overrides pure virtual method.
+     * @return empty list of links
      */
     std::list<CUrl> readLinks() override;
 
     /**
-     * @brief Increment count of downloaded JS files
+     * @brief Increments count of downloaded JS files in statistics.
      */
     void notch() override;
 };
