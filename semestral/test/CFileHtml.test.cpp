@@ -6,6 +6,9 @@
 #include "../src/CFileHtml.h"
 #include "../src/CFile.h"
 #include "../src/CUrl.h"
+#include "../src/CStats.h"
+#include "../src/CSettings.h"
+
 
 using namespace std;
 

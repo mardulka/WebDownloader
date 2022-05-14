@@ -4,6 +4,7 @@
 
 //Include tested file
 #include "../src/CHttpResponse.h"
+#include "../src/CStats.h"
 
 using namespace std;
 

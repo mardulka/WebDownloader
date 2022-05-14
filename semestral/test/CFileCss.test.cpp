@@ -6,6 +6,7 @@
 #include "../src/CFileCss.h"
 #include "../src/CFile.h"
 #include "../src/CUrl.h"
+#include "../src/CStats.h"
 
 using namespace std;
 
