@@ -5,6 +5,7 @@
 #include <iomanip>
 #include <exception>
 #include <string>
+#include <filesystem>
 #include "CSettings.h"
 #include "CStats.h"
 

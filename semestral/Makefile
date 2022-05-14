@@ -56,7 +56,7 @@ deps:
 
 $(LOGIN): $(OBJECTS)
 	mkdir -p $(@D)
-	g++ $^ -o $@
+	g++ $^ -o $@ -lstdc++fs
 
 $(BDIR)/%.o: $(SDIR)/%.cpp
 	mkdir -p $(@D)
@@ -92,13 +92,13 @@ $(BDIR)/$(LOGIN).zip:
 
 #tests -----------------------------------------------------------------------------------------------------------------
 CUrl.test: $(GDIR)/CUrl.test.o $(BDIR)/CUrl.o $(BDIR)/CStats.o
-	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
+	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^ -lstdc++fs
 
 CHttpResponse.test: $(GDIR)/CHttpResponse.test.o $(BDIR)/CHttpResponse.o $(BDIR)/CStats.o
-	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
+	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^ -lstdc++fs
 
 CFileHtml.test: $(GDIR)/CFileHtml.test.o $(BDIR)/CFileHtml.o $(BDIR)/CFile.o $(BDIR)/CUrl.o $(BDIR)/CStats.o $(BDIR)/CCli.o $(BDIR)/CSettings.o
-	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
+	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^ -lstdc++fs
 
 CFileCss.test: $(GDIR)/CFileCss.test.o $(BDIR)/CFileCss.o $(BDIR)/CFile.o $(BDIR)/CUrl.o $(BDIR)/CStats.o $(BDIR)/CCli.o $(BDIR)/CSettings.o
-	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^
+	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^ -lstdc++fs
