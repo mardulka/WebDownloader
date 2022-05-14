@@ -72,7 +72,8 @@ compiletests: $(BTESTS)
 
 .PHONY: clean
 clean:
-	rm -rf $(BDIR) $(DDIR)
+	rm -rf $(BDIR)
+	rm -rf $(DDIR)
 	rm -f $(LOGIN)
 
 #include deps ----------------------------------------------------------------------------------------------------------
