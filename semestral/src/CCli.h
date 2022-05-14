@@ -50,9 +50,10 @@ public:
      * @brief Reads given parameters and parse them into application settings.
      * @param argc number of parameters
      * @param argv parameters
+     * @return true if settings was successfully read, false if application should end without error
      * @throws invalid_argument if there are mistake in program call attributes
      */
-    static void readSettings(int argc, char ** argv);
+    static bool readSettings(int argc, char ** argv);
 
     /**
      * @brief Prints help for application

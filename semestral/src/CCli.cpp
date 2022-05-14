@@ -4,10 +4,10 @@
 
 using namespace std;
 
-void CCli::readSettings(int argc, char ** argv){
+bool CCli::readSettings(int argc, char ** argv){
 
     if (argc < 2){
-        throw invalid_argument("No argument provided. Please use -h option to see help.");
+        write("No argument provided. Please use -h option to see help.");
     }
 
 
@@ -17,7 +17,7 @@ void CCli::readSettings(int argc, char ** argv){
         if (argv[i][0] == '-'){
             if (arg == "-h"){
                 CCli::printHelp();
-                throw invalid_argument("");
+                return false;
             } else if (arg == "-p"){
                 CSettings::pictures = true;
             } else if (arg == "-j"){
@@ -57,6 +57,7 @@ void CCli::readSettings(int argc, char ** argv){
         CSettings::targetFolder = filesystem::current_path();
     }
 
+    return true;
 }
 
 void CCli::readDirectory(const string & strPath){

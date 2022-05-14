@@ -6,7 +6,8 @@ int main(int argc, char ** argv){
 
     //Read CLI information for application RUN into prepared settings struct
     try{
-        CCli::readSettings(argc, argv);
+        if(!CCli::readSettings(argc, argv))
+            return 0;
     } catch (const exception & e){
         CCli::logError(e.what());
         return 1;
