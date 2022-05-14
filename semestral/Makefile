@@ -6,6 +6,7 @@ BDIR=build
 TDIR=test
 DDIR=doc
 GDIR=debug
+LOGIN=cermam22
 CXXFLAGS=-std=c++17 -Wall -pedantic -Wno-long-long -O2
 SHELL:=/bin/bash
 
@@ -57,9 +58,15 @@ clean:
 .PHONY: doc
 doc: Doxyfile $(HEADERS)
 	doxygen Doxyfile
-	make -C doc/latex
-	mv doc/latex/refman.pdf build/documentation.pdf
+	make -C $(DDIR)/latex
+	mv $(DDIR)/latex/refman.pdf $(BDIR)/documentation.pdf
 
+#zip file --------------------------------------------------------------------------------------------------------------
+.PHONY: zip
+zip: $(BDIR)/$(LOGIN).zip
+
+$(BDIR)/cermam22.zip:
+	zip -r $@ src doc examples Doxyfile prohlaseni.txt zadani.txt
 
 #tests -----------------------------------------------------------------------------------------------------------------
 CUrl.test: $(GDIR)/CUrl.test.o $(BDIR)/CUrl.o
