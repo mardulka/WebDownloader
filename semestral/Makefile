@@ -9,6 +9,7 @@ GDIR=debug
 LOGIN=cermam22
 NAME=webdownloader
 CXXFLAGS=-std=c++17 -Wall -pedantic -Wno-long-long -O2
+LIBS=-lstdc++fs
 SHELL:=/bin/bash
 
 #lists -----------------------------------------------------------------------------------------------------------------
@@ -17,7 +18,9 @@ HEADERS = $(wildcard $(SDIR)/*.h)
 SOURCES = $(wildcard $(SDIR)/*.cpp)
 OBJECTS = $(SOURCES:$(SDIR)/%.cpp=$(BDIR)/%.o)
 TESTS = $(wildcard $(TDIR)/*.test.cpp)
-BTESTS= CUrl.test CHttpResponse.test CFileHtml.test CFileCss.test
+BTESTS= $(TESTS:$(TDIR)/%.cpp=$(GDIR)/%)
+RTESTS= $(TESTS:$(TDIR)/%.cpp=%)
+TOBJECTS := $(filter-out $(BDIR)/CDownloader.o, $(OBJECTS))
 ZIPOBJ = src test examples Makefile Doxyfile prohlaseni.txt zadani.txt
 
 #general targets -------------------------------------------------------------------------------------------------------
@@ -36,11 +39,10 @@ run:
 test: compiletests runtests
 
 .PHONY: runtests
-runtests:
-		$(GDIR)/CUrl.test
-		$(GDIR)/CHttpResponse.test
-		$(GDIR)/CFileHtml.test
-		$(GDIR)/CFIleCss.test
+runtests: $(RTESTS)
+
+.PHONY: compiletests
+compiletests: $(BTESTS)
 
 .PHONY: doc
 doc: Doxyfile $(HEADERS)
@@ -56,25 +58,26 @@ deps:
 
 $(LOGIN): $(OBJECTS)
 	mkdir -p $(@D)
-	g++ $^ -o $@ -lstdc++fs
+	$(CXX) $^ -o $@ $(LIBS)
 
 $(BDIR)/%.o: $(SDIR)/%.cpp
 	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $< -g -c -o $@
 
+$(GDIR)/%: $(GDIR)/%.o $(TOBJECTS)
+	mkdir -p $(@D)
+	$(CXX) $^ -o $@ $(LIBS)
+
 $(GDIR)/%.o: $(TDIR)/%.cpp
 	mkdir -p $(@D)
 	$(CXX) $(CXXFLAGS) $< -g -c -o $@
 
-.PHONY: compiletests
-compiletests: $(BTESTS)
-
+$(RTESTS):
+	$(GDIR)/$@
 
 .PHONY: clean
 clean:
-	rm -rf $(BDIR)
-	rm -rf $(DDIR)
-	rm -rf $(GDIR)
+	rm -rf  $(BDIR)/ $(DDIR)/ $(GDIR)/
 	rm -f $(LOGIN)
 
 #include deps ----------------------------------------------------------------------------------------------------------
@@ -85,22 +88,6 @@ clean:
 
 #zip file --------------------------------------------------------------------------------------------------------------
 .PHONY: zipfolder
-zipfolder: $(BDIR)/$(LOGIN).zip
-
-$(BDIR)/$(LOGIN).zip:
+zipfolder:
 	mkdir -p $(BDIR)/$(LOGIN)
 	cp -r $(ZIPOBJ) $(BDIR)/$(LOGIN)
-
-
-#tests -----------------------------------------------------------------------------------------------------------------
-CUrl.test: $(GDIR)/CUrl.test.o $(BDIR)/CUrl.o $(BDIR)/CStats.o
-	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^ -lstdc++fs
-
-CHttpResponse.test: $(GDIR)/CHttpResponse.test.o $(BDIR)/CHttpResponse.o $(BDIR)/CStats.o
-	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^ -lstdc++fs
-
-CFileHtml.test: $(GDIR)/CFileHtml.test.o $(BDIR)/CFileHtml.o $(BDIR)/CFile.o $(BDIR)/CUrl.o $(BDIR)/CStats.o $(BDIR)/CCli.o $(BDIR)/CSettings.o
-	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^ -lstdc++fs
-
-CFileCss.test: $(GDIR)/CFileCss.test.o $(BDIR)/CFileCss.o $(BDIR)/CFile.o $(BDIR)/CUrl.o $(BDIR)/CStats.o $(BDIR)/CCli.o $(BDIR)/CSettings.o
-	$(CXX) $(CXXFLAGS) -o $(GDIR)/$@ $^ -lstdc++fs
