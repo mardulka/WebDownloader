@@ -74,6 +74,7 @@ compiletests: $(BTESTS)
 clean:
 	rm -rf $(BDIR)
 	rm -rf $(DDIR)
+	rm -rf $(GDIR)
 	rm -f $(LOGIN)
 
 #include deps ----------------------------------------------------------------------------------------------------------
