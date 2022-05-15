@@ -229,23 +229,38 @@ TEST_CASE("18# Real URL from application test"){
 }
 
 TEST_CASE("19# Real URL from application test"){
-    CUrl url18 = CUrl("http://www.uro-care.cz/remote/imgprev.php?id=dXBsb2FkL2ZvdG8vbXVkcl9zbWVoaWxfbWFydGluLmpwZw%3D%3D&c&h=280");
-    CHECK(url18.getScheme() == "http");
-    CHECK(url18.getHost() == "www.uro-care.cz");
-    CHECK(url18.getPort() == 80);
-    CHECK(url18.getPath() == "/remote/imgprev.php");
-    CHECK(url18.getQuery() == "id=dXBsb2FkL2ZvdG8vbXVkcl9zbWVoaWxfbWFydGluLmpwZw%3D%3D&c&h=280");
+    CUrl url19 = CUrl("http://www.uro-care.cz/remote/imgprev.php?id=dXBsb2FkL2ZvdG8vbXVkcl9zbWVoaWxfbWFydGluLmpwZw%3D%3D&c&h=280");
+    CHECK(url19.getScheme() == "http");
+    CHECK(url19.getHost() == "www.uro-care.cz");
+    CHECK(url19.getPort() == 80);
+    CHECK(url19.getPath() == "/remote/imgprev.php");
+    CHECK(url19.getQuery() == "id=dXBsb2FkL2ZvdG8vbXVkcl9zbWVoaWxfbWFydGluLmpwZw%3D%3D&c&h=280");
 
-    CHECK_FALSE(url18.empty());
+    CHECK_FALSE(url19.empty());
 }
 
 TEST_CASE("20# Real URL from application test"){
-    CUrl url18 = CUrl("http://www.niszp.cz/?page=1");
-    CHECK(url18.getScheme() == "http");
-    CHECK(url18.getHost() == "www.niszp.cz");
-    CHECK(url18.getPort() == 80);
-    CHECK(url18.getPath() == "/");
-    CHECK(url18.getQuery() == "page=1");
+    CUrl url20 = CUrl("http://www.niszp.cz/?page=1");
+    CHECK(url20.getScheme() == "http");
+    CHECK(url20.getHost() == "www.niszp.cz");
+    CHECK(url20.getPort() == 80);
+    CHECK(url20.getPath() == "/");
+    CHECK(url20.getQuery() == "page=1");
 
-    CHECK_FALSE(url18.empty());
+    CHECK_FALSE(url20.empty());
+}
+
+
+TEST_CASE("21# Real URL from application test"){
+    CUrl url21 = CUrl("https://www.niszp.cz/cs/informace-pro-hospodarske-subjekty");
+    CHECK(url21.getScheme() == "https");
+    CHECK(url21.getHost() == "www.niszp.cz");
+    CHECK(url21.getPort() == 80);
+    CHECK(url21.getPath() == "/cs/informace-pro-hospodarske-subjekty");
+    CHECK_FALSE(url21.empty());
+
+    std::string link = "https://www.niszp.cz/sites/default/files/18062020/FS_Procurement%20ecosystem_CS.pdf";
+    auto linkopt = url21.makeLinkAbsolute(link);
+    REQUIRE(linkopt.has_value());
+    CHECK(linkopt.value() == link);
 }
