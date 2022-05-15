@@ -68,7 +68,7 @@ CUrl::CUrl(string url){
 
     for (auto character: m_path){
         if (isalnum(character) || character == '_' || character == '-' || character == '~' || character == '/' ||
-            character == '.')
+            character == '.' || character == '%')
             continue;
         throw invalid_argument("Given URL contains characters there are not valid!");
     }
@@ -158,10 +158,12 @@ optional <std::string> CUrl::makeLinkAbsolute(const string & link) const{
         return getScheme().append("://").append(getHost()).append(getPath()).append(link);
     if (*iter == '/' && *(iter + 1) == '/')
         return getScheme().append(":").append(link);
-    if (*iter == '/' && isalnum(*(iter + 1)))
+    if (*iter == '/' && *(iter + 1) != '/')
         return getScheme().append("://").append(getHost()).append(link);
-    if ((link.size() >= 7 && string(iter, iter + 7) == "http://")
-        || (link.size() >= 8 && string(iter, iter + 8) == "https://"))
+    if ((link.size() >= 7 && string(iter, iter + 7) == "http://") ||
+        (link.size() >= 8 && string(iter, iter + 8) == "https://") ||
+            (link.size() >= 7 && string(iter, iter + 7) == "file://")
+        )
         return link;
     else
         return getScheme().append("://").append(getHost()).append("/").append(link);
