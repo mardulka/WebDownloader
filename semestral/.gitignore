@@ -1,6 +1,8 @@
 build/*
 doc/*
 debug/*
+examples/*
+cermam22
 
 ### C++ template
 # Prerequisites

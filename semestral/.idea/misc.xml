@@ -10,6 +10,7 @@
       <file path="$PROJECT_DIR$/build" />
       <file path="$PROJECT_DIR$/debug" />
       <file path="$PROJECT_DIR$/doc" />
+      <file path="$PROJECT_DIR$/examples" />
       <file path="$PROJECT_DIR$/insp" />
       <file path="$PROJECT_DIR$/test/build" />
     </excludeRoots>
