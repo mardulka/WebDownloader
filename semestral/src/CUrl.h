@@ -6,6 +6,7 @@
 #include <iomanip>
 #include <exception>
 #include <stdexcept>
+#include <optional>
 
 /**
  * @class CUrl
@@ -133,6 +134,14 @@ public:
      * @return false if same, true otherwise
      */
     bool operator !=(const CUrl & rhs) const;
+
+
+    /**
+     * @brief Method for complete link to absolute based on the URL
+     * @param link link to be made absolute
+     * @return Link if is absolute or was converted, nullopt for another link types
+     */
+    [[nodiscard]] std::optional<std::string> makeLinkAbsolute(const std::string & link) const;
 };
 
 

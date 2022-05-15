@@ -77,29 +77,6 @@ void CFile::generateName(const filesystem::path & targetFolder, set <filesystem:
 
 }
 
-optional <std::string> CFile::makeLinkAbsolute(const string & link){
-
-    if (link.empty())
-        return nullopt;
-
-    auto iter = link.begin();
-    if (link.front() == '.')
-        ++iter;
-
-    if (*iter == '#')
-        return m_url.getScheme().append("://").append(m_url.getHost()).append(m_url.getPath()).append(link);
-    if (*iter == '/' && *(iter + 1) == '/')
-        return m_url.getScheme().append(":").append(link);
-    if (*iter == '/' && isalnum(*(iter + 1)))
-        return m_url.getScheme().append("://").append(m_url.getHost()).append(link);
-    if ((link.size() >= 7 && string(iter, iter + 7) == "http://")
-        || (link.size() >= 8 && string(iter, iter + 8) == "https://"))
-        return link;
-    else
-        return m_url.getScheme().append("://").append(m_url.getHost()).append("/").append(link);
-
-}
-
 const string & CFile::getContent() const{
     return m_content;
 }

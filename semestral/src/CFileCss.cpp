@@ -36,7 +36,7 @@ list<CUrl> CFileCss::readLinks(){
         string link(iter_link_start, iter_link_end);
 
         //make absolute
-        auto absolute_link = makeLinkAbsolute(link);
+        auto absolute_link = m_url.makeLinkAbsolute(link);
 
         //check for "data:" link start, or no value of absolute link
         if (link.substr(0, 5) == "data:"s){

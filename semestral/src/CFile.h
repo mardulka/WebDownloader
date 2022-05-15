@@ -150,13 +150,6 @@ protected:
      */
     void checkDirectory(const std::filesystem::path & targetPath) const;
 
-    /**
-     * @brief Method for complete link to absolute based on the file URL
-     * @param link link to be made absolute
-     * @return Link if is absolute or was converted, nullopt for another link types
-     */
-    std::optional<std::string> makeLinkAbsolute(const std::string & link);
-
 };
 
 

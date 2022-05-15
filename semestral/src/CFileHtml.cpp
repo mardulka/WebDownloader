@@ -50,7 +50,7 @@ list<CUrl> CFileHtml::readLinks(){
 
         //make absolute + add to links
         if (link_limits.has_value()){
-            auto absolute_link = makeLinkAbsolute(
+            auto absolute_link = m_url.makeLinkAbsolute(
                     tag_attributes.substr(link_limits->first, link_limits->second - link_limits->first));
             if (!absolute_link.has_value())
                 continue;

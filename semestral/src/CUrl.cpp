@@ -143,3 +143,27 @@ bool CUrl::operator !=(const CUrl & rhs) const{
 std::string CUrl::getResource() const{
     return getPath().append("?").append(m_query);
 }
+
+
+optional <std::string> CUrl::makeLinkAbsolute(const string & link) const{
+
+    if (link.empty())
+        return nullopt;
+
+    auto iter = link.begin();
+    if (link.front() == '.')
+        ++iter;
+
+    if (*iter == '#')
+        return getScheme().append("://").append(getHost()).append(getPath()).append(link);
+    if (*iter == '/' && *(iter + 1) == '/')
+        return getScheme().append(":").append(link);
+    if (*iter == '/' && isalnum(*(iter + 1)))
+        return getScheme().append("://").append(getHost()).append(link);
+    if ((link.size() >= 7 && string(iter, iter + 7) == "http://")
+        || (link.size() >= 8 && string(iter, iter + 8) == "https://"))
+        return link;
+    else
+        return getScheme().append("://").append(getHost()).append("/").append(link);
+
+}
