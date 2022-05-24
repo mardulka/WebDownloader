@@ -1,0 +1,1 @@
+add_executable(PR05 test.cpp)
