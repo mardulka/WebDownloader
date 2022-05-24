@@ -1,0 +1,185 @@
+# Popis Aplikace (specifikované zadání)
+
+Název:      Web Downloader
+
+Popis:      Aplikace umožňuje stahovat internetové stránky včetně stránek na které se odkazuje. Odkazované stránky
+            se stahují pouze ze stejné domény, volitelně lze omezit počet úrovní odkazů. Úrovně se plikují pouze na html
+            soubory, ostatní zdrojové soubory se stahují vždy pokud jsou ze stejné domény.
+            Se stránkami se defaultně stahují i CSS soubory, ale obrázky a JS soubory se v základu nestahují a link tak
+            zůstává na původní online soubory. Stahování těchto souborů lze nastavit přepínači.
+            Odkazy, které vedou mimo doménu nebo by překročily nastavený limit úrovní v základu vedou také na původní
+            online stránky. Také zde je možné toto chování upravit přepínačem, který takové odkazy nahradí odkazem
+            na programem vytvořenou chybovou stránku.
+            Soubory jsou ukládány do definované struktury na disku do složky kde je program zavolán. Cílovou složku lze
+            změnit pomocí přepínače.
+
+Rozhraní:   Aplikaci lze volat pouze z CLI s níže popsaným přehledem příkazů. Aplikace je kompilovaná jak pro použití
+            na architektuře x86-64 pro Windows a Debian Linux.
+
+CLI volání: webdownloader <URL> [-l levels_no] [-p] [-j] [-e] [-d target_folder]
+            --------------------------------------------------------------------
+            -l  Definuje maximální počet úrovní pro které se provede stažení stránky. Počet úrovní se počítá vždy
+                od definovaného počátku, který má úroveň 0.
+            -p  Povoluje stahování obrázků.
+            -j  Povoluje stahování Javascript souborů.
+            -e  Nastavuje nahrazování odkazů mimo doménu nebo limit úrovní na chybovou stránku.
+            -d  Nastavuje cílovou složku pro stahování.
+
+Struktura:  Pojmenováni je převzato z URL na doméně, kde jsou '/' nahrazeny '_'. Pro příklad stažení (startovní stránky i odkazů)
+            <https://courses.fit.cvut.cz/BI-PA2/index.html> bude stránka uložena jako <BI-PA2_index.html>.
+            Soubory jsou ukládány do následující adresářové struktury:
+            ---------------------------------------------------------
+            /<target>
+            |- <SourceURL>.html
+            |--/subpages
+            | |- <URLpage1>.html
+            | |- <URLpage2>.html
+            | \- <URLpage3>.html
+            |--/css
+            | |- <URLcss1>.html
+            | |- <URLcss2>.html
+            | \- <URLcss3>.html
+            |--/pictures
+            | |- <URLpicture1>.html
+            | |- <URLpicture2>.html
+            | \- <URLpicture3>.html
+            \--/js
+              |- <URLjs1>.html
+              |- <URLjs2>.html
+              \- <URLjs3>.html
+
+Stahování
+odkazů:     1)  Pro HTML soubory se v základu stahují odkazy na stejné doméně nebo do definované hloubky. Stahování obrázků,
+                css a js souborů lze natavit přepínači.
+            2)  Pro CSS soubory, pokud jsou nastaveny jako stahované, se dále stahují odkazy definované pomocí: url(~~)
+                tagů. Nezohledňují se linky definované pomocí: @import "~~" tagů, ani: url("data:~~") tagů.
+            3)  Pro obrázky a JS soubory se další vnitřní linky nezohledňují ani v případě stahování těchto samotných souborů.
+
+************************************************************************************************************************
+# Popis polymorfismu
+
+## Soubory
+
+Polymorfizmus je využit pro ukládání souborů a parsování obsahu. Abstraktní společný předek implementuje obecnou funkci
+pro ukládání a abstraktní pro parsování. Ukládací funkce zároveň volá parsování které je už implementované u konkrétního
+potomka dle jeho potřeb (cesty, specifika linků,..).
+
+Polymorfismus pro funkci stahování použit nebude, protože rozhodovat o formátu souborů pouze na základě tagů v HTML souboru
+nepovažuji za dostatečné a typ souboru vždy beru až z informace uvedené v hlavičce response serveru na GET request .
+
+
++-----------------------+
+|         CFile         |
++-----------------------+
+| -m_type:CFileType     |
+| -m_url:CUrl           |
+| -m_relative_path:path |
+| -m_file_name:string   |
+| -m_file_ending:string |
+| -m_file_path:path     |
+| -m_content:string     |
+| +m_level:int          |
++-----------------------+
+| +CFile()              |
+| +~CFile(): virtual    |
+| +getType()            |
+| +getFileName()        |
+| +getFilePath()        |
+| +getContent()         |
+| +setContent(): virtual|
+| +generateName(): virt.|
+| +readLinks(): virtual |
+| +replaceLinks(): virt.|
+| +save(): virtual      |
++-----------------------+
+            |
+            +---------------------------+---------------------------+---------------------------+
+            |                           |                           |                           |
++-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
+|       CFileHtml       |   |       CFileCss        |   |        CFileJs        |   |     CFilePicture      |
++-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
+|                       |   |                       |   |                       |   |                       |
++-----------------------+   +-----------------------+   +-----------------------+   +-----------------------+
+| +CFileHtml()          |   | +CFileCss()           |   | +CFileJs()            |   | +CFilePicture()       |
+| +readLinks()          |   | +readLinks()          |   | +readLinks()          |   | +readLinks()          |
+| +replaceLinks()       |   | +replaceLinks()       |   | +replaceLinks()       |   | +replaceLinks()       |
+| +generateName()       |   +-----------------------+   +-----------------------+   +-----------------------+
+| +setContent()         |
++-----------------------+
+
+
+## Typ připojení
+
+Další využití polymorfismu je vidět například u třídy CConnection, která je abstraktní třídou možných spojení
+pro stahování odkazů . Aktuálně je stahování realizováno pouze pro http stránky. Pro https stránky je třeba implementovat
+spojení pomocí SSL. Tato nová třída by byla potomkem stejné abstraktní třídy, sdílela stejný interface a proto změna
+stahování z omezení http na https by byla pouze v přídání této nové třídy a jejím nahrazení v konstruktoru CDownEngine.
+Případně je pak možné implementovat také možnost výběru způsobu stahování (SSL, http).
+
+* Třída CCOnnectionSsl nebude implementována!!
+
++-----------------------+
+|      CConnection      |
++-----------------------+
+|                       |
++-----------------------+
+| +getFile(Url)         |
++-----------------------+
+            |
+            +---------------------------+
+            |                           |
++-----------------------+   +-----------------------+
+|    CConnectionHttp    |   |    CConnectionSsl     |
++-----------------------+   +-----------------------+
+|                       |   |                       |
++-----------------------+   +-----------------------+
+| +getFile(Url)         |   | +getFile(Url)         |
++-----------------------+   +-----------------------+
+
+************************************************************************************************************************
+#Případné využití vícevláknového stahování
+NEBUDE IMPLEMENTOVÁNO!
+
+S ohledem na sdílení zdrojů bych přínos vícevláknového zpracování viděl v možnosti, kdy by jedno vlákno provádělo stahování
+obsahů souborů, druhé vlákno provádělo ukládání na disk, další jedno nebo více vláken by provádělo parsování HTML souborů
+pro získání dalších odkazů a jejich nahrazování. Toto řešení nejspíše nebude implementováno, pouze bude připraven vhodný
+algoritmus pro stahování a parsování souborů pomocí front tak, aby se vlákna v budoucnu snadno implementovala.
+
+************************************************************************************************************************
+#Testování
+##Testování tříd
+Unit testing je proveden s využitím CATCH2 frameworku.
+
+##Pomocný tool pro síťovou komunikaci
+Pro testování spojení a kontrole hlaviček a obsahů byl využit tool "https://reqbin.com/req/nfilsyk5/get-request-example".
+
+##Reálné testování
+Reálné tstování je provedeno na stránce "http://www.niszp.cz/", která je pouze na http schématu a obsahuje velké
+množství linků, což pro testování bylo vhodné.
+
+************************************************************************************************************************
+# Originální zadání z Progtestu
+
+Jednoduchý downloader
+
+Napište program podobný nástroji wget --mirror, který na příkazové řádce z URL (HTTP) vytvoří lokální kopii. Musí podporovat:
+
+1.  převedení všech URL tak, aby odkazovaly na správné soubory na disku
+2.  prochází stránky rekurzivně (bez opakovaného stahování)
+3.  umožňuje omezit hloubku rekurzivního procházení (hodnotou, omezením na podporované URL)
+
+Downloader navíc umožňuje upravovat ukládané html a to následujícími způsoby:
+
+1.  Odkazy na obrázky mohou vést na původní url, nebo na obrázek uložený na disku
+2.  Odkazy na stránku, která má větší hloubku, mohou vést buď na původní URL, nebo na stránku na disku, která uživateli oznámí,
+    že stránka neexistuje.
+
+Volitelně: Vícevláknové stahování, podpora HTTPS
+
+Kde lze využít polymorfismus? (doporučené)
+
+*   Zpracování souborů: HTML stránka (potřebuje určité úpravy), obrázek (prostě se stáhne), CSS (úpravy nepotřebuje, ale mohou tam být obrázky), ...
+*   Úprava HTML tagů: upravení tagů s obrázky, opravení odkazů, ...
+*   Styl procházení: BFS, DFS, HTML pages first (přednost HTML stránky před obrázky), ...
+
+************************************************************************************************************************
