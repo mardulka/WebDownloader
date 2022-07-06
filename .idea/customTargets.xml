@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CLionExternalBuildManager">
+    <target id="0bc55961-bf57-4d3d-a8a9-8945996e6a85" name="Lib_Make" defaultType="MAKE">
+      <configuration id="5ab808ba-49e8-4603-89bc-b617b467cfbb" name="Lib_Make" toolchainName="WSL">
+        <build type="MAKE">
+          <make targetName="all" />
+        </build>
+        <clean type="MAKE">
+          <make targetName="clean" />
+        </clean>
+      </configuration>
+    </target>
+  </component>
+</project>
