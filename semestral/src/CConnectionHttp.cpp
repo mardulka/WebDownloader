@@ -74,7 +74,7 @@ optional<CHttpResponse> CConnectionHttp::getServerResponse() const{
 }
 
 void CConnectionHttp::closeConnection() const{
-    ::close(m_socket);
+    close(m_socket);
 }
 
 std::optional<shared_ptr<CFile>> CConnectionHttp::getFile(const CUrl & url){
